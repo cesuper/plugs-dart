@@ -1,4 +1,5 @@
 import 'package:http/http.dart' as http;
+import 'package:plugs/socket/Socket.dart';
 
 import 'GroupMember.dart';
 import 'Info.dart';
@@ -12,10 +13,12 @@ abstract class Plug {
   // plug network address with port
   final String address;
 
-  Plug(this.address);
+  final Socket socket;
+
+  Plug(this.address) : socket = Socket(address);
 
   /// Read Info
-  static Future<Info> readInfo(String host) async {
+  Future<Info> readInfo(String host) async {
     var uri = Uri.http('$host', CONST_PLUG_API_INFO);
     var r = await http.get(uri).timeout(Duration(seconds: 1));
     return Info.fromJson(r.body);
