@@ -3,6 +3,6 @@
 /// More dartdocs go here.
 library plugs;
 
-export 'src/plugs_base.dart';
+export 'plug/plugs_base.dart';
 
 // TODO: Export any libraries intended for clients of this package.

@@ -2,7 +2,7 @@ import 'package:plugs/plugs.dart';
 import 'package:test/test.dart';
 
 void main() {
-  group('A group of tests', () {
+  group('Plug Tests', () {
     final awesome = Awesome();
 
     setUp(() {
