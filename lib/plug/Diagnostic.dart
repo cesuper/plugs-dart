@@ -34,4 +34,9 @@ class Diagnostic {
 
   factory Diagnostic.fromJson(String source) =>
       Diagnostic.fromMap(json.decode(source));
+
+  @override
+  String toString() {
+    return 'Diagnostic(temp: $temp, sysTotal: $sysTotal, sysFree: $sysFree, epiTotal: $epiTotal, epiFree: $epiFree)';
+  }
 }

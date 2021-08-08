@@ -1,9 +1,30 @@
-import 'package:plugs/plugs.dart';
 import 'package:plugs/scp/Scp412.dart';
+import 'package:plugs/scp/TimedPinParam.dart';
 
 void main() async {
   var plug = Scp412('192.168.100.111:8080');
-  var group = await plug.readGroup();
+
+  // Info
+  print(await plug.readInfo());
+
+  ///
+  /// Group
+  ///
+
+  // group.write
+  await plug.writeGroup('myGroup', 1);
+
+  // group.read
+  print(await plug.readGroup());
+
+  ///
+  /// Output
+  ///
+  await plug.writePin(0, TimedPinParam(0, 5000));
+
+  ///
+  /// Socket
+  ///
   var socket = plug.socket;
 
   // read all addressess
@@ -17,11 +38,10 @@ void main() async {
   var h43Addresses = await socket.h43();
 
   // h43.write
-  print(await socket.h43WriteData(h43Addresses.first, 'myData'));
+  if (h43Addresses.isNotEmpty) {
+    print(await socket.h43WriteData(h43Addresses.first, 'myData'));
+  }
 
   // h43.read
   print(await socket.h43Data(h43Addresses.join(',')));
-
-  var awesome = Awesome();
-  print('awesome: ${awesome.isAwesome}');
 }

@@ -18,9 +18,9 @@ abstract class Plug {
   Plug(this.address) : socket = Socket(address);
 
   /// Read Info
-  Future<Info> readInfo(String host) async {
-    var uri = Uri.http('$host', CONST_PLUG_API_INFO);
-    var r = await http.get(uri).timeout(Duration(seconds: 1));
+  Future<Info> readInfo() async {
+    var uri = Uri.http('$address', CONST_PLUG_API_INFO);
+    var r = await http.get(uri);
     return Info.fromJson(r.body);
   }
 
@@ -32,7 +32,8 @@ abstract class Plug {
   }
 
   /// Write Group
-  Future<int> writeGroup(GroupMember group) async {
+  Future<int> writeGroup(String type, int index) async {
+    var group = GroupMember(type, index);
     var uri = Uri.http('$address', CONST_PLUG_API_GROUP);
     var response = await http.post(
       uri,

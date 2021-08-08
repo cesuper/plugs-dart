@@ -32,4 +32,9 @@ class Firmware {
 
   factory Firmware.fromJson(String source) =>
       Firmware.fromMap(json.decode(source));
+
+  @override
+  String toString() {
+    return 'Firmware(major: $major, minor: $minor, fix: $fix, build: $build)';
+  }
 }
