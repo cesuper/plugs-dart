@@ -5,17 +5,11 @@ void main() async {
   var plug = Scp412('192.168.100.111:8080');
 
   // Info
-  print(await plug.readInfo());
+  print(await plug.readPlug());
 
   ///
   /// Group
   ///
-
-  // group.write
-  await plug.writeGroup('myGroup', 1);
-
-  // group.read
-  print(await plug.readGroup());
 
   ///
   /// Output
