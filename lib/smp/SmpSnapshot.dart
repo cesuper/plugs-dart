@@ -1,9 +1,8 @@
 import 'dart:convert';
 
-import '../plug/Snapshot.dart';
 import 'SmpSensorData.dart';
 
-class SmpSnapshot extends Snapshot {
+class SmpSnapshot {
   final List<String> socket;
   final List<SmpSensorData> sensors;
 
