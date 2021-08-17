@@ -17,7 +17,7 @@ const SMP_API_SMP_GENERATOR_STOP = '/api/smp/generator/stop.cgi';
 const SMP_API_SMP_BUFFER = '/api/smp/buffer.cgi';
 const SMP_API_SMP_BUFFER_STATUS = '/api/smp/buffer/status.cgi';
 
-abstract class Smp extends Plug {
+class Smp extends Plug {
   Smp(String address) : super(address);
 
   /// Read Config

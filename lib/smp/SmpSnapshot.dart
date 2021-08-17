@@ -27,4 +27,7 @@ class SmpSnapshot {
 
   factory SmpSnapshot.fromJson(String source) =>
       SmpSnapshot.fromMap(json.decode(source));
+
+  @override
+  String toString() => 'SmpSnapshot(socket: $socket, sensors: $sensors)';
 }

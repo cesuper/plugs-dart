@@ -2,25 +2,25 @@ import 'dart:convert';
 
 class GroupMember {
   // type or name of the group
-  final String type;
+  final String name;
 
   // index of the the group member within the group
   final int index;
 
-  GroupMember.first(String type) : this(type, 0);
+  GroupMember.first(String name) : this(name, 0);
 
-  GroupMember(this.type, this.index);
+  GroupMember(this.name, this.index);
 
   Map<String, dynamic> toMap() {
     return {
-      'type': type,
+      'name': name,
       'index': index,
     };
   }
 
   factory GroupMember.fromMap(Map<String, dynamic> map) {
     return GroupMember(
-      map['type'],
+      map['name'],
       map['index'],
     );
   }
@@ -31,5 +31,5 @@ class GroupMember {
       GroupMember.fromMap(json.decode(source));
 
   @override
-  String toString() => 'GroupMember(type: $type, index: $index)';
+  String toString() => 'GroupMember(name: $name, index: $index)';
 }

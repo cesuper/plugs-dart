@@ -21,4 +21,7 @@ class SmpInfo {
 
   factory SmpInfo.fromJson(String source) =>
       SmpInfo.fromMap(json.decode(source));
+
+  @override
+  String toString() => 'SmpInfo(ignoredTriggers: $ignoredTriggers)';
 }

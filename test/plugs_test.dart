@@ -1,12 +1,20 @@
-import 'package:plugs/scp/Scp412.dart';
-import 'package:test/test.dart';
+import 'package:plugs/smp/Smp.dart';
 
-void main() {
-  group('Plug Tests', () async {
-    final plug = Scp412('192.168.100.111:8080');
+void main() async {
+  var plug = Smp('192.168.100.111:8080');
+  print(await plug.readPlug());
 
-    setUp(() {
-      // Additional setup goes here.
-    });
-  });
+  ///
+  print(await plug.readSnapshot());
+  print(await plug.readSmpInfo());
+  print(await plug.readBuffer());
+  print(await plug.readBufferStatus());
+  print(await plug.readTrigger());
+
+  //
+  await plug.writeTrigger(1000);
+
+  await Future.delayed(Duration(seconds: 2));
+
+  print(await plug.readBuffer());
 }

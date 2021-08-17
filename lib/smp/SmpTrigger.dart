@@ -34,5 +34,5 @@ class SmpTrigger {
       SmpTrigger.fromMap(json.decode(source));
 
   @override
-  String toString() => 'Trigger(ts: $ts, sps: $sps, tSampling: $tSampling)';
+  String toString() => 'SmpTrigger(ts: $ts, sps: $sps, tSampling: $tSampling)';
 }

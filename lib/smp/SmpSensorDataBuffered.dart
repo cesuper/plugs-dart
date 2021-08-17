@@ -1,6 +1,6 @@
 import 'dart:convert';
 
-class SmpDeviceBufferedData {
+class SmpSensorBufferedData {
   final int status;
 
   final String serial;
@@ -34,7 +34,7 @@ class SmpDeviceBufferedData {
   // curve tFill value
   final double tFill;
 
-  SmpDeviceBufferedData(
+  SmpSensorBufferedData(
     this.status,
     this.serial,
     this.name,
@@ -66,8 +66,8 @@ class SmpDeviceBufferedData {
     };
   }
 
-  factory SmpDeviceBufferedData.fromMap(Map<String, dynamic> map) {
-    return SmpDeviceBufferedData(
+  factory SmpSensorBufferedData.fromMap(Map<String, dynamic> map) {
+    return SmpSensorBufferedData(
       map['status'],
       map['serial'],
       map['name'],
@@ -85,6 +85,11 @@ class SmpDeviceBufferedData {
 
   String toJson() => json.encode(toMap());
 
-  factory SmpDeviceBufferedData.fromJson(String source) =>
-      SmpDeviceBufferedData.fromMap(json.decode(source));
+  factory SmpSensorBufferedData.fromJson(String source) =>
+      SmpSensorBufferedData.fromMap(json.decode(source));
+
+  @override
+  String toString() {
+    return 'SmpSensorBufferedData(status: $status, serial: $serial, name: $name, group: $group, index: $index, cavity: $cavity, position: $position, hrn: $hrn, p: $p, max: $max, integral: $integral, tFill: $tFill)';
+  }
 }

@@ -7,7 +7,7 @@ class SmpBufferedData {
   final int ts;
 
   // lsit of buffered sensor data
-  final List<SmpDeviceBufferedData> sensors;
+  final List<SmpSensorBufferedData> sensors;
 
   SmpBufferedData(this.ts, this.sensors);
 
@@ -23,11 +23,14 @@ class SmpBufferedData {
   factory SmpBufferedData.fromMap(Map<String, dynamic> map) {
     return SmpBufferedData(
       map['ts'],
-      List<SmpDeviceBufferedData>.from(
-          map['sensors']?.map((x) => SmpDeviceBufferedData.fromMap(x))),
+      List<SmpSensorBufferedData>.from(
+          map['sensors']?.map((x) => SmpSensorBufferedData.fromMap(x))),
     );
   }
 
   factory SmpBufferedData.fromJson(String source) =>
       SmpBufferedData.fromMap(json.decode(source));
+
+  @override
+  String toString() => 'SmpBufferedData(ts: $ts, sensors: $sensors)';
 }
