@@ -1,20 +1,26 @@
 import 'package:plugs/smp/Smp.dart';
+import 'package:test/test.dart';
 
 void main() async {
-  var plug = Smp('192.168.100.111:8080');
-  print(await plug.readPlug());
+  test('My Test', () async {
+    var plug = Smp('192.168.100.111:8080');
+    print(await plug.readPlug());
+  });
 
-  ///
-  print(await plug.readSnapshot());
-  print(await plug.readSmpInfo());
-  print(await plug.readBuffer());
-  print(await plug.readBufferStatus());
-  print(await plug.readTrigger());
+  // var plug = Smp('192.168.100.111:8080');
+  // print(await plug.readPlug());
 
-  //
-  await plug.writeTrigger(1000);
+  // ///
+  // print(await plug.readSnapshot());
+  // print(await plug.readSmpInfo());
+  // print(await plug.readBuffer());
+  // print(await plug.readBufferStatus());
+  // print(await plug.readTrigger());
 
-  await Future.delayed(Duration(seconds: 2));
+  // //
+  // await plug.writeTrigger(1000);
 
-  print(await plug.readBuffer());
+  // await Future.delayed(Duration(seconds: 2));
+
+  // print(await plug.readBuffer());
 }
