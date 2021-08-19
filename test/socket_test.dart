@@ -11,15 +11,32 @@ void main() async {
     await socket.addresses();
   });
 
-  test('Connect', () {});
+  group('DS28EC20', () {
+    test('DS28EC20 - Basic R/W', () async {
+      // remove the socket
+      await socket.remove();
 
-  // group('Restart', () {
-  //   test('Restart', () async {
-  //     expect(await plug.restart(), 200);
-  //   });
+      // create simulated device
+      var connectData = <SocketDeviceConnectData>[
+        SocketDeviceConnectData('43F4704001000008', 'MyOriginalData'),
+        SocketDeviceConnectData('43F4704001000009', '123'),
+        SocketDeviceConnectData('43F4704001000010', '12312321321'),
+      ];
 
-  //   test('Bootloader', () async {
-  //     expect(await plug.bootloader(), 200);
-  //   });
-  // });
+      // connect simulated devices
+      expect(await socket.connect(connectData), 200);
+
+      // get all ds28ec20 addresses
+      var devices = await socket.addresses(family: '43');
+
+      // read back the data
+      var content = await socket.h43Data(devices);
+
+      expect(content.map((e) => e.content),
+          equals(connectData.map((e) => e.data)));
+
+      // remove socket
+      await socket.remove();
+    });
+  });
 }

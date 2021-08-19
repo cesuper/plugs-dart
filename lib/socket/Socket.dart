@@ -8,6 +8,7 @@ import 'SocketDeviceConnectData.dart';
 
 const SOCKET_API = '/api/socket.cgi';
 const SOCKET_API_CONNECT = '/api/socket/connect.cgi';
+const SOCKET_API_REMOVE = '/api/socket/remove.cgi';
 // h28
 
 const SOCKET_API_28_READ = '/api/socket/28/read.cgi';
@@ -28,7 +29,17 @@ class Socket {
     var r = await http.post(
       uri,
       headers: {'Content-Type': 'application/json'},
-      body: jsonEncode(devices),
+      body: jsonEncode(devices.map((e) => e.toMap()).toList()),
+    );
+    return r.statusCode;
+  }
+
+  ///
+  Future<int> remove() async {
+    var uri = Uri.http('$_address', SOCKET_API_REMOVE);
+    var r = await http.post(
+      uri,
+      headers: {'Content-Type': 'application/json'},
     );
     return r.statusCode;
   }
@@ -47,8 +58,9 @@ class Socket {
         (jsonDecode(r.body) as List).map((e) => H28Data.fromMap(e)).toList());
   }
 
-  Future<List<H43Data>> h43Data(String addresses) async {
-    var uri = Uri.http('$_address', SOCKET_API_43_READ, {'address': addresses});
+  Future<List<H43Data>> h43Data(List<String> address) async {
+    var uri = Uri.http(
+        '$_address', SOCKET_API_43_READ, {'address': address.join(',')});
     var r = await http.get(uri);
     return List<H43Data>.from(
         (jsonDecode(r.body) as List).map((e) => H43Data.fromMap(e)).toList());
