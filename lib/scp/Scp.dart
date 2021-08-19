@@ -42,8 +42,11 @@ abstract class Scp extends Plug {
   /// Write Field
   Future<int> writeField(bool state) async {
     var uri = Uri.http('$address', SCP_API_FIELD);
-    var r = await http.post(uri,
-        headers: {'Content-Type': 'application/json'}, body: jsonEncode(state));
+    var r = await http.post(
+      uri,
+      headers: {'Content-Type': 'application/json'},
+      body: jsonEncode(state),
+    );
     return r.statusCode;
   }
 

@@ -75,20 +75,48 @@ void main() async {
     });
   });
 
-  // var plug = Smp('192.168.100.111:8080');
-  // print(await plug.readPlug());
+  group('Input', () {
+    test('High State', () async {
+      // set all pins high
+      var states = List<bool>.filled(plug.noInputs, true);
 
-  // ///
-  // print(await plug.readSnapshot());
-  // print(await plug.readSmpInfo());
-  // print(await plug.readBuffer());
-  // print(await plug.readBufferStatus());
-  // print(await plug.readTrigger());
+      // timeout value
+      var timeout = 500;
 
-  // //
-  // await plug.writeTrigger(1000);
+      // set all pins to high
+      for (var i = 0; i < states.length; i++) {
+        await plug.startPin(i, timeout, port: 0);
+      }
 
-  // await Future.delayed(Duration(seconds: 2));
+      // wait half of the timeout time
+      await Future.delayed(Duration(milliseconds: timeout ~/ 2));
 
-  // print(await plug.readBuffer());
+      // read it back and expect all states are high
+      var snapshot = await plug.readSnapshot();
+
+      // expect all states are in high
+      expect(states, snapshot.input);
+    });
+    test('Timed Low State', () async {
+      // set all pins high
+      var states = List<bool>.filled(plug.noOutputs, false);
+
+      // timeout value
+      var timeout = 500;
+
+      // set all pins to high
+      for (var i = 0; i < states.length; i++) {
+        await plug.startPin(i, timeout);
+      }
+
+      // wait more than timeout value
+      await Future.delayed(Duration(milliseconds: (timeout * 1.2).toInt()));
+
+      // read it back and expect all states are high
+      var snapshot = await plug.readSnapshot();
+
+      // expect all states are in Low
+      expect(states, snapshot.output);
+    });
+  });
 }

@@ -3,11 +3,13 @@ import 'package:plugs/socket/Socket.dart';
 
 import 'Info.dart';
 
-const CONST_PLUG_API = '/api/plug.cgi';
-const CONST_PLUG_API_CONFIG = '/api/plug/config.cgi';
-const CONST_PLUG_API_SNAPSHOT = '/api/plug/snapshot.cgi';
+const PLUG_API = '/api/plug.cgi';
+const PLUG_API_RESTART = '/api/plug/restart.cgi';
+const PLUG_API_RESTART_BOOTLOADER = '/api/plug/restart/bootloader.cgi';
+const PLUG_API_CONFIG = '/api/plug/config.cgi';
+const PLUG_API_EEPROM = '/api/plug/eeprom.cgi';
 
-abstract class Plug {
+class Plug {
   // plug network address with port
   final String address;
 
@@ -17,8 +19,46 @@ abstract class Plug {
 
   /// Read Info
   Future<Info> readPlug() async {
-    var uri = Uri.http('$address', CONST_PLUG_API);
+    var uri = Uri.http('$address', PLUG_API);
     var r = await http.get(uri);
     return Info.fromJson(r.body);
+  }
+
+  /// Restarts the plug
+  Future<int> restart() async {
+    var uri = Uri.http('$address', PLUG_API_RESTART);
+    var r = await http.post(
+      uri,
+      headers: {'Content-Type': 'application/json'},
+    );
+    return r.statusCode;
+  }
+
+  /// Retarts the plug in bootloader mode
+  Future<int> bootloader() async {
+    var uri = Uri.http('$address', PLUG_API_RESTART_BOOTLOADER);
+    var r = await http.post(
+      uri,
+      headers: {'Content-Type': 'application/json'},
+    );
+    return r.statusCode;
+  }
+
+  /// Read EEPROM
+  Future<String> readEEPROM() async {
+    var uri = Uri.http('$address', PLUG_API_EEPROM);
+    var r = await http.get(uri);
+    return r.body;
+  }
+
+  /// Write EEPROM
+  Future<int> writeEEPROM(String content) async {
+    var uri = Uri.http('$address', PLUG_API_EEPROM);
+    var r = await http.post(
+      uri,
+      headers: {'Content-Type': 'application/json'},
+      body: content,
+    );
+    return r.statusCode;
   }
 }
