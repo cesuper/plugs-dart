@@ -26,21 +26,21 @@ abstract class Scp extends Plug {
   /// Write Config
 
   /// Read Snapshot
-  Future<ScpSnapshot> readSnapshot() async {
+  Future<ScpSnapshot> snapshot() async {
     var uri = Uri.http('$address', SCP_API_SNAPSHOT);
     var r = await http.get(uri);
     return ScpSnapshot.fromJson(r.body);
   }
 
   /// Read Field
-  Future<bool> readField() async {
+  Future<bool> field() async {
     var uri = Uri.http('$address', SCP_API_FIELD);
     var r = await http.get(uri);
     return jsonDecode(r.body);
   }
 
   /// Write Field
-  Future<int> writeField(bool state) async {
+  Future<int> setField(bool state) async {
     var uri = Uri.http('$address', SCP_API_FIELD);
     var r = await http.post(
       uri,

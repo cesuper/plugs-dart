@@ -18,25 +18,18 @@ class Plug {
   Plug(this.address) : socket = Socket(address);
 
   /// Read Info
-  Future<Info> readPlug() async {
+  Future<Info> info() async {
     var uri = Uri.http('$address', PLUG_API);
     var r = await http.get(uri);
     return Info.fromJson(r.body);
   }
 
   /// Restarts the plug
-  Future<int> restart() async {
-    var uri = Uri.http('$address', PLUG_API_RESTART);
-    var r = await http.post(
-      uri,
-      headers: {'Content-Type': 'application/json'},
+  Future<int> restart({bool bootloader = false}) async {
+    var uri = Uri.http(
+      '$address',
+      bootloader ? PLUG_API_RESTART_BOOTLOADER : PLUG_API_RESTART,
     );
-    return r.statusCode;
-  }
-
-  /// Retarts the plug in bootloader mode
-  Future<int> bootloader() async {
-    var uri = Uri.http('$address', PLUG_API_RESTART_BOOTLOADER);
     var r = await http.post(
       uri,
       headers: {'Content-Type': 'application/json'},

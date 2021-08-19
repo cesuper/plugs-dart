@@ -9,10 +9,10 @@ void main() async {
       var fieldValue = false;
 
       // write new field value
-      await plug.writeField(fieldValue);
+      await plug.setField(fieldValue);
 
       // read it back
-      var val = await plug.readField();
+      var val = await plug.field();
 
       expect(val, fieldValue);
     });
@@ -21,10 +21,10 @@ void main() async {
       var fieldValue = true;
 
       // write new field value
-      await plug.writeField(fieldValue);
+      await plug.setField(fieldValue);
 
       // read it back
-      var val = await plug.readField();
+      var val = await plug.field();
 
       expect(val, fieldValue);
     });
@@ -47,7 +47,7 @@ void main() async {
       await Future.delayed(Duration(milliseconds: timeout ~/ 2));
 
       // read it back and expect all states are high
-      var snapshot = await plug.readSnapshot();
+      var snapshot = await plug.snapshot();
 
       // expect all states are in high
       expect(states, snapshot.output);
@@ -68,7 +68,7 @@ void main() async {
       await Future.delayed(Duration(milliseconds: (timeout * 1.2).toInt()));
 
       // read it back and expect all states are high
-      var snapshot = await plug.readSnapshot();
+      var snapshot = await plug.snapshot();
 
       // expect all states are in Low
       expect(states, snapshot.output);
@@ -92,7 +92,7 @@ void main() async {
       await Future.delayed(Duration(milliseconds: timeout ~/ 2));
 
       // read it back and expect all states are high
-      var snapshot = await plug.readSnapshot();
+      var snapshot = await plug.snapshot();
 
       // expect all states are in high
       expect(states, snapshot.input);
@@ -113,7 +113,7 @@ void main() async {
       await Future.delayed(Duration(milliseconds: (timeout * 1.2).toInt()));
 
       // read it back and expect all states are high
-      var snapshot = await plug.readSnapshot();
+      var snapshot = await plug.snapshot();
 
       // expect all states are in Low
       expect(states, snapshot.output);

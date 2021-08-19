@@ -8,7 +8,7 @@ void main() async {
 
   test('Info', () async {
     // here we expect only response
-    await plug.readPlug();
+    await plug.info();
   });
 
   group('Restart', () {
@@ -17,7 +17,7 @@ void main() async {
     });
 
     test('Bootloader', () async {
-      expect(await plug.bootloader(), 200);
+      expect(await plug.restart(bootloader: true), 200);
     });
   });
 
@@ -50,7 +50,7 @@ void main() async {
     });
     test('Valid json - object', () async {
       // get the actual network values
-      var info = await plug.readPlug();
+      var info = await plug.info();
 
       // encode to json string
       var content = info.network.toJson();
