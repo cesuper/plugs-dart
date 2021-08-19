@@ -1,27 +1,72 @@
+import 'dart:convert';
+
 import 'package:http/http.dart' as http;
 import 'package:plugs/plug/Plug.dart';
-
-import 'TimedPinParam.dart';
+import 'package:plugs/scp/ScpSnapshot.dart';
+import 'package:plugs/scp/StartPinParams.dart';
+import 'package:plugs/scp/StopPinParams.dart';
 
 // API
-const CONST_SCP_API_IN_PIN_START = '/api/scp/in/<pin>/start.cgi';
-const CONST_SCP_API_OUT_PIN_START = '/api/scp/out/<pin>/start.cgi';
-const CONST_SCP_API_OUT_PIN_STOP = '/api/scp/out/<pin>/stop.cgi';
+const SCP_API_SNAPSHOT = '/api/plug/snapshot.cgi';
+const SCP_API_FIELD = '/api/scp/field.cgi';
+const SCP_API_PIN_START = '/api/scp/pin/start.cgi';
+const SCP_API_PIN_STOP = '/api/scp/pin/stop.cgi';
 
 abstract class Scp extends Plug {
-  Scp(String address) : super(address);
+  // number of inputs
+  final int noInputs;
 
-  ///
-  Future<int> writePin(int index, TimedPinParam param) async {
-    var path =
-        CONST_SCP_API_OUT_PIN_START.replaceAll('<pin>', index.toString());
+  // number of outputs
+  final int noOutputs;
 
-    var uri = Uri.http('$address', path);
-    var response = await http.post(
+  Scp(String address, this.noInputs, this.noOutputs) : super(address);
+
+  /// Read Config
+
+  /// Write Config
+
+  /// Read Snapshot
+  Future<ScpSnapshot> readSnapshot() async {
+    var uri = Uri.http('$address', SCP_API_SNAPSHOT);
+    var r = await http.get(uri);
+    return ScpSnapshot.fromJson(r.body);
+  }
+
+  /// Read Field
+  Future<bool> readField() async {
+    var uri = Uri.http('$address', SCP_API_FIELD);
+    var r = await http.get(uri);
+    return jsonDecode(r.body);
+  }
+
+  /// Write Field
+  Future<int> writeField(bool state) async {
+    var uri = Uri.http('$address', SCP_API_FIELD);
+    var r = await http.post(uri,
+        headers: {'Content-Type': 'application/json'}, body: jsonEncode(state));
+    return r.statusCode;
+  }
+
+  /// Start Pin
+  Future<int> startPin(int pin, int timeout,
+      {int delay = 0, int port = 1}) async {
+    var uri = Uri.http('$address', SCP_API_PIN_START);
+    var r = await http.post(
       uri,
       headers: {'Content-Type': 'application/json'},
-      body: param.toJson(),
+      body: StartPinParams(port, pin, delay, timeout).toJson(),
     );
-    return response.statusCode;
+    return r.statusCode;
+  }
+
+  /// Stop Pin
+  Future<int> stopPin(int pin, {int port = 1}) async {
+    var uri = Uri.http('$address', SCP_API_PIN_STOP);
+    var r = await http.post(
+      uri,
+      headers: {'Content-Type': 'application/json'},
+      body: StopPinParams(port, pin).toJson(),
+    );
+    return r.statusCode;
   }
 }

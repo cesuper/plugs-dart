@@ -1,5 +1,4 @@
 import 'package:plugs/scp/Scp412.dart';
-import 'package:plugs/scp/TimedPinParam.dart';
 
 void main() async {
   var plug = Scp412('192.168.100.111:8080');
@@ -14,7 +13,7 @@ void main() async {
   ///
   /// Output
   ///
-  await plug.writePin(0, TimedPinParam(0, 5000));
+  //await plug.writePin(0, TimedPinParam(0, 5000));
 
   ///
   /// Socket
