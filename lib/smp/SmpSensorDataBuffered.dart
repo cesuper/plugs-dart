@@ -7,9 +7,6 @@ class SmpSensorBufferedData {
 
   final String name;
 
-  // group
-  final String group;
-
   // index
   final int index;
 
@@ -38,7 +35,6 @@ class SmpSensorBufferedData {
     this.status,
     this.serial,
     this.name,
-    this.group,
     this.index,
     this.cavity,
     this.position,
@@ -54,7 +50,6 @@ class SmpSensorBufferedData {
       'status': status,
       'serial': serial,
       'name': name,
-      'group': group,
       'index': index,
       'cavity': cavity,
       'position': position,
@@ -71,7 +66,6 @@ class SmpSensorBufferedData {
       map['status'],
       map['serial'],
       map['name'],
-      map['group'],
       map['index'],
       map['cavity'],
       map['position'],
@@ -87,9 +81,4 @@ class SmpSensorBufferedData {
 
   factory SmpSensorBufferedData.fromJson(String source) =>
       SmpSensorBufferedData.fromMap(json.decode(source));
-
-  @override
-  String toString() {
-    return 'SmpSensorBufferedData(status: $status, serial: $serial, name: $name, group: $group, index: $index, cavity: $cavity, position: $position, hrn: $hrn, p: $p, max: $max, integral: $integral, tFill: $tFill)';
-  }
 }

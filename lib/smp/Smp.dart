@@ -8,8 +8,9 @@ import 'package:plugs/smp/SmpInfo.dart';
 import 'package:plugs/smp/SmpSnapshot.dart';
 import 'package:plugs/smp/SmpTrigger.dart';
 
-const SMP_API_SNAPSHOT = '/api/plug/snapshot.cgi';
-const SMP_API_SMP = '/api/smp.cgi';
+const SMP_API = '/api/smp.cgi';
+const SMP_API_INFO = '/api/smp/info.cgi';
+const SMP_API_CONFIG = '/api/smp/config.cgi';
 const SMP_API_SMP_TRIGGER = '/api/smp/trigger.cgi';
 const SMP_API_GENERATOR = '/api/smp/generator.cgi';
 const SMP_API_GENERATOR_START = '/api/smp/generator/start.cgi';
@@ -25,15 +26,15 @@ class Smp extends Plug {
   /// Write Config
 
   /// Read Snapshot
-  Future<SmpSnapshot> readSnapshot() async {
-    var uri = Uri.http('$address', SMP_API_SNAPSHOT);
+  Future<SmpSnapshot> snapshot() async {
+    var uri = Uri.http('$address', SMP_API);
     var r = await http.get(uri);
     return SmpSnapshot.fromJson(r.body);
   }
 
   /// Read info
   Future<SmpInfo> readSmpInfo() async {
-    var uri = Uri.http('$address', SMP_API_SMP);
+    var uri = Uri.http('$address', SMP_API_INFO);
     var r = await http.get(uri);
     return SmpInfo.fromJson(r.body);
   }
@@ -60,12 +61,7 @@ class Smp extends Plug {
   }
 
   /// Write Trigger
-  Future<int> writeTrigger(int tSampling, {int sps = 100}) async {
-    var trigger = SmpTrigger(
-      DateTime.now().millisecondsSinceEpoch,
-      sps,
-      tSampling,
-    );
+  Future<int> writeTrigger(SmpTrigger trigger) async {
     var uri = Uri.http('$address', SMP_API_SMP_TRIGGER);
     var r = await http.post(
       uri,

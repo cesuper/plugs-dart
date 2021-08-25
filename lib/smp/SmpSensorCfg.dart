@@ -4,7 +4,6 @@ class SmpSensorCfg {
   int status;
   String serial;
   String name;
-  String group;
   int index;
   double area;
   int cavity;
@@ -12,13 +11,14 @@ class SmpSensorCfg {
   int hrn;
 
   // tFill value pressure parameter
-  int pFill;
+  int pFill = 100;
+
+  SmpSensorCfg.disabled(int index) : this(-1, '', '', index, 1.0, 0, 0, 0, 100);
 
   SmpSensorCfg(
     this.status,
     this.serial,
     this.name,
-    this.group,
     this.index,
     this.area,
     this.cavity,
@@ -32,7 +32,6 @@ class SmpSensorCfg {
       'status': status,
       'serial': serial,
       'name': name,
-      'group': group,
       'index': index,
       'area': area,
       'cavity': cavity,
@@ -47,7 +46,6 @@ class SmpSensorCfg {
       map['status'],
       map['serial'],
       map['name'],
-      map['group'],
       map['index'],
       map['area'],
       map['cavity'],

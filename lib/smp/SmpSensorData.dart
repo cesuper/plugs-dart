@@ -10,16 +10,13 @@ class SmpSensorData {
   // name
   final String name;
 
-  // group
-  final String group;
-
   // index
   final int index;
 
-  // cavity
+  // cavity aka. 'group'
   final int cavity;
 
-  // position
+  // position, aka. 'index'
   final int position;
 
   // hrn
@@ -32,7 +29,6 @@ class SmpSensorData {
     this.status,
     this.serial,
     this.name,
-    this.group,
     this.index,
     this.cavity,
     this.position,
@@ -45,7 +41,6 @@ class SmpSensorData {
       'status': status,
       'serial': serial,
       'name': name,
-      'group': group,
       'index': index,
       'cavity': cavity,
       'position': position,
@@ -59,7 +54,6 @@ class SmpSensorData {
       map['status'],
       map['serial'],
       map['name'],
-      map['group'],
       map['index'],
       map['cavity'],
       map['position'],
