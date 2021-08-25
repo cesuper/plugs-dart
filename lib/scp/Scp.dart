@@ -3,11 +3,15 @@ import 'dart:convert';
 import 'package:http/http.dart' as http;
 import 'package:plugs/plug/Plug.dart';
 import 'package:plugs/scp/ScpSnapshot.dart';
+import 'package:plugs/scp/ScpTriggerConfig.dart';
 import 'package:plugs/scp/StartPinParams.dart';
 import 'package:plugs/scp/StopPinParams.dart';
 
 // API
-const SCP_API_SNAPSHOT = '/api/plug/snapshot.cgi';
+const SCP_API = '/api/scp.cgi';
+const SCP_API_INFO = '/api/scp/info.cgi';
+const SCP_API_CONFIG = '/api/scp/config.cgi';
+const SCP_API_CONFIG_TRIGGER = '/api/scp/config/trigger.cgi';
 const SCP_API_FIELD = '/api/scp/field.cgi';
 const SCP_API_PIN_START = '/api/scp/pin/start.cgi';
 const SCP_API_PIN_STOP = '/api/scp/pin/stop.cgi';
@@ -27,7 +31,7 @@ abstract class Scp extends Plug {
 
   /// Read Snapshot
   Future<ScpSnapshot> snapshot() async {
-    var uri = Uri.http('$address', SCP_API_SNAPSHOT);
+    var uri = Uri.http('$address', SCP_API);
     var r = await http.get(uri);
     return ScpSnapshot.fromJson(r.body);
   }
@@ -69,6 +73,28 @@ abstract class Scp extends Plug {
       uri,
       headers: {'Content-Type': 'application/json'},
       body: StopPinParams(port, pin).toJson(),
+    );
+    return r.statusCode;
+  }
+
+  ///
+  /// Trigger Config
+  ///
+
+  /// get trigger config
+  Future<ScpTriggerConfig> triggerConfig() async {
+    var uri = Uri.http('$address', SCP_API_CONFIG_TRIGGER);
+    var r = await http.get(uri);
+    return ScpTriggerConfig.fromJson(r.body);
+  }
+
+  /// set Trigger config
+  Future<int> setTriggerConfig(ScpTriggerConfig config) async {
+    var uri = Uri.http('$address', SCP_API_CONFIG_TRIGGER);
+    var r = await http.post(
+      uri,
+      headers: {'Content-Type': 'application/json'},
+      body: config.toJson(),
     );
     return r.statusCode;
   }

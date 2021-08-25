@@ -1,8 +1,19 @@
-import 'package:plugs/scp/Scp412.dart';
+import 'package:plugs/scp/412/Scp412.dart';
+import 'package:plugs/scp/ScpTriggerConfig.dart';
 import 'package:test/test.dart';
 
 void main() async {
   var plug = Scp412('192.168.100.111:8080');
+
+  test('Snapshot', () async {
+    var snapshot = await plug.snapshot();
+    print(snapshot);
+  });
+
+  // test('ScpInfo', () async {
+  //   var scpInfo = await plug.scpInfo();
+  //   print(scpInfo);
+  // });
 
   group('Field', () {
     test('Low State', () async {
@@ -117,6 +128,19 @@ void main() async {
 
       // expect all states are in Low
       expect(states, snapshot.output);
+    });
+  });
+
+  group('Config', () {
+    test('Trigger', () async {
+      // cfg
+      var cfg =
+          ScpTriggerConfig(true, '192.168.100.111:8010', '/api/trigger', 1500);
+
+      // set new config
+      await plug.setTriggerConfig(cfg);
+
+      expect(await plug.triggerConfig(), equals(cfg));
     });
   });
 }
