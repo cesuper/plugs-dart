@@ -1,57 +1,36 @@
 import 'dart:convert';
 
 class SmpSensorCfg {
-  int status;
+  // enables or disables to use sensor
+  bool enabled;
+
+  // sensor serial
   String serial;
-  String name;
-  int index;
+
+  // ejector pin diameter
   double area;
-  int cavity;
-  int position;
-  int hrn;
 
-  // tFill value pressure parameter
-  int pFill = 100;
-
-  SmpSensorCfg.disabled(int index) : this(-1, '', '', index, 1.0, 0, 0, 0, 100);
+  SmpSensorCfg.disabled(int index) : this(false, '', 1.0);
 
   SmpSensorCfg(
-    this.status,
+    this.enabled,
     this.serial,
-    this.name,
-    this.index,
     this.area,
-    this.cavity,
-    this.position,
-    this.hrn,
-    this.pFill,
   );
 
   Map<String, dynamic> toMap() {
     return {
-      'status': status,
+      'enabled': enabled,
       'serial': serial,
-      'name': name,
-      'index': index,
       'area': area,
-      'cavity': cavity,
-      'position': position,
-      'hrn': hrn,
-      'pFill': pFill,
     };
   }
 
   factory SmpSensorCfg.fromMap(Map<String, dynamic> map) {
     return SmpSensorCfg(
-      map['status'],
+      map['enabled'],
       map['serial'],
-      map['name'],
-      map['index'],
       map['area'],
-      map['cavity'],
-      map['position'],
-      map['hrn'],
-      map['pFill'],
     );
   }
 
