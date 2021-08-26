@@ -8,8 +8,11 @@ import 'package:plugs/smp/SmpInfo.dart';
 import 'package:plugs/smp/SmpSnapshot.dart';
 import 'package:plugs/smp/SmpTrigger.dart';
 
+import 'SmpChannel.dart';
+
 const SMP_API = '/api/smp.cgi';
 const SMP_API_INFO = '/api/smp/info.cgi';
+const SMP_API_CHANNELS = '/api/smp/channels.cgi';
 const SMP_API_CONFIG = '/api/smp/config.cgi';
 const SMP_API_SMP_TRIGGER = '/api/smp/trigger.cgi';
 const SMP_API_GENERATOR = '/api/smp/generator.cgi';
@@ -21,9 +24,25 @@ const SMP_API_SMP_BUFFER_STATUS = '/api/smp/buffer/status.cgi';
 class Smp extends Plug {
   Smp(String address) : super(address);
 
-  /// Read Config
+  /// Read Channels
+  Future<List<SmpChannel>> channels() async {
+    var uri = Uri.http('$address', SMP_API_CHANNELS);
+    var r = await http.get(uri);
+    return List<SmpChannel>.from(
+            (jsonDecode(r.body) as List).map((e) => SmpChannel.fromMap(e)))
+        .toList();
+  }
 
-  /// Write Config
+  /// Write Channels
+  Future<int> setChannels(List<SmpChannel> channels) async {
+    var uri = Uri.http('$address', SMP_API_CHANNELS);
+    var r = await http.post(
+      uri,
+      headers: {'Content-Type': 'application/json'},
+      body: jsonEncode(channels.map((e) => e.toMap()).toList()),
+    );
+    return r.statusCode;
+  }
 
   /// Read Snapshot
   Future<SmpSnapshot> snapshot() async {
