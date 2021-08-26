@@ -36,7 +36,7 @@ void main() async {
       var content = await socket.h43Data(devices);
 
       expect(content.map((e) => e.content),
-          equals(connectData.map((e) => e.data)));
+          equals(connectData.map((e) => e.content)));
 
       // remove socket
       await socket.remove();
@@ -70,7 +70,7 @@ void main() async {
       var content = await socket.h43Data(devices);
 
       expect(content.map((e) => e.content),
-          equals(connectData.map((e) => e.data)));
+          equals(connectData.map((e) => e.content)));
 
       // deserialize
 

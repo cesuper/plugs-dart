@@ -2,21 +2,21 @@ import 'dart:convert';
 
 class SocketDeviceConnectData {
   final String address;
-  final String data;
+  final String content;
 
-  SocketDeviceConnectData(this.address, this.data);
+  SocketDeviceConnectData(this.address, this.content);
 
   Map<String, dynamic> toMap() {
     return {
       'address': address,
-      'data': data,
+      'content': content,
     };
   }
 
   factory SocketDeviceConnectData.fromMap(Map<String, dynamic> map) {
     return SocketDeviceConnectData(
       map['address'],
-      map['data'] ?? '',
+      map['content'] ?? '',
     );
   }
 
@@ -27,5 +27,5 @@ class SocketDeviceConnectData {
 
   @override
   String toString() =>
-      'SocketDeviceConnectData(address: $address, data: $data)';
+      'SocketDeviceConnectData(address: $address, data: $content)';
 }

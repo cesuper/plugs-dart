@@ -66,12 +66,12 @@ class Socket {
         (jsonDecode(r.body) as List).map((e) => H43Data.fromMap(e)).toList());
   }
 
-  Future<int> h43WriteData(String address, String data) async {
+  Future<int> h43WriteData(String address, String content) async {
     var uri = Uri.http('$_address', SOCKET_API_43_WRITE);
     var r = await http.post(
       uri,
       headers: {'Content-Type': 'application/json'},
-      body: jsonEncode({'address': address, 'data': data}),
+      body: jsonEncode({'address': address, 'content': content}),
     );
     return r.statusCode;
   }
