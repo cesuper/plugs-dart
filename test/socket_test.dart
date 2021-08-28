@@ -33,7 +33,7 @@ void main() async {
       var devices = await socket.addresses(family: '43');
 
       // read back the data
-      var content = await socket.h43Data(devices);
+      var content = await socket.readH43();
 
       expect(content.map((e) => e.content),
           equals(connectData.map((e) => e.content)));
@@ -67,7 +67,7 @@ void main() async {
       var devices = await socket.addresses(family: '43');
 
       // read back the data
-      var content = await socket.h43Data(devices);
+      var content = await socket.readH43(address: devices);
 
       expect(content.map((e) => e.content),
           equals(connectData.map((e) => e.content)));

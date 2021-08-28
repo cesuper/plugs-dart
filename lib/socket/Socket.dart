@@ -45,28 +45,39 @@ class Socket {
   }
 
   /// Returns all connected 1Wire device addresses
+  ///
+  /// Use [family] to filter addresses based on family code. When not
+  /// set addresses of all devices returned
+  ///
   Future<List<String>> addresses({String family = '*'}) async {
     var uri = Uri.http('$_address', SOCKET_API, {'family': family});
     var r = await http.get(uri);
     return List<String>.from(jsonDecode(r.body));
   }
 
-  Future<List<H28Data>> h28Data(String addresses) async {
-    var uri = Uri.http('$_address', SOCKET_API_28_READ, {'address': addresses});
+  Future<List<H28Data>> h28Data({String address = '*'}) async {
+    var uri = Uri.http('$_address', SOCKET_API_28_READ, {'address': address});
     var r = await http.get(uri);
     return List<H28Data>.from(
         (jsonDecode(r.body) as List).map((e) => H28Data.fromMap(e)).toList());
   }
 
-  Future<List<H43Data>> h43Data(List<String> address) async {
+  /// Read the content from H43 devices.
+  ///
+  /// Use [address] to specify what devices to read.
+  /// When not set all H43 devices selected to read
+  Future<List<H43Data>> readH43({List<String> address = const ['*']}) async {
     var uri = Uri.http(
-        '$_address', SOCKET_API_43_READ, {'address': address.join(',')});
+      '$_address',
+      SOCKET_API_43_READ,
+      {'address': address.join(',')},
+    );
     var r = await http.get(uri);
     return List<H43Data>.from(
         (jsonDecode(r.body) as List).map((e) => H43Data.fromMap(e)).toList());
   }
 
-  Future<int> h43WriteData(String address, String content) async {
+  Future<int> writeH43(String address, String content) async {
     var uri = Uri.http('$_address', SOCKET_API_43_WRITE);
     var r = await http.post(
       uri,
