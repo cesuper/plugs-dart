@@ -66,15 +66,15 @@ class Socket {
   ///
   /// Use [address] to specify what devices to read.
   /// When not set all H43 devices selected to read
-  Future<List<H43Data>> readH43({List<String> address = const ['*']}) async {
+  Future<H43Data> readH43({String? address}) async {
     var uri = Uri.http(
       '$_address',
       SOCKET_API_43_READ,
-      {'address': address.join(',')},
+      address == null ? null : {'address': address},
     );
     var r = await http.get(uri);
-    return List<H43Data>.from(
-        (jsonDecode(r.body) as List).map((e) => H43Data.fromMap(e)).toList());
+
+    return H43Data.fromJson(r.body);
   }
 
   Future<int> writeH43(String address, String content) async {

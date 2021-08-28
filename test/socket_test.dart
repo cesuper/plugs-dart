@@ -32,11 +32,18 @@ void main() async {
       // get all ds28ec20 addresses
       var devices = await socket.addresses(family: '43');
 
-      // read back the data
-      var content = await socket.readH43();
+      // check if all devices returned
+      expect(devices, equals(connectData.map((e) => e.address)));
 
-      expect(content.map((e) => e.content),
-          equals(connectData.map((e) => e.content)));
+      // read back all devices and check their content
+      for (var d in connectData) {
+        var content = await socket.readH43(address: d.address);
+        expect(content.content, equals(d.content));
+      }
+
+      // test for unnamed address
+      var firstContent = await socket.readH43();
+      expect(connectData.first.content, equals(firstContent.content));
 
       // remove socket
       await socket.remove();
@@ -67,10 +74,7 @@ void main() async {
       var devices = await socket.addresses(family: '43');
 
       // read back the data
-      var content = await socket.readH43(address: devices);
-
-      expect(content.map((e) => e.content),
-          equals(connectData.map((e) => e.content)));
+      var content = await socket.readH43();
 
       // deserialize
 
