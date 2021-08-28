@@ -1,59 +1,72 @@
 import 'package:plugs/smp/Smp.dart';
-import 'package:plugs/smp/SmpChannel.dart';
+import 'package:plugs/smp/SmpSensor.dart';
 import 'package:plugs/smp/SmpTrigger.dart';
 import 'package:test/test.dart';
 
 void main() async {
+  // plug
   var plug = Smp('192.168.100.111:8080');
 
-  group('Channels', () {
-    test('#1', () async {
-      var channels = List<SmpChannel>.generate(
-        5,
-        (index) =>
-            SmpChannel('serial-$index', double.parse('12.$index'), '#$index'),
-      );
+  // sensors
+  var sensors = <SmpSensor>[
+    SmpSensor('5OCUGBGR', 12.0),
+    SmpSensor('5OETIN28', 13.9),
+    SmpSensor('50OAGBHN', 0.4),
+  ];
 
-      // set channels
-      await plug.setChannels(channels);
-
-      expect(await plug.channels(), equals(channels));
-    });
-  });
-
-  test('Snapshot', () async {
-    var data = await plug.snapshot();
-    print(data);
-  });
-
-  test('Buffer', () async {
-    var data = await plug.readBuffer();
-    print(data);
-  });
-
-  test('Buffer Status', () async {
-    var data = await plug.readBufferStatus();
-    print(data);
-  });
+  // test('Sensors', () async {
+  //   // set channels
+  //   await plug.setSensors(sensors);
+  //   expect(await plug.sensors(), equals(sensors));
+  // });
 
   test('Trigger', () async {
-    //
+    // setup sensors
+    await plug.setSensors(sensors);
+    expect(await plug.sensors(), equals(sensors));
+
+    // set sampling value
     var tSampling = 1500;
+
+    // get ignored trigger
+    var smpInfo = await plug.readSmpInfo();
+
+    // create trigger param
     var trigger = SmpTrigger(DateTime.now().millisecond, 100, tSampling);
 
-    // start trigger
-    expect(await plug.writeTrigger(trigger), 200);
+    // start trigger and expect success code
+    expect(await plug.setTrigger(trigger), 200);
 
     // expect buffer status TRUE
-    expect(await plug.readBufferStatus(), true);
+    expect(await plug.triggerStatus(), true);
+
+    // start trigger and expect in-progress code
+    expect(await plug.setTrigger(trigger), 500);
+
+    // check ignoredtriggers increase by 1
+    expect((await plug.readSmpInfo()).ignoredTriggers,
+        smpInfo.ignoredTriggers + 1);
 
     // wait
     await Future.delayed(Duration(milliseconds: (tSampling + 500)));
 
     // expect buffer status FALSE
-    expect(await plug.readBufferStatus(), false);
+    expect(await plug.triggerStatus(), false);
 
     // get data
-    var data = await plug.readBuffer();
-  }, skip: true);
+    var data = await plug.data();
+
+    // check ts
+    expect(data.ts, trigger.ts);
+
+    // check sensors
+    expect(data.sensors.map((e) => e.serial),
+        equals(sensors.map((e) => e.serial)));
+
+    // check data count
+    expect(
+        data.sensors.first.p.length, (trigger.sps / 1000) * trigger.tSampling);
+
+    print(data);
+  });
 }

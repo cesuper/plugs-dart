@@ -36,4 +36,8 @@ class SmpSensorDataBuffered {
 
   factory SmpSensorDataBuffered.fromJson(String source) =>
       SmpSensorDataBuffered.fromMap(json.decode(source));
+
+  @override
+  String toString() =>
+      'SmpSensorDataBuffered(status: $status, serial: $serial, p: $p)';
 }
