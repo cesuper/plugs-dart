@@ -55,12 +55,12 @@ class Socket {
     return List<String>.from(jsonDecode(r.body));
   }
 
-  Future<List<H28Data>> h28Data({String address = '*'}) async {
-    var uri = Uri.http('$_address', SOCKET_API_28_READ, {'address': address});
-    var r = await http.get(uri);
-    return List<H28Data>.from(
-        (jsonDecode(r.body) as List).map((e) => H28Data.fromMap(e)).toList());
-  }
+  // Future<List<H28Data>> h28Data({String address = '*'}) async {
+  //   var uri = Uri.http('$_address', SOCKET_API_28_READ, {'address': address});
+  //   var r = await http.get(uri);
+  //   return List<H28Data>.from(
+  //       (jsonDecode(r.body) as List).map((e) => H28Data.fromMap(e)).toList());
+  // }
 
   /// Read the content from H43 devices.
   ///
