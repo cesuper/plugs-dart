@@ -7,8 +7,8 @@ class Product {
   // product name numerical value name <-> code
   final int code;
 
-  // product number, number or product created
-  final int num;
+  //
+  final String model;
 
   // serial number: serial = ['name' + '-' + 'num']
   final String serial;
@@ -19,7 +19,7 @@ class Product {
   Product(
     this.mac,
     this.code,
-    this.num,
+    this.model,
     this.serial,
     this.rev,
   );
@@ -28,7 +28,7 @@ class Product {
     return {
       'mac': mac,
       'code': code,
-      'num': num,
+      'model': model,
       'serial': serial,
       'rev': rev,
     };
@@ -38,7 +38,7 @@ class Product {
     return Product(
       map['mac'],
       map['code'],
-      map['num'],
+      map['model'],
       map['serial'],
       map['rev'],
     );
@@ -51,6 +51,6 @@ class Product {
 
   @override
   String toString() {
-    return 'Product(mac: $mac, code: $code, num: $num, serial: $serial, rev: $rev)';
+    return 'Product(mac: $mac, code: $code, model: $model, num: $num, serial: $serial, rev: $rev)';
   }
 }

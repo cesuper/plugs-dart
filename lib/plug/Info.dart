@@ -2,7 +2,6 @@ import 'dart:convert';
 
 import 'Diagnostic.dart';
 import 'Firmware.dart';
-import 'GroupMember.dart';
 import 'Network.dart';
 import 'Product.dart';
 
@@ -19,9 +18,6 @@ class Info {
   // diagnostic
   final Diagnostic diagnostic;
 
-  // group
-  final GroupMember group;
-
   // network
   final Network network;
 
@@ -34,7 +30,7 @@ class Info {
     this.firmware,
     this.diagnostic,
     this.network,
-    this.group,
+
     // this.socket,
   );
 
@@ -45,7 +41,6 @@ class Info {
       'firmware': firmware.toMap(),
       'diagnostic': diagnostic.toMap(),
       'network': network.toMap(),
-      'group': group.toMap(),
       //'socket': socket,
     };
   }
@@ -56,9 +51,7 @@ class Info {
         Product.fromMap(map['product']),
         Firmware.fromMap(map['firmware']),
         Diagnostic.fromMap(map['diagnostic']),
-        Network.fromMap(map['network']),
-        GroupMember.fromMap(map['group']));
-    //List<String>.from(map['socket']));
+        Network.fromMap(map['network']));
   }
 
   String toJson() => json.encode(toMap());
@@ -67,6 +60,6 @@ class Info {
 
   @override
   String toString() {
-    return 'Info(uptime: $uptime, product: $product, firmware: $firmware, diagnostic: $diagnostic, group: $group)';
+    return 'Info(uptime: $uptime, product: $product, firmware: $firmware, diagnostic: $diagnostic)';
   }
 }

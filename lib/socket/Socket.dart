@@ -2,7 +2,6 @@ import 'dart:convert';
 
 import 'package:http/http.dart' as http;
 
-import 'H28Data.dart';
 import 'H43Data.dart';
 import 'SocketDeviceConnectData.dart';
 
