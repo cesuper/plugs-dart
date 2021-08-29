@@ -73,7 +73,6 @@ class Socket {
       address == null ? null : {'address': address},
     );
     var r = await http.get(uri);
-
     return H43Data.fromJson(r.body);
   }
 
