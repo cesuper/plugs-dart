@@ -65,7 +65,7 @@ void main() async {
 
     // check data count
     expect(
-        data.sensors.first.p.length, (trigger.sps / 1000) * trigger.tSampling);
+        data.sensors.first.p.length, (trigger.freq / 1000) * trigger.tSampling);
 
     print(data);
   });
