@@ -5,7 +5,7 @@ import 'package:test/test.dart';
 
 void main() async {
   // plug
-  var plug = Smp('192.168.100.111:8080');
+  var plug = Smp('192.168.100.111:8081');
 
   // sensors
   var sensors = <SmpSensor>[
