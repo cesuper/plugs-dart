@@ -1,11 +1,13 @@
 import 'dart:convert';
 
-class SmpSensor {
+class CpSensor {
+  // sensor code
   final String serial;
 
+  // sensor area
   final double area;
 
-  SmpSensor(this.serial, this.area);
+  CpSensor(this.serial, this.area);
 
   Map<String, dynamic> toMap() {
     return {
@@ -14,8 +16,8 @@ class SmpSensor {
     };
   }
 
-  factory SmpSensor.fromMap(Map<String, dynamic> map) {
-    return SmpSensor(
+  factory CpSensor.fromMap(Map<String, dynamic> map) {
+    return CpSensor(
       map['serial'],
       map['area'],
     );
@@ -23,17 +25,17 @@ class SmpSensor {
 
   String toJson() => json.encode(toMap());
 
-  factory SmpSensor.fromJson(String source) =>
-      SmpSensor.fromMap(json.decode(source));
+  factory CpSensor.fromJson(String source) =>
+      CpSensor.fromMap(json.decode(source));
 
   @override
-  String toString() => 'SmpChannel(serial: $serial, area: $area)';
+  String toString() => 'CpSensor(serial: $serial, area: $area)';
 
   @override
   bool operator ==(Object other) {
     if (identical(this, other)) return true;
 
-    return other is SmpSensor && other.serial == serial && other.area == area;
+    return other is CpSensor && other.serial == serial && other.area == area;
   }
 
   @override

@@ -1,6 +1,6 @@
 import 'dart:convert';
 
-class SmpSensorData {
+class CpData {
   // status of the sensor data, where -1 = DISABLED, 0 = OK, 1 = ERROR
   final int status;
 
@@ -10,7 +10,7 @@ class SmpSensorData {
   // value
   final double p;
 
-  SmpSensorData(
+  CpData(
     this.status,
     this.serial,
     this.p,
@@ -24,8 +24,8 @@ class SmpSensorData {
     };
   }
 
-  factory SmpSensorData.fromMap(Map<String, dynamic> map) {
-    return SmpSensorData(
+  factory CpData.fromMap(Map<String, dynamic> map) {
+    return CpData(
       map['status'],
       map['serial'],
       map['p'],
@@ -34,6 +34,5 @@ class SmpSensorData {
 
   String toJson() => json.encode(toMap());
 
-  factory SmpSensorData.fromJson(String source) =>
-      SmpSensorData.fromMap(json.decode(source));
+  factory CpData.fromJson(String source) => CpData.fromMap(json.decode(source));
 }

@@ -28,7 +28,7 @@ void main() async {
 
 Future<List<int>> getResults(List<Smp> plugs, SmpTrigger trigger) async {
   // trigger every plug
-  await Future.wait(plugs.map((e) => e.setTrigger(trigger)), eagerError: true);
+  await Future.wait(plugs.map((e) => e.trigger(trigger)), eagerError: true);
 
   // wait a bit
   await Future.delayed(Duration(milliseconds: trigger.time + 100));

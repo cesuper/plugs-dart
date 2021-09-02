@@ -12,10 +12,8 @@ const CONST_SMP_TYPE = 'SMP';
 
 // API
 const SMP_API = '/api/smp.cgi';
-const SMP_API_INFO = '/api/smp/info.cgi';
 const SMP_API_SENSORS = '/api/smp/sensors.cgi';
 const SMP_API_TRIGGER = '/api/smp/trigger.cgi';
-const SMP_API_TRIGGER_STATUS = '/api/smp/trigger/status.cgi';
 const SMP_API_TRIGGER_DATA = '/api/smp/trigger/data.cgi';
 
 // generator

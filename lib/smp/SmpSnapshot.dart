@@ -1,10 +1,13 @@
 import 'dart:convert';
 
-import 'SmpSensorData.dart';
+import 'CpData.dart';
 
 class SmpSnapshot {
+  //
   final List<String> socket;
-  final List<SmpSensorData> sensors;
+
+  //
+  final List<CpData> sensors;
 
   SmpSnapshot(this.socket, this.sensors);
 
@@ -18,8 +21,7 @@ class SmpSnapshot {
   factory SmpSnapshot.fromMap(Map<String, dynamic> map) {
     return SmpSnapshot(
       List<String>.from(map['socket']),
-      List<SmpSensorData>.from(
-          map['sensors']?.map((x) => SmpSensorData.fromMap(x))),
+      List<CpData>.from(map['sensors']?.map((x) => CpData.fromMap(x))),
     );
   }
 
