@@ -14,27 +14,16 @@ void main() async {
     test('Trigger', () async {
       // create common trigger
       var trigger = SmpTrigger(DateTime.now().microsecond, 100, tSampling);
-
+      var s = Stopwatch()..start();
       try {
         // send request and wait for response
-        var results = await getResults(plugs, trigger);
+        var results = await Future.wait(plugs.map((e) => e.trigger(trigger)));
         print(results);
       } catch (e) {
         print('plug error');
       }
+
+      print(s.elapsedMilliseconds);
     });
   });
-}
-
-Future<List<int>> getResults(List<Smp> plugs, SmpTrigger trigger) async {
-  // trigger every plug
-  await Future.wait(plugs.map((e) => e.trigger(trigger)), eagerError: true);
-
-  // wait a bit
-  await Future.delayed(Duration(milliseconds: trigger.time + 100));
-
-  // get results
-  var results = await Future.wait(plugs.map((e) => e.data()), eagerError: true);
-
-  return results.map((e) => e.ts).toList();
 }
