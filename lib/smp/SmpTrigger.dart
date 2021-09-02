@@ -8,15 +8,15 @@ class SmpTrigger {
   final int freq;
 
   // sampling time
-  final int tSampling;
+  final int time;
 
-  SmpTrigger(this.ts, this.freq, this.tSampling);
+  SmpTrigger(this.ts, this.freq, this.time);
 
   Map<String, dynamic> toMap() {
     return {
       'ts': ts,
       'freq': freq,
-      'tSampling': tSampling,
+      'time': time,
     };
   }
 
@@ -24,7 +24,7 @@ class SmpTrigger {
     return SmpTrigger(
       map['ts'],
       map['freq'],
-      map['tSampling'],
+      map['time'],
     );
   }
 
@@ -34,5 +34,5 @@ class SmpTrigger {
       SmpTrigger.fromMap(json.decode(source));
 
   @override
-  String toString() => 'Trigger(ts: $ts, freq: $freq, tSampling: $tSampling)';
+  String toString() => 'Trigger(ts: $ts, freq: $freq, tSampling: $time)';
 }

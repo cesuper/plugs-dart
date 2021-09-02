@@ -31,7 +31,7 @@ Future<List<int>> getResults(List<Smp> plugs, SmpTrigger trigger) async {
   await Future.wait(plugs.map((e) => e.setTrigger(trigger)), eagerError: true);
 
   // wait a bit
-  await Future.delayed(Duration(milliseconds: trigger.tSampling + 100));
+  await Future.delayed(Duration(milliseconds: trigger.time + 100));
 
   // get results
   var results = await Future.wait(plugs.map((e) => e.data()), eagerError: true);

@@ -64,8 +64,7 @@ void main() async {
         equals(sensors.map((e) => e.serial)));
 
     // check data count
-    expect(
-        data.sensors.first.p.length, (trigger.freq / 1000) * trigger.tSampling);
+    expect(data.sensors.first.p.length, (trigger.freq / 1000) * trigger.time);
 
     print(data);
   });
