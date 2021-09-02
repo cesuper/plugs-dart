@@ -56,6 +56,7 @@ class Smp extends Plug {
       headers: {'Content-Type': 'application/json'},
       body: trigger.toJson(),
     );
+
     return SmpTriggerResponse.fromJson(r.body);
   }
 }

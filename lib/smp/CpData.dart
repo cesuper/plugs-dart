@@ -7,12 +7,16 @@ class CpData {
   // identify the value with serial
   final String serial;
 
+  // indentify the area that used for conversion
+  final double area;
+
   // value
   final double p;
 
   CpData(
     this.status,
     this.serial,
+    this.area,
     this.p,
   );
 
@@ -20,6 +24,7 @@ class CpData {
     return {
       'status': status,
       'serial': serial,
+      'area': area,
       'p': p,
     };
   }
@@ -28,6 +33,7 @@ class CpData {
     return CpData(
       map['status'],
       map['serial'],
+      map['area'],
       map['p'],
     );
   }

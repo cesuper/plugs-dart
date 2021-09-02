@@ -5,7 +5,7 @@ import 'package:test/test.dart';
 
 void main() async {
   // plug
-  var plug = Smp('192.168.100.111:8080');
+  var plug = Smp('192.168.100.111:8081');
 
   // sensors
   var sensors = <CpSensor>[
@@ -32,9 +32,11 @@ void main() async {
     // check ts
     expect(data.ts, trigger.ts);
 
-    // check sensors
-    expect(data.sensors.map((e) => e.serial),
-        equals(sensors.map((e) => e.serial)));
+    // check responses
+    var responseParams =
+        data.sensors.map((e) => CpSensor(e.serial, e.area)).toList();
+
+    expect(sensors, equals(responseParams));
 
     // check data count
     expect(data.sensors.first.p.length, (trigger.freq / 1000) * trigger.time);
