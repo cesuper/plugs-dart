@@ -1,5 +1,6 @@
 import 'package:plugs/smp/Smp.dart';
 import 'package:plugs/smp/CpSensor.dart';
+import 'package:plugs/smp/SmpSamplingRequest.dart';
 import 'package:test/test.dart';
 
 void main() async {
@@ -13,33 +14,41 @@ void main() async {
     CpSensor('50OAGBHN', 0.4),
   ];
 
+  test('Sensors', () async {
+    // write and read sensors back
+    await plug.setSensors(sensors);
+    expect(await plug.sensors(), equals(sensors));
+  });
+
   test('Trigger', () async {
-    // setup sensors
-    // await plug.setSensors(sensors);
+    // request id
+    var ts = DateTime.now().millisecondsSinceEpoch;
 
-    // expect(await plug.sensors(), equals(sensors));
+    // sampling freq
+    var freq = 100;
 
-    // // set sampling value
-    // var tSampling = 1500;
+    // sampling time
+    var time = 1500;
 
-    // // create trigger param
-    // var trigger = SmpTrigger(DateTime.now().millisecond, 100, tSampling);
+    // create sampling request
+    var req = SmpSamplingRequest(ts, freq, time, sensors);
 
-    // // get data
-    // var data = await plug.sample(trigger);
+    // get data
+    var res = await plug.sample(req);
 
-    // // check ts
-    // expect(data.ts, trigger.ts);
+    // check ts
+    expect(res.ts, ts);
 
-    // // check responses
-    // var responseParams =
-    //     data.sensors.map((e) => CpSensor(e.serial, e.area)).toList();
+    // expect no error
+    expect(res.error, 0);
 
-    // expect(sensors, equals(responseParams));
+    // expect serial equaliy
+    expect(sensors.map((e) => e.serial).toList(),
+        equals(res.sensors.map((e) => e.serial)));
 
-    // // check data count
-    // expect(data.sensors.first.p.length, (trigger.freq / 1000) * trigger.time);
+    // check data count
+    expect(res.sensors.first.p.length, (freq / 1000) * time);
 
-    // print(data);
+    print(res);
   });
 }

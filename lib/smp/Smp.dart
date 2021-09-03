@@ -35,7 +35,7 @@ class Smp extends Plug {
 
   /// Write Trigger
   Future<SmpSamplingResponse> sample(SmpSamplingRequest request) async {
-    var uri = Uri.http('$address', SMP_API_TRIGGER);
+    var uri = Uri.http('$address', SMP_API_SAMPLE);
     var r = await http.post(
       uri,
       headers: {'Content-Type': 'application/json'},
