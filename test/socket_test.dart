@@ -6,7 +6,7 @@ import 'models/CpChannelSocketData.dart';
 import 'models/CpSocketData.dart';
 
 void main() async {
-  var plug = Plug('192.168.100.111:8080');
+  var plug = Plug('192.168.100.111:8081');
   var socket = plug.socket;
 
   test('Socket', () async {
@@ -15,6 +15,11 @@ void main() async {
   });
 
   group('DS28EC20', () {
+    test('h43', () async {
+      var i = await socket.readH43();
+      print(i);
+    });
+
     test('DS28EC20 - Basic R/W', () async {
       // remove the socket
       await socket.remove();

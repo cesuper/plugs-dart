@@ -63,8 +63,9 @@ class Socket {
 
   /// Read the content from H43 devices.
   ///
-  /// Use [address] to specify what devices to read.
-  /// When not set all H43 devices selected to read
+  /// Use [address] to specify what devices to read
+  /// otherwise the first h43 device is selected.
+  ///
   Future<H43Data> readH43({String? address}) async {
     var uri = Uri.http(
       '$_address',
@@ -72,6 +73,7 @@ class Socket {
       address == null ? null : {'address': address},
     );
     var r = await http.get(uri);
+
     return H43Data.fromJson(r.body);
   }
 
