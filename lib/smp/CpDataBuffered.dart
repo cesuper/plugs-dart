@@ -7,15 +7,12 @@ class CpDataBuffered {
   // identify value
   final String serial;
 
-  final double area;
-
   // pressure curve
   final List<double> p;
 
   CpDataBuffered(
     this.status,
     this.serial,
-    this.area,
     this.p,
   );
 
@@ -23,7 +20,6 @@ class CpDataBuffered {
     return {
       'status': status,
       'serial': serial,
-      'area': area,
       'p': p,
     };
   }
@@ -32,7 +28,6 @@ class CpDataBuffered {
     return CpDataBuffered(
       map['status'],
       map['serial'],
-      map['area'],
       List<double>.from(map['p']),
     );
   }

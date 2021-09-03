@@ -3,24 +3,16 @@ import 'dart:convert';
 
 import 'package:http/http.dart' as http;
 import 'package:plugs/plug/Plug.dart';
-import 'package:plugs/smp/SmpSnapshot.dart';
-import 'package:plugs/smp/SmpTrigger.dart';
-import 'package:plugs/smp/SmpTriggerResponse.dart';
+import 'package:plugs/smp/SmpSamplingRequest.dart';
 
 import 'CpSensor.dart';
+import 'SmpSamplingResponse.dart';
 import 'const_smp.dart';
 
 // API.SMP
 
 class Smp extends Plug {
   Smp(String address) : super(address);
-
-  /// Read Snapshot
-  Future<SmpSnapshot> snapshot() async {
-    var uri = Uri.http('$address', SMP_API);
-    var r = await http.get(uri);
-    return SmpSnapshot.fromJson(r.body);
-  }
 
   /// Read Channels
   Future<List<CpSensor>> sensors() async {
@@ -41,22 +33,15 @@ class Smp extends Plug {
     return r.statusCode;
   }
 
-  /// Read buffer
-  Future<SmpTriggerResponse> data() async {
-    var uri = Uri.http('$address', SMP_API_TRIGGER_DATA);
-    var r = await http.get(uri);
-    return SmpTriggerResponse.fromJson(r.body);
-  }
-
   /// Write Trigger
-  Future<SmpTriggerResponse> trigger(SmpTrigger trigger) async {
+  Future<SmpSamplingResponse> sample(SmpSamplingRequest request) async {
     var uri = Uri.http('$address', SMP_API_TRIGGER);
     var r = await http.post(
       uri,
       headers: {'Content-Type': 'application/json'},
-      body: trigger.toJson(),
+      body: request.toJson(),
     );
 
-    return SmpTriggerResponse.fromJson(r.body);
+    return SmpSamplingResponse.fromJson(r.body);
   }
 }
