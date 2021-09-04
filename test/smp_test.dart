@@ -17,7 +17,7 @@ void main() async {
 
   test('Trigger', () async {
     // request id
-    var ts = DateTime.now().millisecondsSinceEpoch;
+    var ts = DateTime.now().millisecond;
 
     // sampling freq
     var freq = 100;
