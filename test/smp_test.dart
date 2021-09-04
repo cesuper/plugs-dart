@@ -5,7 +5,8 @@ import 'package:test/test.dart';
 
 void main() async {
   // plug
-  var plug = Smp('192.168.100.111:8081');
+  var plug = Smp('192.168.100.105');
+  //var plug = Smp('192.168.100.111:8081');
 
   // sensors
   var sensors = <CpSensor>[
@@ -13,12 +14,6 @@ void main() async {
     CpSensor('5OETIN28', 13.9),
     CpSensor('50OAGBHN', 0.4),
   ];
-
-  test('Sensors', () async {
-    // write and read sensors back
-    await plug.setSensors(sensors);
-    expect(await plug.sensors(), equals(sensors));
-  });
 
   test('Trigger', () async {
     // request id
@@ -28,7 +23,7 @@ void main() async {
     var freq = 100;
 
     // sampling time
-    var time = 1500;
+    var time = 100;
 
     // create sampling request
     var req = SmpSamplingRequest(ts, freq, time, sensors);
