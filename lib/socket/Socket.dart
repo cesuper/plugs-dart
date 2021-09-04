@@ -13,8 +13,7 @@ const SOCKET_API_REMOVE = '/api/socket/remove.cgi';
 const SOCKET_API_28_READ = '/api/socket/28/read.cgi';
 // h43
 
-const SOCKET_API_43_READ = '/api/socket/43/read.cgi';
-const SOCKET_API_43_WRITE = '/api/socket/43/write.cgi';
+const SOCKET_API_43 = '/api/socket/43.cgi';
 
 class Socket {
   // network address
@@ -69,7 +68,7 @@ class Socket {
   Future<H43Data> readH43({String? address}) async {
     var uri = Uri.http(
       '$_address',
-      SOCKET_API_43_READ,
+      SOCKET_API_43,
       address == null ? null : {'address': address},
     );
     var r = await http.get(uri);
@@ -78,7 +77,7 @@ class Socket {
   }
 
   Future<int> writeH43(String address, String content) async {
-    var uri = Uri.http('$_address', SOCKET_API_43_WRITE);
+    var uri = Uri.http('$_address', SOCKET_API_43);
     var r = await http.post(
       uri,
       headers: {'Content-Type': 'application/json'},
