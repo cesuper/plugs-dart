@@ -19,9 +19,9 @@ class Plug {
   Plug(this.address) : socket = Socket(address);
 
   /// Read Info
-  Future<Info> info({int timeout = 1000}) async {
+  Future<Info> info() async {
     var uri = Uri.http('$address', PLUG_API);
-    var r = await http.get(uri).timeout(Duration(milliseconds: timeout));
+    var r = await http.get(uri);
     return Info.fromJson(r.body);
   }
 
