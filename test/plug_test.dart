@@ -19,7 +19,7 @@ void main() async {
     test('Bootloader', () async {
       expect(await plug.restart(bootloader: true), 200);
     });
-  });
+  }, skip: true);
 
   group('EEPROM', () {
     test('Invalid json', () async {
@@ -33,7 +33,7 @@ void main() async {
 
       // expect error code
       expect(code, 403);
-    });
+    }, skip: true);
 
     test('Invalid json - String', () async {
       // dummy string
@@ -47,7 +47,7 @@ void main() async {
 
       // expect success
       expect(code, 200);
-    });
+    }, skip: true);
     test('Valid json - object', () async {
       // get the actual network values
       var info = await plug.info();
@@ -63,6 +63,6 @@ void main() async {
 
       // read it back
       expect(await plug.readEEPROM(), content);
-    });
+    }, skip: true);
   });
 }

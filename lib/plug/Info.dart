@@ -9,8 +9,6 @@ class Info {
   // elapsed time since boot
   final int uptime;
 
-  final int session;
-
   // product
   final Product product;
 
@@ -28,7 +26,6 @@ class Info {
 
   Info(
     this.uptime,
-    this.session,
     this.product,
     this.firmware,
     this.diagnostic,
@@ -40,7 +37,6 @@ class Info {
   Map<String, dynamic> toMap() {
     return {
       'uptime': uptime,
-      'session': session,
       'product': product.toMap(),
       'firmware': firmware.toMap(),
       'diagnostic': diagnostic.toMap(),
@@ -52,7 +48,6 @@ class Info {
   factory Info.fromMap(Map<String, dynamic> map) {
     return Info(
         map['uptime'],
-        map['session'],
         Product.fromMap(map['product']),
         Firmware.fromMap(map['firmware']),
         Diagnostic.fromMap(map['diagnostic']),
@@ -65,6 +60,6 @@ class Info {
 
   @override
   String toString() {
-    return 'Info(uptime: $uptime, session: $session, product: $product, firmware: $firmware, diagnostic: $diagnostic, network: $network)';
+    return 'Info(uptime: $uptime, product: $product, firmware: $firmware, diagnostic: $diagnostic, network: $network)';
   }
 }
