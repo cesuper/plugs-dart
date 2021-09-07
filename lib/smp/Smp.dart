@@ -12,8 +12,11 @@ import 'const_smp.dart';
 
 // API.SMP
 
-class Smp extends Plug {
-  Smp(String address) : super(address);
+abstract class Smp extends Plug {
+  // number of sensors
+  final int maxSensors;
+
+  Smp(String address, this.maxSensors) : super(address);
 
   /// Read Channels
   // Future<List<CpSensor>> sensors() async {

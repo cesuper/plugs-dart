@@ -1,11 +1,11 @@
-import 'package:plugs/smp/Smp.dart';
+import 'package:plugs/smp/Smp8.dart';
 import 'package:plugs/smp/CpSensor.dart';
 import 'package:plugs/smp/CpSamplingRequest.dart';
 import 'package:test/test.dart';
 
 void main() async {
   // plug
-  var plug = Smp('192.168.100.105:80');
+  var plug = Smp8('192.168.100.105:80');
   //var plug = Smp('192.168.100.111:8081');
 
   // sensors
