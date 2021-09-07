@@ -2,7 +2,7 @@ import 'dart:convert';
 
 import 'CpDataBuffered.dart';
 
-class SmpSamplingResponse {
+class CpSamplingResponse {
   // timestamp of the trigger event
   final int ts;
 
@@ -12,7 +12,7 @@ class SmpSamplingResponse {
   // lsit of buffered sensor data
   final List<CpDataBuffered> sensors;
 
-  SmpSamplingResponse(this.ts, this.error, this.sensors);
+  CpSamplingResponse(this.ts, this.error, this.sensors);
 
   Map<String, dynamic> toMap() {
     return {
@@ -22,8 +22,8 @@ class SmpSamplingResponse {
     };
   }
 
-  factory SmpSamplingResponse.fromMap(Map<String, dynamic> map) {
-    return SmpSamplingResponse(
+  factory CpSamplingResponse.fromMap(Map<String, dynamic> map) {
+    return CpSamplingResponse(
       map['ts'],
       map['error'],
       List<CpDataBuffered>.from(
@@ -33,6 +33,6 @@ class SmpSamplingResponse {
 
   String toJson() => json.encode(toMap());
 
-  factory SmpSamplingResponse.fromJson(String source) =>
-      SmpSamplingResponse.fromMap(json.decode(source));
+  factory CpSamplingResponse.fromJson(String source) =>
+      CpSamplingResponse.fromMap(json.decode(source));
 }

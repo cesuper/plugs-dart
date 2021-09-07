@@ -1,7 +1,7 @@
 import 'dart:convert';
 
 class CpDataBuffered {
-  //
+  // status of the sampling, 0 = no error
   final int status;
 
   // identify value

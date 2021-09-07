@@ -1,6 +1,6 @@
 import 'package:plugs/smp/CpSensor.dart';
 import 'package:plugs/smp/Smp.dart';
-import 'package:plugs/smp/SmpSamplingRequest.dart';
+import 'package:plugs/smp/CpSamplingRequest.dart';
 
 import 'package:test/test.dart';
 
@@ -27,7 +27,7 @@ void main() async {
   var time = 5000;
 
   // create sampling request
-  var req = SmpSamplingRequest(ts, freq, time, sensors);
+  var req = CpSamplingRequest(ts, freq, time, sensors);
 
   group('Multi-Plug sampling', () {
     test('Trigger', () async {

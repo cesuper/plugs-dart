@@ -1,9 +1,9 @@
 import 'dart:async';
 import 'package:http/http.dart' as http;
 import 'package:plugs/plug/Plug.dart';
-import 'package:plugs/smp/SmpSamplingRequest.dart';
+import 'package:plugs/smp/CpSamplingRequest.dart';
 
-import 'SmpSamplingResponse.dart';
+import 'CpSamplingResponse.dart';
 import 'const_smp.dart';
 
 // import 'dart:convert';
@@ -64,7 +64,7 @@ class Smp extends Plug {
   // }
 
   /// Write Trigger
-  Future<SmpSamplingResponse> sample(SmpSamplingRequest request) async {
+  Future<CpSamplingResponse> sample(CpSamplingRequest request) async {
     var uri = Uri.http('$address', SMP_API_SAMPLE);
     var r = await http.post(
       uri,
@@ -72,6 +72,6 @@ class Smp extends Plug {
       body: request.toJson(),
     );
 
-    return SmpSamplingResponse.fromJson(r.body);
+    return CpSamplingResponse.fromJson(r.body);
   }
 }

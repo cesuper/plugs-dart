@@ -2,7 +2,7 @@ import 'dart:convert';
 
 import 'CpSensor.dart';
 
-class SmpSamplingRequest {
+class CpSamplingRequest {
   // request id
   final int ts;
 
@@ -15,7 +15,7 @@ class SmpSamplingRequest {
   // sensors to sample
   final List<CpSensor> sensors;
 
-  SmpSamplingRequest(this.ts, this.freq, this.time, this.sensors);
+  CpSamplingRequest(this.ts, this.freq, this.time, this.sensors);
 
   Map<String, dynamic> toMap() {
     return {
@@ -26,8 +26,8 @@ class SmpSamplingRequest {
     };
   }
 
-  factory SmpSamplingRequest.fromMap(Map<String, dynamic> map) {
-    return SmpSamplingRequest(
+  factory CpSamplingRequest.fromMap(Map<String, dynamic> map) {
+    return CpSamplingRequest(
       map['ts'],
       map['freq'],
       map['time'],
@@ -37,6 +37,6 @@ class SmpSamplingRequest {
 
   String toJson() => json.encode(toMap());
 
-  factory SmpSamplingRequest.fromJson(String source) =>
-      SmpSamplingRequest.fromMap(json.decode(source));
+  factory CpSamplingRequest.fromJson(String source) =>
+      CpSamplingRequest.fromMap(json.decode(source));
 }
