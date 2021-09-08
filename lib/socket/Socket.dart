@@ -76,7 +76,7 @@ class Socket {
     return H43Data.fromJson(r.body);
   }
 
-  Future<int> writeH43(String address, String content) async {
+  Future<int> writeH43(String content, {String address = ''}) async {
     var uri = Uri.http('$_address', SOCKET_API_43);
     var r = await http.post(
       uri,
