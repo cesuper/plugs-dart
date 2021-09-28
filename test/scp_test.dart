@@ -5,40 +5,9 @@ import 'package:test/test.dart';
 void main() async {
   var plug = Scp412('192.168.100.106:80');
 
-  test('Snapshot', () async {
-    var snapshot = await plug.state();
-    print(snapshot);
-  });
-
-  // test('ScpInfo', () async {
-  //   var scpInfo = await plug.scpInfo();
-  //   print(scpInfo);
-  // });
-
-  group('Field', () {
-    test('Low State', () async {
-      var fieldValue = false;
-
-      // write new field value
-      await plug.setField(fieldValue);
-
-      // read it back
-      var val = await plug.field();
-
-      expect(val, fieldValue);
-    }, skip: true);
-
-    test('High State', () async {
-      var fieldValue = true;
-
-      // write new field value
-      await plug.setField(fieldValue);
-
-      // read it back
-      var val = await plug.field();
-
-      expect(val, fieldValue);
-    }, skip: true);
+  test('State', () async {
+    // read field and print
+    print(await plug.state());
   });
 
   group('Output', () {
@@ -129,7 +98,7 @@ void main() async {
       // expect all states are in Low
       expect(states, snapshot.output);
     });
-  });
+  }, skip: true);
 
   group('Config', () {
     test('Trigger', () async {

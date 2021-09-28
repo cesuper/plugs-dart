@@ -9,7 +9,6 @@ import 'package:plugs/scp/StopPinParams.dart';
 
 // API
 const SCP_API = '/api/scp.cgi';
-const SCP_API_INFO = '/api/scp/info.cgi';
 const SCP_API_CONFIG = '/api/scp/config.cgi';
 const SCP_API_CONFIG_TRIGGER = '/api/scp/config/trigger.cgi';
 const SCP_API_FIELD = '/api/scp/field.cgi';
@@ -25,15 +24,11 @@ abstract class Scp extends Plug {
 
   Scp(String address, this.noInputs, this.noOutputs) : super(address);
 
-  /// Read Config
-
-  /// Write Config
-
   /// Read Snapshot
-  Future<ScpSnapshot> snapshot() async {
+  Future<SpcStateResponse> state() async {
     var uri = Uri.http('$address', SCP_API);
     var r = await http.get(uri);
-    return ScpSnapshot.fromJson(r.body);
+    return SpcStateResponse.fromJson(r.body);
   }
 
   /// Read Field
