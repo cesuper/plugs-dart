@@ -1,4 +1,4 @@
-import 'package:plugs/scp/412/Scp412.dart';
+import 'package:plugs/scp/412/scp_412.dart';
 import 'package:plugs/scp/ScpTriggerConfig.dart';
 import 'package:test/test.dart';
 
