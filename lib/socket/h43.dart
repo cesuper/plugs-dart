@@ -1,6 +1,6 @@
 import 'dart:convert';
 
-class H43Data {
+class H43 {
   // status of the read operation
   final int status;
 
@@ -10,14 +10,14 @@ class H43Data {
   // eeprom memory content
   final String content;
 
-  H43Data(this.status, this.address, this.content);
+  H43(this.status, this.address, this.content);
 
   Map<String, dynamic> toMap() {
     return {'status': status, 'address': address, 'content': content};
   }
 
-  factory H43Data.fromMap(Map<String, dynamic> map) {
-    return H43Data(
+  factory H43.fromMap(Map<String, dynamic> map) {
+    return H43(
       map['status'],
       map['address'],
       map['content'],
@@ -26,8 +26,7 @@ class H43Data {
 
   String toJson() => json.encode(toMap());
 
-  factory H43Data.fromJson(String source) =>
-      H43Data.fromMap(json.decode(source));
+  factory H43.fromJson(String source) => H43.fromMap(json.decode(source));
 
   @override
   String toString() =>

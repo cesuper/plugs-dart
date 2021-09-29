@@ -1,4 +1,4 @@
-import 'package:plugs/scp/412/scp_412.dart';
+import 'package:plugs/scp/scp_412.dart';
 
 void main() async {
   var plug = Scp412('192.168.100.111:8080');

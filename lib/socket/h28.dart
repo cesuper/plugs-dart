@@ -1,6 +1,6 @@
 import 'dart:convert';
 
-class H28Data {
+class H28 {
   // sensor status
   final int status;
 
@@ -10,7 +10,7 @@ class H28Data {
   // temperature value
   final double value;
 
-  H28Data(
+  H28(
     this.status,
     this.address,
     this.value,
@@ -24,8 +24,8 @@ class H28Data {
     };
   }
 
-  factory H28Data.fromMap(Map<String, dynamic> map) {
-    return H28Data(
+  factory H28.fromMap(Map<String, dynamic> map) {
+    return H28(
       map['status'],
       map['address'],
       map['value'],
@@ -34,8 +34,7 @@ class H28Data {
 
   String toJson() => json.encode(toMap());
 
-  factory H28Data.fromJson(String source) =>
-      H28Data.fromMap(json.decode(source));
+  factory H28.fromJson(String source) => H28.fromMap(json.decode(source));
 
   @override
   String toString() =>
