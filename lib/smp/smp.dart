@@ -8,6 +8,11 @@ abstract class Smp extends Plug {
 
   Smp(String address, this.maxSensors) : super(address);
 
+  /// Returns the excitation voltage used for strain gauges
+  Future<double> readExcVoltage() async {
+    return 5.0;
+  }
+
   /// Read Channels
   // Future<List<CpSensor>> sensors() async {
   //   var uri = Uri.http('$address', SMP_API_SENSORS);
