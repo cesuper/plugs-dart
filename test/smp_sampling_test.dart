@@ -1,5 +1,5 @@
 import 'package:plugs/smp/cp_sensor.dart';
-import 'package:plugs/smp/smp.dart';
+import 'package:plugs/plug/smp.dart';
 import 'package:plugs/smp/cp_sampling_request.dart';
 import 'package:plugs/smp/smp_8.dart';
 

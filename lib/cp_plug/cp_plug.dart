@@ -1,6 +1,5 @@
 import 'package:http/http.dart' as http;
-
-import 'package:plugs/smp/Smp.dart';
+import 'package:plugs/plug/smp.dart';
 
 import 'cp_sampling_request.dart';
 import 'cp_sampling_response.dart';
