@@ -1,10 +1,12 @@
 import 'dart:convert';
 
+// This class represents the very basic cp sensor model
+// with values are needed to get pressure data
 class CpSensor {
   // sensor code
   final String serial;
 
-  // sensor area
+  // sensor area in square millimeters
   final double area;
 
   CpSensor(this.serial, this.area);

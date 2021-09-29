@@ -11,7 +11,7 @@ class CpPlug extends Smp {
   //
   CpPlug(String address, int maxSensors) : super(address, maxSensors);
 
-  /// Write Trigger
+  //
   Future<CpSamplingResponse> sample(CpSamplingRequest request) async {
     var uri = Uri.http(address, '/api/smp/sample.cgi');
     var r = await http.post(
