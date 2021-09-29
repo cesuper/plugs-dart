@@ -15,7 +15,9 @@ class CpPlug extends Smp {
   //
   CpPlug(String address, int maxSensors) : super(address, maxSensors);
 
-  //
+  ///
+  ///
+  ///
   Future<CpSamplingResponse> sample(CpSamplingRequest request) async {
     var uri = Uri.http(address, '/api/smp/sample.cgi');
     var r = await http.post(
@@ -27,7 +29,9 @@ class CpPlug extends Smp {
     return CpSamplingResponse.fromJson(r.body);
   }
 
-  // todo handle errors
+  ///
+  /// todo handle errors
+  ///
   Future<CpData> fetchData(Duration time, List<CpChannel> channels,
       {int freq = 100, int ts = 0}) async {
     // read data
@@ -52,7 +56,9 @@ class CpPlug extends Smp {
     return CpData(ts == 0 ? DateTime.now().millisecondsSinceEpoch : ts, curves);
   }
 
-  // todo handle errors
+  ///
+  /// todo handle errors
+  ///
   Future<List<CpChannel>> readChannels() async {
     // todo handler socket errors
     // read content
@@ -68,6 +74,11 @@ class CpPlug extends Smp {
     }
   }
 
-  // todo read / write mold name from socket
-
+  ///
+  /// todo handle errors
+  ///
+  Future<void> writeChannels(List<CpChannel> channels) async {
+    // write channels to socket
+    await socket.writeH43(CpSocketContent(channels).toJson());
+  }
 }
