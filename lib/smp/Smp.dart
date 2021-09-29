@@ -1,14 +1,10 @@
+// ignore_for_file: file_names
 import 'dart:async';
 import 'package:http/http.dart' as http;
 import 'package:plugs/plug/plug.dart';
 import 'package:plugs/smp/cp_sampling_request.dart';
 
 import 'cp_sampling_response.dart';
-import 'const_smp.dart';
-
-// import 'dart:convert';
-// import 'dart:io';
-// import 'CpSensor.dart';
 
 // API.SMP
 
@@ -48,7 +44,7 @@ abstract class Smp extends Plug {
 
   /// Write Trigger
   Future<CpSamplingResponse> sample(CpSamplingRequest request) async {
-    var uri = Uri.http('$address', SMP_API_SAMPLE);
+    var uri = Uri.http(address, '/api/smp/sample.cgi');
     var r = await http.post(
       uri,
       headers: {'Content-Type': 'application/json'},
