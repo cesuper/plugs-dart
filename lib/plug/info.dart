@@ -1,6 +1,6 @@
 import 'dart:convert';
 
-import 'diagnostic_.dart';
+import 'diagnostic.dart';
 import 'firmware.dart';
 import 'network.dart';
 import 'product.dart';
