@@ -4,7 +4,7 @@ import 'cp_sensor.dart';
 
 /// This class represents the model to be saved into the socket
 ///
-class CpSocketChannel extends CpSensor {
+class CpChannel extends CpSensor {
   // channel name
   final String name;
 
@@ -20,7 +20,7 @@ class CpSocketChannel extends CpSensor {
   // hot runner nozzle number
   final int hrn;
 
-  CpSocketChannel(
+  CpChannel(
     String serial,
     double area, {
     this.name = '',
@@ -42,8 +42,8 @@ class CpSocketChannel extends CpSensor {
       });
   }
 
-  factory CpSocketChannel.fromMap(Map<String, dynamic> map) {
-    return CpSocketChannel(
+  factory CpChannel.fromMap(Map<String, dynamic> map) {
+    return CpChannel(
       map['serial'],
       double.parse(map['area'].toString()),
       name: map['name'],
@@ -57,6 +57,6 @@ class CpSocketChannel extends CpSensor {
   @override
   String toJson() => json.encode(toMap());
 
-  factory CpSocketChannel.fromJson(String source) =>
-      CpSocketChannel.fromMap(json.decode(source));
+  factory CpChannel.fromJson(String source) =>
+      CpChannel.fromMap(json.decode(source));
 }
