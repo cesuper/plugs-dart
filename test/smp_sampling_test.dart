@@ -1,46 +1,43 @@
-import 'package:plugs/smp/cp_sensor.dart';
-import 'package:plugs/smp/smp.dart';
-import 'package:plugs/smp/cp_sampling_request.dart';
-import 'package:plugs/smp/smp_8.dart';
 
-import 'package:test/test.dart';
 
-void main() async {
-  var plugs = <Smp>[
-    Smp8('192.168.100.111:8081'),
-    Smp8('192.168.100.111:8082'),
-  ];
+// import 'package:test/test.dart';
 
-  // sensors
-  var sensors = <CpSensor>[
-    CpSensor('5OCUGBGR', 12.0),
-    CpSensor('5OETIN28', 13.9),
-    CpSensor('50OAGBHN', 0.4),
-  ];
+// void main() async {
+//   var plugs = <Smp>[
+//     Smp8('192.168.100.111:8081'),
+//     Smp8('192.168.100.111:8082'),
+//   ];
 
-  // request id
-  var ts = DateTime.now().millisecondsSinceEpoch;
+//   // sensors
+//   var sensors = <CpSensor>[
+//     CpSensor('5OCUGBGR', 12.0),
+//     CpSensor('5OETIN28', 13.9),
+//     CpSensor('50OAGBHN', 0.4),
+//   ];
 
-  // sampling freq
-  var freq = 100;
+//   // request id
+//   var ts = DateTime.now().millisecondsSinceEpoch;
 
-  // sampling time
-  var time = 5000;
+//   // sampling freq
+//   var freq = 100;
 
-  // create sampling request
-  var req = CpSamplingRequest(ts, freq, time, sensors);
+//   // sampling time
+//   var time = 5000;
 
-  group('Multi-Plug sampling', () {
-    test('Trigger', () async {
-      var s = Stopwatch()..start();
-      try {
-        // send request and wait for response
-        var results = await Future.wait(plugs.map((e) => e.sample(req)));
-      } catch (e) {
-        print('plug error');
-      }
+//   // create sampling request
+//   var req = CpSamplingRequest(ts, freq, time, sensors);
 
-      print(s.elapsedMilliseconds);
-    });
-  });
-}
+//   group('Multi-Plug sampling', () {
+//     test('Trigger', () async {
+//       var s = Stopwatch()..start();
+//       try {
+//         // send request and wait for response
+//         var results = await Future.wait(plugs.map((e) => e.sample(req)));
+//       } catch (e) {
+//         print('plug error');
+//       }
+
+//       print(s.elapsedMilliseconds);
+//     });
+//   });
+// }

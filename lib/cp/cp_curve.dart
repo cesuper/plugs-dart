@@ -30,4 +30,7 @@ class CpCurve {
 
   factory CpCurve.fromJson(String source) =>
       CpCurve.fromMap(json.decode(source));
+
+  @override
+  String toString() => 'CpCurve(channel: $channel, p: $p)';
 }

@@ -28,4 +28,7 @@ class CpData {
   String toJson() => json.encode(toMap());
 
   factory CpData.fromJson(String source) => CpData.fromMap(json.decode(source));
+
+  @override
+  String toString() => 'CpData(ts: $ts, curves: $curves)';
 }

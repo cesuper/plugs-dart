@@ -59,4 +59,9 @@ class CpChannel extends CpSensor {
 
   factory CpChannel.fromJson(String source) =>
       CpChannel.fromMap(json.decode(source));
+
+  @override
+  String toString() {
+    return 'CpChannel(name: $name, index: $index, cavity: $cavity, position: $position, hrn: $hrn)';
+  }
 }

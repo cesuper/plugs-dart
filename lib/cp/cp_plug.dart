@@ -26,6 +26,8 @@ class CpPlug extends Smp {
   //
   CpPlug(String address, int maxSensors) : super(address, maxSensors);
 
+  //
+
   ///
   ///
   ///
