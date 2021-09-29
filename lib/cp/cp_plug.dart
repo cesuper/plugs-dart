@@ -1,8 +1,10 @@
 import 'package:http/http.dart' as http;
 import 'package:plugs/smp/smp.dart';
 
+import 'cp_data.dart';
 import 'cp_sampling_request.dart';
 import 'cp_sampling_response.dart';
+import 'cp_channel.dart';
 
 class CpPlug extends Smp {
   //
@@ -21,6 +23,10 @@ class CpPlug extends Smp {
     );
 
     return CpSamplingResponse.fromJson(r.body);
+  }
+
+  Future<CpData> fetchData(Duration time, List<CpChannel> channels) async {
+    return CpData(0, []);
   }
 
   // todo read / write channels from socket
