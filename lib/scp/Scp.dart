@@ -3,7 +3,7 @@ import 'dart:convert';
 
 import 'package:http/http.dart' as http;
 import 'package:plugs/plug/plug.dart';
-import 'package:plugs/scp/ScpSnapshot.dart';
+import 'package:plugs/scp/scp_state_response.dart';
 
 import 'scp_trigger_config.dart';
 import 'start_pin_params.dart';

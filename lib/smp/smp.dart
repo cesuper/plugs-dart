@@ -1,5 +1,3 @@
-// ignore_for_file: file_names
-
 import 'package:plugs/plug/plug.dart';
 
 abstract class Smp extends Plug {

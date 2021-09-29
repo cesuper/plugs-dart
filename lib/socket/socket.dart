@@ -4,7 +4,7 @@ import 'dart:convert';
 import 'package:http/http.dart' as http;
 
 import 'h43.dart';
-import 'SocketDeviceConnectData.dart';
+import 'socket_device_connect_data.dart';
 
 const apiSocket = '/api/socket.cgi';
 const apiSocketConnect = '/api/socket/connect.cgi';
