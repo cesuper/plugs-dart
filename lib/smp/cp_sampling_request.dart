@@ -1,6 +1,6 @@
 import 'dart:convert';
 
-import 'CpSensor.dart';
+import 'cp_sensor.dart';
 
 class CpSamplingRequest {
   // request id

@@ -1,6 +1,6 @@
 import 'dart:convert';
 
-import 'CpDataBuffered.dart';
+import 'cp_data_buffered.dart';
 
 class CpSamplingResponse {
   // timestamp of the trigger event

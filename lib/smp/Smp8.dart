@@ -1,4 +1,4 @@
-import 'package:plugs/smp/Smp.dart';
+import 'package:plugs/smp/smp.dart';
 
 class Smp8 extends Smp {
   // max sensors

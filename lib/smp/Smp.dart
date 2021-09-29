@@ -1,9 +1,9 @@
 import 'dart:async';
 import 'package:http/http.dart' as http;
 import 'package:plugs/plug/plug.dart';
-import 'package:plugs/smp/CpSamplingRequest.dart';
+import 'package:plugs/smp/cp_sampling_request.dart';
 
-import 'CpSamplingResponse.dart';
+import 'cp_sampling_response.dart';
 import 'const_smp.dart';
 
 // import 'dart:convert';

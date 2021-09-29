@@ -1,6 +1,6 @@
-import 'package:plugs/smp/Smp8.dart';
-import 'package:plugs/smp/CpSensor.dart';
-import 'package:plugs/smp/CpSamplingRequest.dart';
+import 'package:plugs/smp/smp8.dart';
+import 'package:plugs/smp/cp_sensor.dart';
+import 'package:plugs/smp/cp_sampling_request.dart';
 import 'package:test/test.dart';
 
 void main() async {
