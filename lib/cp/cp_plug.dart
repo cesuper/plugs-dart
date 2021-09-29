@@ -26,6 +26,8 @@ class CpPlug extends Smp {
   }
 
   Future<CpData> fetchData(Duration time, List<CpChannel> channels) async {
+    //
+
     return CpData(0, []);
   }
 
