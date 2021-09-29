@@ -1,9 +1,9 @@
 import 'dart:convert';
 
-import '_diagnostic_.dart';
-import '_firmware.dart';
-import '_network.dart';
-import '_product.dart';
+import 'diagnostic_.dart';
+import 'firmware.dart';
+import 'network.dart';
+import 'product.dart';
 
 class Info {
   // elapsed time since boot
