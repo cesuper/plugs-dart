@@ -2,7 +2,7 @@ import 'dart:convert';
 
 import 'package:http/http.dart' as http;
 
-import 'H43Data.dart';
+import 'h43_data.dart';
 import 'SocketDeviceConnectData.dart';
 
 const SOCKET_API = '/api/socket.cgi';

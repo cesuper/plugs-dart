@@ -1,4 +1,4 @@
-import 'package:plugs/smp/smp8.dart';
+import 'package:plugs/smp/smp_8.dart';
 import 'package:plugs/smp/cp_sensor.dart';
 import 'package:plugs/smp/cp_sampling_request.dart';
 import 'package:test/test.dart';
