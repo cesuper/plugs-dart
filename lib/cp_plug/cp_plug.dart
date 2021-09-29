@@ -1,10 +1,14 @@
 import 'package:http/http.dart' as http;
-import 'package:plugs/plug/smp.dart';
+import 'package:plugs/smp/smp.dart';
 
 import 'cp_sampling_request.dart';
 import 'cp_sampling_response.dart';
 
 class CpPlug extends Smp {
+  //
+  static const String model = 'CP';
+
+  //
   CpPlug(String address, int maxSensors) : super(address, maxSensors);
 
   /// Write Trigger
