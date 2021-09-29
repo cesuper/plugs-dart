@@ -1,5 +1,6 @@
 import 'package:http/http.dart' as http;
 import 'package:plugs/cp/cp_curve.dart';
+import 'package:plugs/cp/cp_socket_content.dart';
 import 'package:plugs/smp/smp.dart';
 
 import 'cp_data.dart';
@@ -26,7 +27,7 @@ class CpPlug extends Smp {
     return CpSamplingResponse.fromJson(r.body);
   }
 
-  //
+  // todo handle errors
   Future<CpData> fetchData(Duration time, List<CpChannel> channels,
       {int freq = 100, int ts = 0}) async {
     // read data
@@ -51,7 +52,21 @@ class CpPlug extends Smp {
     return CpData(ts == 0 ? DateTime.now().millisecondsSinceEpoch : ts, curves);
   }
 
-  // todo read / write channels from socket
+  // todo handle errors
+  Future<List<CpChannel>> readChannels() async {
+    // todo handler socket errors
+    // read content
+    var socketData = await socket.readH43();
+
+    // try parse
+    try {
+      // return channels
+      return CpSocketContent.fromJson(socketData.content).channels;
+    } on FormatException {
+      // return empty array when content is invalid
+      return <CpChannel>[];
+    }
+  }
 
   // todo read / write mold name from socket
 
