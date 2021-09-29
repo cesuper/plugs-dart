@@ -77,14 +77,8 @@ class CpPlug extends Smp {
     // read content
     var socketData = await socket.readH43();
 
-    // try parse
-    try {
-      // return channels
-      return CpSocketContent.fromJson(socketData.content).channels;
-    } on FormatException {
-      // return empty array when content is invalid
-      return <CpChannel>[];
-    }
+    // return parsed channels
+    return CpSocketContent.fromJson(socketData.content).channels;
   }
 
   ///
