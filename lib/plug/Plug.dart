@@ -6,10 +6,9 @@ import 'package:plugs/socket/socket.dart';
 
 import 'info.dart';
 
-const PLUG_API = '/api/plug.cgi';
-const PLUG_API_RESTART = '/api/plug/restart.cgi';
-const PLUG_API_CONFIG = '/api/plug/config.cgi';
-const PLUG_API_EEPROM = '/api/plug/eeprom.cgi';
+const apiPlug = '/api/plug.cgi';
+const apiPlugRestart = '/api/plug/restart.cgi';
+const apiPlugEeprom = '/api/plug/eeprom.cgi';
 
 class Plug {
   // plug network address with port
@@ -22,7 +21,7 @@ class Plug {
 
   /// Read Info
   Future<Info> info() async {
-    var uri = Uri.http('$address', PLUG_API);
+    var uri = Uri.http(address, apiPlug);
     var r = await http.get(uri);
     return Info.fromJson(r.body);
   }
@@ -31,7 +30,7 @@ class Plug {
   Future<int> restart({bool bootloader = false}) async {
     var body = bootloader ? {'bootloader': true} : {};
 
-    var uri = Uri.http('$address', PLUG_API_RESTART);
+    var uri = Uri.http(address, apiPlugRestart);
     var r = await http.post(
       uri,
       headers: {'Content-Type': 'application/json'},
@@ -42,14 +41,14 @@ class Plug {
 
   /// Read EEPROM
   Future<String> readEEPROM() async {
-    var uri = Uri.http('$address', PLUG_API_EEPROM);
+    var uri = Uri.http(address, apiPlugEeprom);
     var r = await http.get(uri);
     return r.body;
   }
 
   /// Write EEPROM
   Future<int> writeEEPROM(String content) async {
-    var uri = Uri.http('$address', PLUG_API_EEPROM);
+    var uri = Uri.http(address, apiPlugEeprom);
     var r = await http.post(
       uri,
       headers: {'Content-Type': 'application/json'},

@@ -1,3 +1,4 @@
+// ignore_for_file: file_names
 import 'dart:convert';
 
 import 'package:http/http.dart' as http;
@@ -8,12 +9,12 @@ import 'package:plugs/scp/StartPinParams.dart';
 import 'package:plugs/scp/StopPinParams.dart';
 
 // API
-const SCP_API = '/api/scp.cgi';
-const SCP_API_CONFIG = '/api/scp/config.cgi';
-const SCP_API_CONFIG_TRIGGER = '/api/scp/config/trigger.cgi';
-const SCP_API_FIELD = '/api/scp/field.cgi';
-const SCP_API_PIN_START = '/api/scp/pin/start.cgi';
-const SCP_API_PIN_STOP = '/api/scp/pin/stop.cgi';
+const apiScp = '/api/scp.cgi';
+const apiScpConfig = '/api/scp/config.cgi';
+const apiScpConfigTrigger = '/api/scp/config/trigger.cgi';
+const apiScpField = '/api/scp/field.cgi';
+const apiScpPinStart = '/api/scp/pin/start.cgi';
+const apiScpPinStop = '/api/scp/pin/stop.cgi';
 
 abstract class Scp extends Plug {
   // number of inputs
@@ -26,21 +27,21 @@ abstract class Scp extends Plug {
 
   /// Read Snapshot
   Future<SpcStateResponse> state() async {
-    var uri = Uri.http('$address', SCP_API);
+    var uri = Uri.http(address, apiScp);
     var r = await http.get(uri);
     return SpcStateResponse.fromJson(r.body);
   }
 
   /// Read Field
   Future<bool> field() async {
-    var uri = Uri.http('$address', SCP_API_FIELD);
+    var uri = Uri.http(address, apiScpField);
     var r = await http.get(uri);
     return jsonDecode(r.body);
   }
 
   /// Write Field
   Future<int> setField(bool state) async {
-    var uri = Uri.http('$address', SCP_API_FIELD);
+    var uri = Uri.http(address, apiScpField);
     var r = await http.post(
       uri,
       headers: {'Content-Type': 'application/json'},
@@ -52,7 +53,7 @@ abstract class Scp extends Plug {
   /// Start Pin
   Future<int> startPin(int pin, int timeout,
       {int delay = 0, int port = 1}) async {
-    var uri = Uri.http('$address', SCP_API_PIN_START);
+    var uri = Uri.http(address, apiScpPinStart);
     var r = await http.post(
       uri,
       headers: {'Content-Type': 'application/json'},
@@ -63,7 +64,7 @@ abstract class Scp extends Plug {
 
   /// Stop Pin
   Future<int> stopPin(int pin, {int port = 1}) async {
-    var uri = Uri.http('$address', SCP_API_PIN_STOP);
+    var uri = Uri.http(address, apiScpPinStop);
     var r = await http.post(
       uri,
       headers: {'Content-Type': 'application/json'},
@@ -78,14 +79,14 @@ abstract class Scp extends Plug {
 
   /// get trigger config
   Future<ScpTriggerConfig> triggerConfig() async {
-    var uri = Uri.http('$address', SCP_API_CONFIG_TRIGGER);
+    var uri = Uri.http(address, apiScpConfigTrigger);
     var r = await http.get(uri);
     return ScpTriggerConfig.fromJson(r.body);
   }
 
   /// set Trigger config
   Future<int> setTriggerConfig(ScpTriggerConfig config) async {
-    var uri = Uri.http('$address', SCP_API_CONFIG_TRIGGER);
+    var uri = Uri.http(address, apiScpConfigTrigger);
     var r = await http.post(
       uri,
       headers: {'Content-Type': 'application/json'},
