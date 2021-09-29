@@ -46,11 +46,11 @@ class CpChannel extends CpSensor {
     return CpChannel(
       map['serial'],
       double.parse(map['area'].toString()),
-      name: map['name'],
-      index: map['index'],
-      cavity: map['cavity'],
-      position: map['position'],
-      hrn: map['hrn'],
+      name: map['name'] ?? '',
+      index: map['index'] ?? 0,
+      cavity: map['cavity'] ?? 0,
+      position: map['position'] ?? 0,
+      hrn: map['hrn'] ?? 0,
     );
   }
 
@@ -62,6 +62,6 @@ class CpChannel extends CpSensor {
 
   @override
   String toString() {
-    return 'CpChannel(name: $name, index: $index, cavity: $cavity, position: $position, hrn: $hrn)';
+    return 'CpChannel(serial: $serial, area: $area, name: $name, index: $index, cavity: $cavity, position: $position, hrn: $hrn)';
   }
 }
