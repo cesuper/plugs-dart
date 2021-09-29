@@ -22,4 +22,9 @@ class CpPlug extends Smp {
 
     return CpSamplingResponse.fromJson(r.body);
   }
+
+  // todo read channels from socket
+
+  // todo write channels from socket
+
 }
