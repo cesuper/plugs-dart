@@ -4,9 +4,10 @@ import 'dart:convert';
 import 'package:http/http.dart' as http;
 import 'package:plugs/plug/plug.dart';
 import 'package:plugs/scp/ScpSnapshot.dart';
-import 'package:plugs/scp/ScpTriggerConfig.dart';
-import 'package:plugs/scp/StartPinParams.dart';
-import 'package:plugs/scp/StopPinParams.dart';
+
+import 'scp_trigger_config.dart';
+import 'start_pin_params.dart';
+import 'stop_pin_params.dart';
 
 // API
 const apiScp = '/api/scp.cgi';
