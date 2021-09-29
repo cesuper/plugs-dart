@@ -1,6 +1,6 @@
 import 'dart:convert';
 
-import 'package:plugs/plug/Plug.dart';
+import 'package:plugs/plug/plug.dart';
 import 'package:test/test.dart';
 
 void main() async {

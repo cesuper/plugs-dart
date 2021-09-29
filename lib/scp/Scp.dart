@@ -1,7 +1,7 @@
 import 'dart:convert';
 
 import 'package:http/http.dart' as http;
-import 'package:plugs/plug/Plug.dart';
+import 'package:plugs/plug/plug.dart';
 import 'package:plugs/scp/ScpSnapshot.dart';
 import 'package:plugs/scp/ScpTriggerConfig.dart';
 import 'package:plugs/scp/StartPinParams.dart';

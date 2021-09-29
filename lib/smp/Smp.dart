@@ -1,6 +1,6 @@
 import 'dart:async';
 import 'package:http/http.dart' as http;
-import 'package:plugs/plug/Plug.dart';
+import 'package:plugs/plug/plug.dart';
 import 'package:plugs/smp/CpSamplingRequest.dart';
 
 import 'CpSamplingResponse.dart';
@@ -44,26 +44,6 @@ abstract class Smp extends Plug {
   //     contents.write(data);
   //   }, onDone: () => completer.complete(contents.toString()));
   //   return completer.future;
-  // }
-
-  // /// Write Trigger
-  // Future<SmpSamplingResponse> sample(SmpSamplingRequest request) async {
-  //   var uri = Uri.http('$address', SMP_API_SAMPLE);
-  //   var body = request.toJson();
-  //   final r = await HttpClient().post(uri.host, uri.port, SMP_API_SAMPLE);
-  //   r.headers.set(
-  //     'Content-Length',
-  //     body.length.toString(),
-  //     preserveHeaderCase: true,
-  //   );
-  //   r.headers.set(
-  //     'Content-Type',
-  //     'application/json',
-  //     preserveHeaderCase: true,
-  //   );
-  //   r.write(body);
-  //   var response = await readResponse(await r.close());
-  //   return SmpSamplingResponse.fromJson(response);
   // }
 
   /// Write Trigger
