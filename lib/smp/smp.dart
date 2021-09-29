@@ -2,8 +2,6 @@
 
 import 'package:plugs/plug/plug.dart';
 
-// API.SMP
-
 abstract class Smp extends Plug {
   // number of sensors
   final int maxSensors;
