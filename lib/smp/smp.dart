@@ -1,4 +1,4 @@
-import 'package:plugs/plug/plug.dart';
+import 'package:plugs/plug/_plug.dart';
 
 abstract class Smp extends Plug {
   // number of sensors

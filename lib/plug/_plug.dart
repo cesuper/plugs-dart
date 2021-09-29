@@ -3,7 +3,7 @@ import 'dart:convert';
 import 'package:http/http.dart' as http;
 import 'package:plugs/socket/socket.dart';
 
-import 'info.dart';
+import '_info.dart';
 
 const apiPlug = '/api/plug.cgi';
 const apiPlugRestart = '/api/plug/restart.cgi';
