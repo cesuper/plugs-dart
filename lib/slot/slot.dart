@@ -7,7 +7,7 @@ class Slot {
   // expected device model in this slot. see [plugs_const] for models
   final String model;
 
-  Slot(
+  const Slot(
     this.address,
     this.model,
   );
