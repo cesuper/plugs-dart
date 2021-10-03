@@ -10,11 +10,17 @@ class Slot {
   // requested device code or null if not defined
   final int? code;
 
-  Slot(this.address, this.model, {this.code});
+  Slot(this.address, this.model, this.code);
 
   // Cp slot
-  Slot.cp(String address) : this(address, modelCp);
+  Slot.cp(String address, {int? code}) : this(address, modelCp, code);
 
   // Scp slot
-  Slot.scp(String address) : this(address, modelScp);
+  Slot.scp(String address, {int? code}) : this(address, modelScp, code);
+
+  // Flw slot
+  Slot.flw(String address, {int? code}) : this(address, modelFlw, code);
+
+  // Def slot
+  Slot.def(String address, {int? code}) : this(address, modelDef, code);
 }
