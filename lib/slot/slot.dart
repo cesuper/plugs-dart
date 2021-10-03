@@ -7,20 +7,20 @@ class Slot {
   // expected device model in this slot. see [plugs_const] for models
   final String model;
 
-  // requested device code or null if not defined
-  int? code;
-
-  Slot(this.address, this.model, this.code);
+  Slot(
+    this.address,
+    this.model,
+  );
 
   // Cp slot
-  Slot.cp(String address, {int? code}) : this(address, modelCp, code);
+  Slot.cp(String address) : this(address, modelCp);
 
   // Scp slot
-  Slot.scp(String address, {int? code}) : this(address, modelScp, code);
+  Slot.scp(String address) : this(address, modelScp);
 
   // Flw slot
-  Slot.flw(String address, {int? code}) : this(address, modelFlw, code);
+  Slot.flw(String address) : this(address, modelFlw);
 
   // Def slot
-  Slot.def(String address, {int? code}) : this(address, modelDef, code);
+  Slot.def(String address) : this(address, modelDef);
 }
