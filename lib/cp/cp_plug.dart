@@ -1,6 +1,7 @@
 import 'package:http/http.dart' as http;
 import 'package:plugs/cp/cp_curve.dart';
 import 'package:plugs/cp/cp_socket_content.dart';
+import 'package:plugs/plugs_const.dart';
 import 'package:plugs/smp/smp.dart';
 
 import 'cp_data.dart';
@@ -10,18 +11,7 @@ import 'cp_channel.dart';
 
 class CpPlug extends Smp {
   //
-  static const String model = 'CP';
-
-  // List of dummy channels
-  static final channels = <CpChannel>[
-    CpChannel('5OCUGBGR', 10.0, name: 'Ch 1', index: 0, cavity: 1, position: 1),
-    CpChannel('5OETIN28', 10.0, name: 'Ch 2', index: 1, cavity: 1, position: 2),
-    CpChannel('50OAGBHN', 10.0, name: 'Ch 3', index: 2, cavity: 1, position: 3),
-    CpChannel('577KBN88', 10.0, name: 'Ch 4', index: 3, cavity: 2, position: 1),
-    CpChannel('6M2OGBHP', 10.0, name: 'Ch 5', index: 4, cavity: 2, position: 2),
-    CpChannel('64UF4NBU', 10.0, name: 'Ch 6', index: 5, cavity: 2, position: 3),
-    CpChannel('5CWKBN8H', 10.0, name: 'Ch 7', index: 6, cavity: 3, position: 1),
-  ];
+  static const String model = modelCp;
 
   //
   CpPlug(String address, int maxSensors) : super(address, maxSensors);
