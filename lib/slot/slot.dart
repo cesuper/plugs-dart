@@ -8,7 +8,7 @@ class Slot {
   final String model;
 
   // requested device code or null if not defined
-  final int? code;
+  int? code;
 
   Slot(this.address, this.model, this.code);
 
