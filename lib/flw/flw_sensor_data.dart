@@ -37,9 +37,9 @@ class FlwSensorData {
       map['inited'],
       map['status'],
       map['serial'],
-      map['p'],
-      map['t'],
-      map['v'],
+      double.parse(map['p'].toString()),
+      double.parse(map['t'].toString()),
+      double.parse(map['v'].toString()),
     );
   }
 
