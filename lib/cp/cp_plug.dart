@@ -35,8 +35,12 @@ class CpPlug extends Smp {
   ///
   /// todo handle errors
   ///
-  Future<CpData> fetchData(Duration time, List<CpChannel> channels,
-      {int freq = 100, int ts = 0}) async {
+  Future<CpData> fetchData(
+    Duration time,
+    List<CpChannel> channels, {
+    int freq = 100,
+    int ts = 0,
+  }) async {
     // read data
     var r = await sample(
       CpSamplingRequest(1, freq, time.inMilliseconds, channels),

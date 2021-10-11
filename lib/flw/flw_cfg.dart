@@ -1,10 +1,10 @@
 import 'dart:convert';
 
-import 'flw_sensor_cfg.dart';
+import 'flw_sensor.dart';
 
 class FlwCfg {
   // list of sensors
-  final List<FlwSensorCfg> sensors;
+  final List<FlwSensor> sensors;
 
   FlwCfg(this.sensors);
 
@@ -16,8 +16,7 @@ class FlwCfg {
 
   factory FlwCfg.fromMap(Map<String, dynamic> map) {
     return FlwCfg(
-      List<FlwSensorCfg>.from(
-          map['sensors']?.map((x) => FlwSensorCfg.fromMap(x))),
+      List<FlwSensor>.from(map['sensors']?.map((x) => FlwSensor.fromMap(x))),
     );
   }
 

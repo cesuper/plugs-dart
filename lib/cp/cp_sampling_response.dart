@@ -2,6 +2,8 @@ import 'dart:convert';
 
 import 'cp_data_buffered.dart';
 
+///
+/// Represents the
 class CpSamplingResponse {
   // timestamp of the trigger event
   final int ts;

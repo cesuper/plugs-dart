@@ -3,6 +3,7 @@ import 'dart:convert';
 import 'cp_channel.dart';
 
 class CpSocketContent {
+  //
   final List<CpChannel> channels;
 
   CpSocketContent(this.channels);

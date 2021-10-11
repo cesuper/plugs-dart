@@ -1,6 +1,6 @@
 import 'package:plugs/flw/flw_cfg.dart';
 import 'package:plugs/flw/flw_plug.dart';
-import 'package:plugs/flw/flw_sensor_cfg.dart';
+import 'package:plugs/flw/flw_sensor.dart';
 
 import 'package:test/test.dart';
 
@@ -26,9 +26,9 @@ void main() async {
   });
 
   test('Write Config', () async {
-    var sensors = <FlwSensorCfg>[
-      FlwSensorCfg('994559880192100081'),
-      FlwSensorCfg('994559880192100105'),
+    var sensors = <FlwSensor>[
+      FlwSensor('994559880192100081'),
+      FlwSensor('994559880192100105'),
     ];
     var cfg = FlwCfg(sensors);
 
