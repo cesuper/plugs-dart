@@ -30,5 +30,5 @@ class H43 {
 
   @override
   String toString() =>
-      'H43Data(status: $status, address: $address, content: $content)';
+      'H43(status: $status, address: $address, content: $content)';
 }

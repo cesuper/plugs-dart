@@ -30,7 +30,6 @@ class FlwPlug extends Plug {
       headers: {'Content-Type': 'application/json'},
       body: cfg.toJson(),
     );
-
     return r.statusCode;
   }
 

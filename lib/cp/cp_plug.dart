@@ -64,8 +64,13 @@ class CpPlug extends Smp {
   ///
   Future<List<CpChannel>> readChannels() async {
     // todo handler socket errors
+
+    // get first memory device
+    var address = (await socket.addresses())
+        .firstWhere((element) => element.startsWith("43"));
+
     // read content
-    var socketData = await socket.readH43();
+    var socketData = await socket.readH43(address);
 
     // return parsed channels
     return CpSocketContent.fromJson(socketData.content).channels;
@@ -75,7 +80,11 @@ class CpPlug extends Smp {
   /// todo handle errors
   ///
   Future<void> writeChannels(List<CpChannel> channels) async {
+    // get first memory device
+    var address = (await socket.addresses())
+        .firstWhere((element) => element.startsWith("43"));
+
     // write channels to socket
-    await socket.writeH43(CpSocketContent(channels).toJson());
+    await socket.writeH43(CpSocketContent(channels).toJson(), address);
   }
 }
