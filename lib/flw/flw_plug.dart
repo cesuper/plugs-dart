@@ -1,6 +1,9 @@
+import 'dart:convert';
+
 import 'package:http/http.dart' as http;
 
 import 'package:plugs/flw/flw_plug_cfg.dart';
+import 'package:plugs/flw/flw_sensor.dart';
 import 'package:plugs/flw/flw_snapshot.dart';
 import 'package:plugs/plug/plug.dart';
 
@@ -14,21 +17,24 @@ class FlwPlug extends Plug {
   ///
   ///
   ///
-  Future<FlwPlugCfg> readConfig() async {
-    var uri = Uri.http(address, '/api/flw/config.cgi');
+  Future<List<FlwSensor>> getSensors() async {
+    var uri = Uri.http(address, '/api/flw/sensors.cgi');
     var r = await http.get(uri);
-    return FlwPlugCfg.fromJson(r.body);
+
+    var jSensors = jsonDecode(r.body) as List;
+    return List<FlwSensor>.from(jSensors.map((e) => FlwSensor.fromMap(e)))
+        .toList();
   }
 
   ///
   ///
   ///
-  Future<int> writeConfig(FlwPlugCfg cfg) async {
-    var uri = Uri.http(address, '/api/flw/config.cgi');
+  Future<int> setSensors(List<FlwSensor> sensors) async {
+    var uri = Uri.http(address, '/api/flw/sensors.cgi');
     var r = await http.post(
       uri,
       headers: {'Content-Type': 'application/json'},
-      body: cfg.toJson(),
+      body: jsonEncode(sensors.map((e) => e.toMap()).toList()),
     );
     return r.statusCode;
   }

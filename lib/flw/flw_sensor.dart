@@ -31,5 +31,5 @@ class FlwSensor {
       FlwSensor.fromMap(json.decode(source));
 
   @override
-  String toString() => 'FlwSensor(serial: $serial)';
+  String toString() => 'FlwSensor(serial: $serial, name: $name)';
 }

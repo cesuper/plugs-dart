@@ -21,18 +21,17 @@ void main() async {
   // });
 
   test('Read Config', () async {
-    var cfg = await plug.readConfig();
-    print(cfg);
+    var sensors = await plug.getSensors();
+    print(sensors);
   });
 
   test('Write Config', () async {
     var sensors = <FlwSensor>[
-      FlwSensor('994559880192100081', ''),
-      FlwSensor('994559880192100105', ''),
+      FlwSensor('994559880192100081', 'asd'),
+      FlwSensor('994559880192100105', 'das'),
     ];
-    var cfg = FlwPlugCfg(sensors);
 
-    await plug.writeConfig(cfg);
+    await plug.setSensors(sensors);
   });
 
   test('Sampling test', () async {

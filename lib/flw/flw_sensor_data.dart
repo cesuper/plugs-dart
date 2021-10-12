@@ -11,6 +11,9 @@ class FlwSensorData {
   final String serial;
 
   //
+  final String name;
+
+  //
   final double p;
 
   //
@@ -19,13 +22,15 @@ class FlwSensorData {
   //
   final double v;
 
-  FlwSensorData(this.inited, this.status, this.serial, this.p, this.t, this.v);
+  FlwSensorData(
+      this.inited, this.status, this.serial, this.name, this.p, this.t, this.v);
 
   Map<String, dynamic> toMap() {
     return {
       'inited': inited,
       'status': status,
       'serial': serial,
+      'name': name,
       'p': p,
       't': t,
       'v': v,
@@ -37,6 +42,7 @@ class FlwSensorData {
       map['inited'],
       map['status'],
       map['serial'],
+      map['name'],
       double.parse(map['p'].toString()),
       double.parse(map['t'].toString()),
       double.parse(map['v'].toString()),
@@ -50,6 +56,6 @@ class FlwSensorData {
 
   @override
   String toString() {
-    return 'FlwSensorData(inited: $inited, status: $status, serial: $serial, p: $p, t: $t, v: $v)';
+    return 'FlwSensorData(inited: $inited, status: $status, serial: $serial, name: $name, p: $p, t: $t, v: $v)';
   }
 }
