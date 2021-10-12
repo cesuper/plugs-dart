@@ -27,8 +27,8 @@ void main() async {
 
   test('Write Config', () async {
     var sensors = <FlwSensor>[
-      FlwSensor('994559880192100081'),
-      FlwSensor('994559880192100105'),
+      FlwSensor('994559880192100081', ''),
+      FlwSensor('994559880192100105', ''),
     ];
     var cfg = FlwPlugCfg(sensors);
 

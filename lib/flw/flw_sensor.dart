@@ -6,17 +6,22 @@ class FlwSensor {
   // serial
   final String serial;
 
-  FlwSensor(this.serial);
+  // name
+  final String name;
+
+  FlwSensor(this.serial, this.name);
 
   Map<String, dynamic> toMap() {
     return {
       'serial': serial,
+      'name': name,
     };
   }
 
   factory FlwSensor.fromMap(Map<String, dynamic> map) {
     return FlwSensor(
       map['serial'],
+      map['name'],
     );
   }
 
@@ -26,5 +31,5 @@ class FlwSensor {
       FlwSensor.fromMap(json.decode(source));
 
   @override
-  String toString() => 'FlwSensorg(serial: $serial)';
+  String toString() => 'FlwSensor(serial: $serial)';
 }
