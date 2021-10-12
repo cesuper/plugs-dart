@@ -1,5 +1,4 @@
 import 'dart:convert';
-
 import 'flw_sensor.dart';
 
 class FlwPlugCfg {

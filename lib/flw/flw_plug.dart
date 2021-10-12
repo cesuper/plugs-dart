@@ -1,6 +1,6 @@
 import 'package:http/http.dart' as http;
 
-import 'package:plugs/flw/flw_cfg.dart';
+import 'package:plugs/flw/flw_plug_cfg.dart';
 import 'package:plugs/flw/flw_snapshot.dart';
 import 'package:plugs/plug/plug.dart';
 
@@ -14,16 +14,16 @@ class FlwPlug extends Plug {
   ///
   ///
   ///
-  Future<FlwCfg> readConfig() async {
+  Future<FlwPlugCfg> readConfig() async {
     var uri = Uri.http(address, '/api/flw/config.cgi');
     var r = await http.get(uri);
-    return FlwCfg.fromJson(r.body);
+    return FlwPlugCfg.fromJson(r.body);
   }
 
   ///
   ///
   ///
-  Future<int> writeConfig(FlwCfg cfg) async {
+  Future<int> writeConfig(FlwPlugCfg cfg) async {
     var uri = Uri.http(address, '/api/flw/config.cgi');
     var r = await http.post(
       uri,
