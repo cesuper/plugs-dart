@@ -9,19 +9,45 @@ class CpSensor {
   // sensor area in square millimeters
   final double area;
 
-  CpSensor(this.serial, this.area);
+  // channel name
+  final String name;
+
+  // mold-wise index
+  final int index;
+
+  // cavity number
+  final int cavity;
+
+  // position in the cavity
+  final int position;
+
+  // hot runner nozzle number
+  final int hrn;
+
+  CpSensor(this.serial, this.area, this.name, this.index, this.cavity,
+      this.position, this.hrn);
 
   Map<String, dynamic> toMap() {
     return {
       'serial': serial,
       'area': area,
+      'name': name,
+      'index': index,
+      'cavity': cavity,
+      'position': position,
+      'hrn': hrn,
     };
   }
 
   factory CpSensor.fromMap(Map<String, dynamic> map) {
     return CpSensor(
       map['serial'],
-      map['area'],
+      double.parse(map['area'].toString()),
+      map['name'],
+      map['index'],
+      map['cavity'],
+      map['position'],
+      map['hrn'],
     );
   }
 
@@ -29,17 +55,4 @@ class CpSensor {
 
   factory CpSensor.fromJson(String source) =>
       CpSensor.fromMap(json.decode(source));
-
-  @override
-  String toString() => 'CpSensor(serial: $serial, area: $area)';
-
-  @override
-  bool operator ==(Object other) {
-    if (identical(this, other)) return true;
-
-    return other is CpSensor && other.serial == serial && other.area == area;
-  }
-
-  @override
-  int get hashCode => serial.hashCode ^ area.hashCode;
 }
