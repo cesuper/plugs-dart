@@ -44,10 +44,10 @@ class CpSensor {
       map['serial'],
       double.parse(map['area'].toString()),
       map['name'],
-      map['index'],
-      map['cavity'],
-      map['position'],
-      map['hrn'],
+      map['index'] ?? 0,
+      map['cavity'] ?? 0,
+      map['position'] ?? 0,
+      map['hrn'] ?? 0,
     );
   }
 
@@ -55,4 +55,9 @@ class CpSensor {
 
   factory CpSensor.fromJson(String source) =>
       CpSensor.fromMap(json.decode(source));
+
+  @override
+  String toString() {
+    return 'CpSensor(serial: $serial, area: $area, name: $name, index: $index, cavity: $cavity, position: $position, hrn: $hrn)';
+  }
 }

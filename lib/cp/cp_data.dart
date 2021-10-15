@@ -2,14 +2,14 @@ import 'dart:convert';
 
 import 'cp_sensor_data.dart';
 
-class CpSnapshot {
+class CpData {
   //
   final int ts;
 
   //
   final List<CpSensorData> sensors;
 
-  CpSnapshot(this.ts, this.sensors);
+  CpData(this.ts, this.sensors);
 
   Map<String, dynamic> toMap() {
     return {
@@ -18,8 +18,8 @@ class CpSnapshot {
     };
   }
 
-  factory CpSnapshot.fromMap(Map<String, dynamic> map) {
-    return CpSnapshot(
+  factory CpData.fromMap(Map<String, dynamic> map) {
+    return CpData(
       map['ts'],
       List<CpSensorData>.from(
           map['sensors']?.map((x) => CpSensorData.fromMap(x))),
@@ -28,9 +28,8 @@ class CpSnapshot {
 
   String toJson() => json.encode(toMap());
 
-  factory CpSnapshot.fromJson(String source) =>
-      CpSnapshot.fromMap(json.decode(source));
+  factory CpData.fromJson(String source) => CpData.fromMap(json.decode(source));
 
   @override
-  String toString() => 'CpSnapshot(ts: $ts, sensors: $sensors)';
+  String toString() => 'CpData(ts: $ts, sensors: $sensors)';
 }

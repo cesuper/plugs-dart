@@ -4,22 +4,27 @@ import 'package:plugs/cp/cp_plug.dart';
 import 'package:test/test.dart';
 
 void main() async {
+  //
   var plug = CpPlug('192.168.100.105:80', 8);
 
-  test('Read Channels from Socket', () async {
+  test('getSensors', () async {
     var sensors = await plug.getSensors();
-
     print(sensors);
   });
 
-  // test('Write Channels to Socket', () async {
-  //   // channels to read
-  //   var channels = cpChannels;
+  test('setSensors', () async {
+    await plug.setSensors(cpSensors);
+  });
 
-  //   await plug.writeChannels(channels);
-  // });
-
-  test('Sampling test', () async {
+  test('Snapshot', () async {
     print(await plug.snapshot());
+  });
+
+  test('getSample', () async {
+    print(await plug.getSample());
+  });
+
+  test('setSample', () async {
+    print(await plug.setSample(1, 1200));
   });
 }

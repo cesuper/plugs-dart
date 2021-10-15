@@ -8,36 +8,15 @@ class CpSensorData {
   final String serial;
 
   //
-  final double value;
+  final List<double> value;
 
-  //
-  final String name;
-
-  // mold-wise index
-  final int index;
-
-  // cavity number
-  final int cavity;
-
-  // position in the cavity
-  final int position;
-
-  // hot runner nozzle number
-  final int hrn;
-
-  CpSensorData(this.status, this.serial, this.value, this.name, this.index,
-      this.cavity, this.position, this.hrn);
+  CpSensorData(this.status, this.serial, this.value);
 
   Map<String, dynamic> toMap() {
     return {
       'status': status,
       'serial': serial,
       'value': value,
-      'name': name,
-      'index': index,
-      'cavity': cavity,
-      'position': position,
-      'hrn': hrn,
     };
   }
 
@@ -45,12 +24,7 @@ class CpSensorData {
     return CpSensorData(
       map['status'],
       map['serial'],
-      map['value'],
-      map['name'] ?? '',
-      map['index'] ?? 0,
-      map['cavity'] ?? 0,
-      map['position'] ?? 0,
-      map['hrn'] ?? 0,
+      List<double>.from(map['value']),
     );
   }
 
@@ -60,7 +34,6 @@ class CpSensorData {
       CpSensorData.fromMap(json.decode(source));
 
   @override
-  String toString() {
-    return 'CpSensorData(status: $status, serial: $serial, value: $value, name: $name, index: $index, cavity: $cavity, position: $position, hrn: $hrn)';
-  }
+  String toString() =>
+      'CpSensorData(status: $status, serial: $serial, value: $value)';
 }
