@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'dart:io' as io;
 
 import 'package:http/http.dart' as http;
 import 'package:plugs/socket/socket.dart';
@@ -24,6 +25,10 @@ class Plug {
     var uri = Uri.http(address, apiPlug);
     var r = await http.get(uri).timeout(timeout);
     return Info.fromJson(r.body);
+  }
+
+  Future<io.Socket> connect() {
+    return io.Socket.connect(address.split(':').first, 6060);
   }
 
   /// Restarts the plug
