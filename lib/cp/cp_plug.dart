@@ -17,12 +17,12 @@ class CpPlug extends Smp {
   ///
   ///
   ///
-  Future<CpData> setSample(int ts, int time) async {
+  Future<CpData> setSample(Duration time, {int ts = 1}) async {
     var uri = Uri.http(address, '/api/cp/sample.cgi');
     var r = await http.post(
       uri,
       headers: {'Content-Type': 'application/json'},
-      body: jsonEncode({'ts': ts, 'time': time}),
+      body: jsonEncode({'ts': ts, 'time': time.inMilliseconds}),
     );
     return CpData.fromJson(r.body);
   }

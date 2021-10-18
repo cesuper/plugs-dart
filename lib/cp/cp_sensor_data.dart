@@ -10,13 +10,17 @@ class CpSensorData {
   //
   final List<double> value;
 
-  CpSensorData(this.status, this.serial, this.value);
+  //
+  final String name;
+
+  CpSensorData(this.status, this.serial, this.value, this.name);
 
   Map<String, dynamic> toMap() {
     return {
       'status': status,
       'serial': serial,
       'value': value,
+      'name': name,
     };
   }
 
@@ -25,6 +29,7 @@ class CpSensorData {
       map['status'],
       map['serial'],
       List<double>.from(map['value']),
+      map['name'],
     );
   }
 
@@ -34,6 +39,7 @@ class CpSensorData {
       CpSensorData.fromMap(json.decode(source));
 
   @override
-  String toString() =>
-      'CpSensorData(status: $status, serial: $serial, value: $value)';
+  String toString() {
+    return 'CpSensorData(status: $status, serial: $serial, value: $value, name: $name)';
+  }
 }

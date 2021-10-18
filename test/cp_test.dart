@@ -25,6 +25,6 @@ void main() async {
   });
 
   test('setSample', () async {
-    print(await plug.setSample(1, 1200));
+    print(await plug.setSample(const Duration(seconds: 2)));
   });
 }
