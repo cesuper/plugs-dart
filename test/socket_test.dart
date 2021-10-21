@@ -2,7 +2,7 @@ import 'package:plugs/plug/plug.dart';
 import 'package:test/scaffolding.dart';
 
 void main() async {
-  var plug = Plug('192.168.100.107:80');
+  var plug = Plug('192.168.100.105:80');
   var socket = plug.socket;
 
   test('addresses', () async {
