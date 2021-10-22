@@ -1,7 +1,7 @@
 import 'dart:convert';
 import 'package:http/http.dart' as http;
 import 'package:plugs/flw/flw_sensor.dart';
-import 'package:plugs/flw/flw_snapshot.dart';
+import 'package:plugs/flw/flw_data.dart';
 import 'package:plugs/plug/plug.dart';
 
 class FlwPlug extends Plug {

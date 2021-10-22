@@ -2,9 +2,6 @@ import 'dart:convert';
 
 class FlwSensorData {
   //
-  final bool inited;
-
-  //
   final int status;
 
   //
@@ -22,12 +19,10 @@ class FlwSensorData {
   //
   final double v;
 
-  FlwSensorData(
-      this.inited, this.status, this.serial, this.name, this.p, this.t, this.v);
+  FlwSensorData(this.status, this.serial, this.name, this.p, this.t, this.v);
 
   Map<String, dynamic> toMap() {
     return {
-      'inited': inited,
       'status': status,
       'serial': serial,
       'name': name,
@@ -39,7 +34,6 @@ class FlwSensorData {
 
   factory FlwSensorData.fromMap(Map<String, dynamic> map) {
     return FlwSensorData(
-      map['inited'],
       map['status'],
       map['serial'],
       map['name'],
@@ -56,6 +50,6 @@ class FlwSensorData {
 
   @override
   String toString() {
-    return 'FlwSensorData(inited: $inited, status: $status, serial: $serial, name: $name, p: $p, t: $t, v: $v)';
+    return 'FlwSensorData(status: $status, serial: $serial, name: $name, p: $p, t: $t, v: $v)';
   }
 }
