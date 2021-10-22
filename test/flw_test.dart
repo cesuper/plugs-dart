@@ -1,12 +1,8 @@
+import 'package:plugs/flw/flw_const.dart';
 import 'package:plugs/flw/flw_plug.dart';
-import 'package:plugs/flw/flw_sensor.dart';
+
 import 'package:plugs/flw/flw_socket_content.dart';
 import 'package:test/test.dart';
-
-final defaultSensors = <FlwSensor>[
-  FlwSensor('994559880192100081', 'Channel 1'),
-  FlwSensor('994559880192100105', 'Channel 2'),
-];
 
 void main() async {
   var plug = FlwPlug('192.168.100.107:80');
@@ -17,7 +13,7 @@ void main() async {
   });
 
   test('Write Sensors', () async {
-    await plug.setSensors(defaultSensors);
+    await plug.setSensors(flwSensors);
   });
 
   test('Snapshot', () async {
@@ -43,7 +39,7 @@ void main() async {
     var addresses = await plug.socket.addresses();
 
     // create content
-    var content = FlwSocketContent(defaultSensors);
+    var content = flwSocketContent;
 
     // write
     var result = await plug.socket

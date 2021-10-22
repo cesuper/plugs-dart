@@ -6,7 +6,8 @@ import 'package:plugs/plug/plug.dart';
 
 class FlwPlug extends Plug {
   //
-  final int maxSesors = 9;
+  // number of sensors
+  final int maxSensors = 9;
 
   //
   FlwPlug(String address) : super(address);
@@ -39,9 +40,9 @@ class FlwPlug extends Plug {
   ///
   ///
   ///
-  Future<FlwSnapshot> snapshot() async {
+  Future<FlwData> snapshot() async {
     var uri = Uri.http(address, '/api/flw.cgi');
     var r = await http.get(uri);
-    return FlwSnapshot.fromJson(r.body);
+    return FlwData.fromJson(r.body);
   }
 }
