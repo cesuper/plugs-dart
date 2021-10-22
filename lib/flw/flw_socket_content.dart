@@ -17,4 +17,7 @@ class FlwSocketContent {
 
   factory FlwSocketContent.fromJson(String source) =>
       FlwSocketContent.fromList(json.decode(source));
+
+  @override
+  String toString() => 'FlwSocketContent(channels: $channels)';
 }

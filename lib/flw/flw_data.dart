@@ -2,14 +2,14 @@ import 'dart:convert';
 
 import 'package:plugs/flw/flw_sensor_data.dart';
 
-class FlwSnapshot {
+class FlwData {
   //
   final int ts;
 
   //
   final List<FlwSensorData> sensors;
 
-  FlwSnapshot(this.ts, this.sensors);
+  FlwData(this.ts, this.sensors);
 
   Map<String, dynamic> toMap() {
     return {
@@ -18,8 +18,8 @@ class FlwSnapshot {
     };
   }
 
-  factory FlwSnapshot.fromMap(Map<String, dynamic> map) {
-    return FlwSnapshot(
+  factory FlwData.fromMap(Map<String, dynamic> map) {
+    return FlwData(
       map['ts'],
       List<FlwSensorData>.from(
           map['sensors']?.map((x) => FlwSensorData.fromMap(x))),
@@ -28,9 +28,9 @@ class FlwSnapshot {
 
   String toJson() => json.encode(toMap());
 
-  factory FlwSnapshot.fromJson(String source) =>
-      FlwSnapshot.fromMap(json.decode(source));
+  factory FlwData.fromJson(String source) =>
+      FlwData.fromMap(json.decode(source));
 
   @override
-  String toString() => 'FlwSnapshot(ts: $ts, sensors: $sensors)';
+  String toString() => 'FlwData(ts: $ts, sensors: $sensors)';
 }
