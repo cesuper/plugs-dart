@@ -1,11 +1,11 @@
 import 'dart:convert';
 
-class SpcStateResponse {
+class ScpData {
   final bool field;
   final List<bool> input;
   final List<bool> output;
 
-  SpcStateResponse(this.field, this.input, this.output);
+  ScpData(this.field, this.input, this.output);
 
   Map<String, dynamic> toMap() {
     return {
@@ -15,8 +15,8 @@ class SpcStateResponse {
     };
   }
 
-  factory SpcStateResponse.fromMap(Map<String, dynamic> map) {
-    return SpcStateResponse(
+  factory ScpData.fromMap(Map<String, dynamic> map) {
+    return ScpData(
       map['field'],
       List<bool>.from(map['input']),
       List<bool>.from(map['output']),
@@ -25,8 +25,8 @@ class SpcStateResponse {
 
   String toJson() => json.encode(toMap());
 
-  factory SpcStateResponse.fromJson(String source) =>
-      SpcStateResponse.fromMap(json.decode(source));
+  factory ScpData.fromJson(String source) =>
+      ScpData.fromMap(json.decode(source));
 
   @override
   String toString() =>

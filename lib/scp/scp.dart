@@ -1,13 +1,9 @@
 // ignore_for_file: file_names
+
 import 'dart:convert';
 
 import 'package:http/http.dart' as http;
 import 'package:plugs/plug/plug.dart';
-import 'package:plugs/scp/scp_state_response.dart';
-
-import 'scp_trigger_config.dart';
-import 'start_pin_params.dart';
-import 'stop_pin_params.dart';
 
 // API
 const apiScp = '/api/scp.cgi';
@@ -26,73 +22,44 @@ abstract class Scp extends Plug {
 
   Scp(String address, this.noInputs, this.noOutputs) : super(address);
 
-  /// Read Snapshot
-  Future<SpcStateResponse> state() async {
-    var uri = Uri.http(address, apiScp);
-    var r = await http.get(uri);
-    return SpcStateResponse.fromJson(r.body);
-  }
-
-  /// Read Field
+  ///
   Future<bool> field() async {
-    var uri = Uri.http(address, apiScpField);
+    var uri = Uri.http(address, '/api/field.cgi');
     var r = await http.get(uri);
-    return jsonDecode(r.body);
-  }
-
-  /// Write Field
-  Future<int> setField(bool state) async {
-    var uri = Uri.http(address, apiScpField);
-    var r = await http.post(
-      uri,
-      headers: {'Content-Type': 'application/json'},
-      body: jsonEncode(state),
-    );
-    return r.statusCode;
-  }
-
-  /// Start Pin
-  Future<int> startPin(int pin, int timeout,
-      {int delay = 0, int port = 1}) async {
-    var uri = Uri.http(address, apiScpPinStart);
-    var r = await http.post(
-      uri,
-      headers: {'Content-Type': 'application/json'},
-      body: StartPinParams(port, pin, delay, timeout).toJson(),
-    );
-    return r.statusCode;
-  }
-
-  /// Stop Pin
-  Future<int> stopPin(int pin, {int port = 1}) async {
-    var uri = Uri.http(address, apiScpPinStop);
-    var r = await http.post(
-      uri,
-      headers: {'Content-Type': 'application/json'},
-      body: StopPinParams(port, pin).toJson(),
-    );
-    return r.statusCode;
+    return r.body == 'true';
   }
 
   ///
-  /// Trigger Config
-  ///
-
-  /// get trigger config
-  Future<ScpTriggerConfig> triggerConfig() async {
-    var uri = Uri.http(address, apiScpConfigTrigger);
+  Future<List<bool>> digitalInput() async {
+    var uri = Uri.http(address, '/api/di.cgi');
     var r = await http.get(uri);
-    return ScpTriggerConfig.fromJson(r.body);
+    return List<bool>.from(jsonDecode(r.body));
   }
 
-  /// set Trigger config
-  Future<int> setTriggerConfig(ScpTriggerConfig config) async {
-    var uri = Uri.http(address, apiScpConfigTrigger);
-    var r = await http.post(
+  ///
+  Future<List<bool>> digitalOutput() async {
+    var uri = Uri.http(address, '/api/do.cgi');
+    var r = await http.get(uri);
+    return List<bool>.from(jsonDecode(r.body));
+  }
+
+  ///
+  Future<void> startPin(int pin, int timeout, {int delay = 0}) async {
+    var uri = Uri.http(address, '/api/do/start.cgi');
+    await http.post(
       uri,
       headers: {'Content-Type': 'application/json'},
-      body: config.toJson(),
+      body: jsonEncode({'pin': pin, 'delay': delay, 'timeout': timeout}),
     );
-    return r.statusCode;
+  }
+
+  ///
+  Future<void> stopPin(int pin) async {
+    var uri = Uri.http(address, '/api/do/stop.cgi');
+    await http.post(
+      uri,
+      headers: {'Content-Type': 'application/json'},
+      body: jsonEncode({'pin': pin}),
+    );
   }
 }
