@@ -27,8 +27,8 @@ class Plug {
     return Info.fromJson(r.body);
   }
 
-  Future<io.Socket> connect() {
-    return io.Socket.connect(address.split(':').first, 6060);
+  Future<io.Socket> connect({int port = 6069}) {
+    return io.Socket.connect(address.split(':').first, port);
   }
 
   /// Restarts the plug
