@@ -1,6 +1,6 @@
 import 'dart:convert';
 
-class Firmware {
+class Software {
   // major
   final int major;
 
@@ -13,7 +13,7 @@ class Firmware {
   // build
   final String build;
 
-  const Firmware(this.major, this.minor, this.fix, this.build);
+  const Software(this.major, this.minor, this.fix, this.build);
 
   Map<String, dynamic> toMap() {
     return {
@@ -24,14 +24,14 @@ class Firmware {
     };
   }
 
-  factory Firmware.fromMap(Map<String, dynamic> map) {
-    return Firmware(map['major'], map['minor'], map['fix'], map['build']);
+  factory Software.fromMap(Map<String, dynamic> map) {
+    return Software(map['major'], map['minor'], map['fix'], map['build']);
   }
 
   String toJson() => json.encode(toMap());
 
-  factory Firmware.fromJson(String source) =>
-      Firmware.fromMap(json.decode(source));
+  factory Software.fromJson(String source) =>
+      Software.fromMap(json.decode(source));
 
   @override
   String toString() {

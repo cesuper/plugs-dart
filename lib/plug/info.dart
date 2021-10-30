@@ -1,57 +1,39 @@
 import 'dart:convert';
 
-import 'diagnostic.dart';
-import 'firmware.dart';
+import 'hardware.dart';
 import 'network.dart';
-import 'product.dart';
+import 'software.dart';
 
 class Info {
-  // elapsed time since boot
-  final int uptime;
-
   // product
-  final Product product;
+  final Hardware hardware;
 
   // firmware
-  final Firmware firmware;
-
-  // diagnostic
-  final Diagnostic diagnostic;
+  final Software software;
 
   // network
   final Network network;
 
-  // socket
-  //final List<String> socket;
-
   Info(
-    this.uptime,
-    this.product,
-    this.firmware,
-    this.diagnostic,
+    this.hardware,
+    this.software,
     this.network,
-
-    // this.socket,
   );
 
   Map<String, dynamic> toMap() {
     return {
-      'uptime': uptime,
-      'product': product.toMap(),
-      'firmware': firmware.toMap(),
-      'diagnostic': diagnostic.toMap(),
+      'hardware': hardware.toMap(),
+      'software': software.toMap(),
       'network': network.toMap(),
-      //'socket': socket,
     };
   }
 
   factory Info.fromMap(Map<String, dynamic> map) {
     return Info(
-        map['uptime'],
-        Product.fromMap(map['product']),
-        Firmware.fromMap(map['firmware']),
-        Diagnostic.fromMap(map['diagnostic']),
-        Network.fromMap(map['network']));
+      Hardware.fromMap(map['hardware']),
+      Software.fromMap(map['software']),
+      Network.fromMap(map['network']),
+    );
   }
 
   String toJson() => json.encode(toMap());
@@ -59,7 +41,6 @@ class Info {
   factory Info.fromJson(String source) => Info.fromMap(json.decode(source));
 
   @override
-  String toString() {
-    return 'Info(uptime: $uptime, product: $product, firmware: $firmware, diagnostic: $diagnostic, network: $network)';
-  }
+  String toString() =>
+      'Info(hardware: $hardware, software: $software, network: $network)';
 }

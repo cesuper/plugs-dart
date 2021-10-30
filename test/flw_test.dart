@@ -34,17 +34,17 @@ void main() async {
     print(content);
   });
 
-  test('Write Content', () async {
-    // get first address
-    var addresses = await plug.socket.addresses();
+  // test('Write Content', () async {
+  //   // get first address
+  //   var addresses = await plug.socket.addresses();
 
-    // create content
-    var content = flwSocketContent;
+  //   // create content
+  //   var content = flwSocketContent;
 
-    // write
-    var result = await plug.socket
-        .writeH43(FlwSocketContent(defaultSensors).toJson(), addresses.first);
+  //   // write
+  //   var result = await plug.socket
+  //       .writeH43(FlwSocketContent(defaultSensors).toJson(), addresses.first);
 
-    print(result);
-  });
+  //   print(result);
+  // });
 }

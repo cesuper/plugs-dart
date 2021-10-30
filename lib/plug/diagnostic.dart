@@ -1,6 +1,7 @@
 import 'dart:convert';
 
 class Diagnostic {
+  final int uptime;
   final double temp;
   final int sysTotal;
   final int sysFree;
@@ -8,10 +9,17 @@ class Diagnostic {
   final int epiFree;
 
   Diagnostic(
-      this.temp, this.sysTotal, this.sysFree, this.epiTotal, this.epiFree);
+    this.uptime,
+    this.temp,
+    this.sysTotal,
+    this.sysFree,
+    this.epiTotal,
+    this.epiFree,
+  );
 
   Map<String, dynamic> toMap() {
     return {
+      'uptime': uptime,
       'temp': temp,
       'sysTotal': sysTotal,
       'sysFree': sysFree,
@@ -22,6 +30,7 @@ class Diagnostic {
 
   factory Diagnostic.fromMap(Map<String, dynamic> map) {
     return Diagnostic(
+      map['uptime'],
       map['temp'],
       map['sysTotal'],
       map['sysFree'],
@@ -37,6 +46,6 @@ class Diagnostic {
 
   @override
   String toString() {
-    return 'Diagnostic(temp: $temp, sysTotal: $sysTotal, sysFree: $sysFree, epiTotal: $epiTotal, epiFree: $epiFree)';
+    return 'Diagnostic(uptime: $uptime, temp: $temp, sysTotal: $sysTotal, sysFree: $sysFree, epiTotal: $epiTotal, epiFree: $epiFree)';
   }
 }

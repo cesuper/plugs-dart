@@ -4,11 +4,16 @@ import 'package:plugs/plug/plug.dart';
 import 'package:test/test.dart';
 
 void main() async {
-  var plug = Plug('192.168.100.106:80');
+  var plug = Plug('192.168.100.117:80');
 
   test('Info', () async {
     // here we expect only response
-    await plug.info();
+    print(await plug.info());
+  });
+
+  test('Diagnostic', () async {
+    // here we expect only response
+    print(await plug.diagnostic());
   });
 
   group('Restart', () {

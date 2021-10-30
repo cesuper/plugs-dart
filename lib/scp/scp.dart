@@ -6,12 +6,6 @@ import 'package:http/http.dart' as http;
 import 'package:plugs/plug/plug.dart';
 
 // API
-const apiScp = '/api/scp.cgi';
-const apiScpConfig = '/api/scp/config.cgi';
-const apiScpConfigTrigger = '/api/scp/config/trigger.cgi';
-const apiScpField = '/api/scp/field.cgi';
-const apiScpPinStart = '/api/scp/pin/start.cgi';
-const apiScpPinStop = '/api/scp/pin/stop.cgi';
 
 abstract class Scp extends Plug {
   // number of inputs

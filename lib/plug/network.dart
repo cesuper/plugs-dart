@@ -47,4 +47,9 @@ class Network {
 
   factory Network.fromJson(String source) =>
       Network.fromMap(json.decode(source));
+
+  @override
+  String toString() {
+    return 'Network(dhcp: $dhcp, ip: $ip, mask: $mask, gateway: $gateway, dns: $dns, sntp: $sntp)';
+  }
 }

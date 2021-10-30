@@ -2,6 +2,7 @@ import 'dart:convert';
 import 'dart:io' as io;
 
 import 'package:http/http.dart' as http;
+import 'package:plugs/plug/diagnostic.dart';
 import 'package:plugs/socket/socket.dart';
 
 import 'info.dart';
@@ -19,12 +20,19 @@ class Plug {
 
   Plug(this.address) : socket = Socket(address);
 
-  /// Read Info
+  ///
   Future<Info> info(
       {Duration timeout = const Duration(milliseconds: 3000)}) async {
-    var uri = Uri.http(address, apiPlug);
+    var uri = Uri.http(address, '/api/plug.cgi');
     var r = await http.get(uri).timeout(timeout);
     return Info.fromJson(r.body);
+  }
+
+  ///
+  Future<Diagnostic> diagnostic() async {
+    var uri = Uri.http(address, '/api/plug/diagnostic.cgi');
+    var r = await http.get(uri);
+    return Diagnostic.fromJson(r.body);
   }
 
   Future<io.Socket> connect({int port = 6069}) {
