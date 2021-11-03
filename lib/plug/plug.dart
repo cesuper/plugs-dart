@@ -35,6 +35,7 @@ class Plug {
     return Diagnostic.fromJson(r.body);
   }
 
+  //
   Future<io.Socket> connect({int port = 6069}) {
     return io.Socket.connect(address.split(':').first, port);
   }
