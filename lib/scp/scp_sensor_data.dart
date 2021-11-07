@@ -1,45 +1,24 @@
-import 'dart:convert';
+import '../ain/ain_sensor_data.dart';
 
-class ScpSensorData {
-  //
-  final int status;
+class ScpSensorData extends AinSensorData {
+  ///
+  final List<num> value;
 
-  //
-  final String serial;
+  ///
+  ScpSensorData(int status, String code, String name, this.value)
+      : super(status, code, name);
 
-  //
-  final List<double> value;
-
-  //
-  final String name;
-
-  ScpSensorData(this.status, this.serial, this.value, this.name);
-
-  Map<String, dynamic> toMap() {
-    return {
-      'status': status,
-      'serial': serial,
-      'value': value,
-      'name': name,
-    };
-  }
-
+  ///
   factory ScpSensorData.fromMap(Map<String, dynamic> map) {
     return ScpSensorData(
       map['status'],
       map['serial'],
-      List<double>.from(map['value']),
       map['name'],
+      List<num>.from(map['value']),
     );
   }
 
-  String toJson() => json.encode(toMap());
-
-  factory ScpSensorData.fromJson(String source) =>
-      ScpSensorData.fromMap(json.decode(source));
-
   @override
-  String toString() {
-    return 'ScpSensorData(status: $status, serial: $serial, value: $value, name: $name)';
-  }
+  String toString() =>
+      'ScpSensorData(serial: $serial, name: $name, value: $value)';
 }

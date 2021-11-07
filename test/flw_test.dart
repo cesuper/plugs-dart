@@ -1,5 +1,5 @@
 import 'package:plugs/flw/flw_const.dart';
-import 'package:plugs/flw/flw_plug.dart';
+import 'package:plugs/flw/flw.dart';
 
 import 'package:plugs/flw/flw_socket_content.dart';
 import 'package:test/test.dart';

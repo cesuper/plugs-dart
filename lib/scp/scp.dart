@@ -1,59 +1,80 @@
-// ignore_for_file: file_names
+import '../dio/dio.dart';
+import '../dio/dio_api.dart';
+import '../plug/plug.dart';
+import '../ain/ain_buffered.dart';
+import '../ain/ain_api.dart';
+import '../ain/ain_snapshot.dart';
+import '../ain/ain_settings.dart';
+import '../ain/ain_sensor.dart';
 
-import 'dart:convert';
+import 'scp_ain_settings.dart';
+import 'scp_ain_snapshot.dart';
+import 'scp_sensor.dart';
 
-import 'package:http/http.dart' as http;
-import 'package:plugs/plug/plug.dart';
+abstract class Scp extends Plug implements AinBuffered, Dio {
+  //
+  @override
+  final int diCount;
 
-// API
+  //
+  @override
+  final int doCount;
 
-abstract class Scp extends Plug {
-  // number of inputs
-  final int noInputs;
+  //
+  @override
+  final int ainCount;
 
-  // number of outputs
-  final int noOutputs;
+  Scp(String address, this.diCount, this.doCount, this.ainCount)
+      : super(address);
 
-  Scp(String address, this.noInputs, this.noOutputs) : super(address);
+  @override
+  Future<ScpAinSnapshot> get snapshot =>
+      AinApi.getSnapshot<ScpAinSnapshot>(address);
+
+  @override
+  Future<List<ScpSensor>> get sensors => AinApi.getSensors<ScpSensor>(address);
+
+  @override
+  Future<ScpAinSettings> get settings =>
+      AinApi.getSettings<ScpAinSettings>(address);
+
+  @override
+  Future<AinSnapshot> get bufferedSnapshot =>
+      AinApi.getSnapshot<ScpAinSnapshot>(address, isBuffered: true);
+
+  @override
+  Future<int> setSensors(List<AinSensor> sensors) async =>
+      AinApi.setSensors(address, sensors);
+
+  @override
+  Future<void> setSettings(AinSettings settings) =>
+      AinApi.setSettings(address, settings);
+
+  @override
+  Future<bool> buffer() => AinApi.buffer(address);
+
+  //
+  // dio
+  //
 
   ///
-  Future<bool> field() async {
-    var uri = Uri.http(address, '/api/field.cgi');
-    var r = await http.get(uri);
-    return r.body == 'true';
-  }
+  @override
+  Future<List<bool>> get input => DioApi.getInput(address);
 
   ///
-  Future<List<bool>> digitalInput() async {
-    var uri = Uri.http(address, '/api/di.cgi');
-    var r = await http.get(uri);
-    return List<bool>.from(jsonDecode(r.body));
-  }
+  @override
+  Future<bool> get field => DioApi.getField(address);
 
   ///
-  Future<List<bool>> digitalOutput() async {
-    var uri = Uri.http(address, '/api/do.cgi');
-    var r = await http.get(uri);
-    return List<bool>.from(jsonDecode(r.body));
-  }
+  @override
+  Future<List<bool>> get output => DioApi.getOutput(address);
 
   ///
-  Future<void> startPin(int pin, int timeout, {int delay = 0}) async {
-    var uri = Uri.http(address, '/api/do/start.cgi');
-    await http.post(
-      uri,
-      headers: {'Content-Type': 'application/json'},
-      body: jsonEncode({'pin': pin, 'delay': delay, 'timeout': timeout}),
-    );
-  }
+  @override
+  Future<int> startPin(int pin, int timeout, {int delay = 0}) =>
+      DioApi.startPin(address, pin, timeout, delay: delay);
 
   ///
-  Future<void> stopPin(int pin) async {
-    var uri = Uri.http(address, '/api/do/stop.cgi');
-    await http.post(
-      uri,
-      headers: {'Content-Type': 'application/json'},
-      body: jsonEncode({'pin': pin}),
-    );
-  }
+  @override
+  Future<int> stopPin(int pin) => DioApi.stopPin(address, pin);
 }

@@ -1,9 +1,6 @@
-import 'package:plugs/plugs_const.dart';
-import 'package:plugs/scp/scp.dart';
+import 'scp.dart';
 
 class Scp412 extends Scp {
   //
-  static const String model = modelScp;
-
-  Scp412(String address) : super(address, 4, 12);
+  Scp412(String address) : super(address, 4, 12, 0);
 }

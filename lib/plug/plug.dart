@@ -7,9 +7,7 @@ import 'package:plugs/socket/socket.dart';
 
 import 'info.dart';
 
-const apiPlug = '/api/plug.cgi';
-const apiPlugRestart = '/api/plug/restart.cgi';
-const apiPlugEeprom = '/api/plug/eeprom.cgi';
+const Duration timeout = Duration(seconds: 2);
 
 class Plug {
   // plug network address with port
@@ -18,11 +16,11 @@ class Plug {
   //
   final Socket socket;
 
+  //
   Plug(this.address) : socket = Socket(address);
 
   ///
-  Future<Info> info(
-      {Duration timeout = const Duration(milliseconds: 3000)}) async {
+  Future<Info> info({Duration timeout = timeout}) async {
     var uri = Uri.http(address, '/api/plug.cgi');
     var r = await http.get(uri).timeout(timeout);
     return Info.fromJson(r.body);
@@ -44,7 +42,7 @@ class Plug {
   Future<int> restart({bool bootloader = false}) async {
     var body = bootloader ? {'bootloader': true} : {};
 
-    var uri = Uri.http(address, apiPlugRestart);
+    var uri = Uri.http(address, '/api/plug/restart.cgi');
     var r = await http.post(
       uri,
       headers: {'Content-Type': 'application/json'},
@@ -55,14 +53,14 @@ class Plug {
 
   /// Read EEPROM
   Future<String> readEEPROM() async {
-    var uri = Uri.http(address, apiPlugEeprom);
+    var uri = Uri.http(address, '/api/plug/eeprom.cgi');
     var r = await http.get(uri);
     return r.body;
   }
 
   /// Write EEPROM
   Future<int> writeEEPROM(String content) async {
-    var uri = Uri.http(address, apiPlugEeprom);
+    var uri = Uri.http(address, '/api/plug/eeprom.cgi');
     var r = await http.post(
       uri,
       headers: {'Content-Type': 'application/json'},
