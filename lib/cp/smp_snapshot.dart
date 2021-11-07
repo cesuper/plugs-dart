@@ -23,6 +23,6 @@ class SmpSnapshot extends AinSnapshot {
 
   @override
   String toString() {
-    return 'ScpAinSnapshot(ts: $ts, sensors: $sensors)';
+    return 'SmpSnapshot(ts: $ts, sensors: $sensors)';
   }
 }
