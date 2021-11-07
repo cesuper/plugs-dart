@@ -1,6 +1,9 @@
 import 'dart:convert';
 
 import 'package:http/http.dart';
+import 'package:plugs/cp/smp_sensor.dart';
+import 'package:plugs/cp/smp_settings.dart';
+import 'package:plugs/cp/smp_snapshot.dart';
 
 import '../flw/flw_sensor.dart';
 import '../flw/flw_settings.dart';
@@ -8,7 +11,7 @@ import '../flw/flw_snapshot.dart';
 
 import '../scp/scp_ain_settings.dart';
 import '../scp/scp_ain_snapshot.dart';
-import '../scp/scp_sensor.dart';
+import '../scp/scp_ain_sensor.dart';
 import 'ain_sensor.dart';
 import 'ain_settings.dart';
 import 'ain_snapshot.dart';
@@ -32,6 +35,8 @@ class AinApi {
         return FlwSnapshot.fromJson(response.body) as T;
       case ScpAinSnapshot:
         return ScpAinSnapshot.fromJson(response.body) as T;
+      case SmpSnapshot:
+        return SmpSnapshot.fromJson(response.body) as T;
       default:
         throw UnimplementedError();
     }
@@ -47,6 +52,8 @@ class AinApi {
         return FlwSettings.fromJson(response.body) as T;
       case ScpAinSettings:
         return ScpAinSettings.fromJson(response.body) as T;
+      case SmpSettings:
+        return SmpSettings.fromJson(response.body) as T;
       default:
         throw UnimplementedError();
     }
@@ -73,8 +80,10 @@ class AinApi {
       switch (T) {
         case FlwSensor:
           return FlwSensor.fromMap(e);
-        case ScpSensor:
-          return ScpSensor.fromMap(e);
+        case ScpAinSensor:
+          return ScpAinSensor.fromMap(e);
+        case SmpSensor:
+          return SmpSensor.fromMap(e);
         default:
           throw UnimplementedError();
       }

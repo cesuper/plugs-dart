@@ -1,16 +1,16 @@
-import '../ain/ain_sensor_data.dart';
+import 'package:plugs/ain/ain_sensor_data.dart';
 
-class ScpSensorData extends AinSensorData {
+class SmpSensorData extends AinSensorData {
   ///
   final List<num> value;
 
   ///
-  ScpSensorData(int status, String code, String name, this.value)
+  SmpSensorData(int status, String code, String name, this.value)
       : super(status, code, name);
 
   ///
-  factory ScpSensorData.fromMap(Map<String, dynamic> map) {
-    return ScpSensorData(
+  factory SmpSensorData.fromMap(Map<String, dynamic> map) {
+    return SmpSensorData(
       map['status'],
       map['serial'],
       map['name'],

@@ -9,7 +9,7 @@ import '../ain/ain_sensor.dart';
 
 import 'scp_ain_settings.dart';
 import 'scp_ain_snapshot.dart';
-import 'scp_sensor.dart';
+import 'scp_ain_sensor.dart';
 
 abstract class Scp extends Plug implements AinBuffered, Dio {
   //
@@ -32,7 +32,8 @@ abstract class Scp extends Plug implements AinBuffered, Dio {
       AinApi.getSnapshot<ScpAinSnapshot>(address);
 
   @override
-  Future<List<ScpSensor>> get sensors => AinApi.getSensors<ScpSensor>(address);
+  Future<List<ScpAinSensor>> get sensors =>
+      AinApi.getSensors<ScpAinSensor>(address);
 
   @override
   Future<ScpAinSettings> get settings =>
