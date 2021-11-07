@@ -1,5 +1,3 @@
-import 'dart:convert';
-
 import 'package:plugs/scp/scp_442.dart';
 import 'package:plugs/scp/scp_const.dart';
 import 'package:test/test.dart';
@@ -9,16 +7,16 @@ void main() async {
   var plug = Scp442('192.168.100.109:80');
 
   test('field', () async {
-    print(await plug.field());
+    print(await plug.field);
   });
 
   test('input', () async {
-    var data = await plug.digitalInput();
+    var data = await plug.input;
     print(data);
   });
 
   test('output', () async {
-    var data = await plug.digitalOutput();
+    var data = await plug.output;
     print(data);
   });
 
@@ -36,13 +34,11 @@ void main() async {
     // set
     await plug.setSensors(scpSensorParams);
 
-    var sensors = await plug.sensors();
-
-    var jsensors = jsonEncode(sensors.map((e) => e.toMap()).toList());
+    var sensors = await plug.sensors;
     print(sensors);
   });
 
   test('Settings', () async {
-    print(await plug.ainSettings());
+    print(await plug.settings);
   });
 }

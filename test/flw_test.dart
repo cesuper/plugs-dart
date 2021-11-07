@@ -1,14 +1,14 @@
-import 'package:plugs/flw/flw_const.dart';
 import 'package:plugs/flw/flw.dart';
+import 'package:plugs/flw/flw_const.dart';
 
 import 'package:plugs/flw/flw_socket_content.dart';
 import 'package:test/test.dart';
 
 void main() async {
-  var plug = FlwPlug('192.168.100.107:80');
+  var plug = Flw('192.168.100.107:80');
 
   test('Read Sensors', () async {
-    var sensors = await plug.getSensors();
+    var sensors = await plug.sensors;
     print(sensors);
   });
 
@@ -17,7 +17,7 @@ void main() async {
   });
 
   test('Snapshot', () async {
-    var snapshot = await plug.snapshot();
+    var snapshot = await plug.snapshot;
     print(snapshot);
   });
 
