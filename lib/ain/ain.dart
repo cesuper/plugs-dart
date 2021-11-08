@@ -1,4 +1,4 @@
-import 'ain_sensor.dart';
+import 'ain_sensor_param.dart';
 import 'ain_settings.dart';
 import 'ain_snapshot.dart';
 
@@ -10,10 +10,10 @@ abstract class Ain {
   Future<AinSnapshot> get snapshot;
 
   /// Returns the sensor parameters being used
-  Future<List<AinSensor>> get sensors;
+  Future<List<AinSensorParam>> get sensors;
 
   /// Sets the sensor parameters
-  Future<void> setSensors(List<AinSensor> sensors);
+  Future<void> setSensors(List<AinSensorParam> sensors);
 
   /// Returns the settings structure
   Future<AinSettings> get settings;

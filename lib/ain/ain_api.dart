@@ -12,7 +12,7 @@ import '../flw/flw_snapshot.dart';
 import '../scp/scp_ain_settings.dart';
 import '../scp/scp_ain_snapshot.dart';
 import '../scp/scp_ain_sensor.dart';
-import 'ain_sensor.dart';
+import 'ain_sensor_param.dart';
 import 'ain_settings.dart';
 import 'ain_snapshot.dart';
 
@@ -71,7 +71,8 @@ class AinApi {
   }
 
   ///
-  static Future<List<T>> getSensors<T extends AinSensor>(String address) async {
+  static Future<List<T>> getSensors<T extends AinSensorParam>(
+      String address) async {
     //
     var response = await get(Uri.http(address, apiAinSensors));
 
@@ -91,7 +92,8 @@ class AinApi {
   }
 
   ///
-  static Future<int> setSensors(String address, List<AinSensor> sensors) async {
+  static Future<int> setSensors(
+      String address, List<AinSensorParam> sensors) async {
     var r = await post(
       Uri.http(address, apiAinSensors),
       headers: {'Content-Type': 'application/json'},

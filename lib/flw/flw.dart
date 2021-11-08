@@ -1,7 +1,7 @@
 import '../ain/ain.dart';
 import '../ain/ain_api.dart';
 import '../ain/ain_settings.dart';
-import '../ain/ain_sensor.dart';
+import '../ain/ain_sensor_param.dart';
 import '../plug/plug.dart';
 import 'flw_sensor.dart';
 import 'flw_settings.dart';
@@ -28,7 +28,7 @@ class Flw extends Plug implements Ain {
   Future<FlwSettings> get settings => AinApi.getSettings<FlwSettings>(address);
 
   @override
-  Future<void> setSensors(List<AinSensor> sensors) =>
+  Future<void> setSensors(List<AinSensorParam> sensors) =>
       AinApi.setSensors(address, sensors);
 
   @override

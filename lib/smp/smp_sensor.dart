@@ -1,10 +1,10 @@
 import 'dart:convert';
 
-import 'package:plugs/ain/ain_sensor.dart';
+import 'package:plugs/ain/ain_sensor_param.dart';
 
 // This class represents the very basic cp sensor model
 // with values are needed to get pressure data
-class SmpSensor extends AinSensor {
+class SmpSensor extends AinSensorParam {
   //
   final num area;
 

@@ -1,8 +1,8 @@
 import 'dart:convert';
 
-import '../ain/ain_sensor.dart';
+import '../ain/ain_sensor_param.dart';
 
-class FlwSensor extends AinSensor {
+class FlwSensor extends AinSensorParam {
   ///
   FlwSensor(String serial, String name) : super(serial, name);
 

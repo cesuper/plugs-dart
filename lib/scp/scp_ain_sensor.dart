@@ -1,8 +1,8 @@
 import 'dart:convert';
 
-import '../ain/ain_sensor.dart';
+import '../ain/ain_sensor_param.dart';
 
-class ScpAinSensor extends AinSensor {
+class ScpAinSensor extends AinSensorParam {
   //
   final num min;
 

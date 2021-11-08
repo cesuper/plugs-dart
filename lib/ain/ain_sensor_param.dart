@@ -1,6 +1,6 @@
 import 'dart:convert';
 
-abstract class AinSensor {
+abstract class AinSensorParam {
   /// Indentifies the sensor serial number
   final String serial;
 
@@ -8,7 +8,7 @@ abstract class AinSensor {
   final String name;
 
   ///
-  AinSensor(this.serial, this.name);
+  AinSensorParam(this.serial, this.name);
 
   ///
   @override
@@ -30,7 +30,7 @@ abstract class AinSensor {
   bool operator ==(Object other) {
     if (identical(this, other)) return true;
 
-    return other is AinSensor && other.serial == serial;
+    return other is AinSensorParam && other.serial == serial;
   }
 
   ///

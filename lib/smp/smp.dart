@@ -2,7 +2,7 @@ import 'package:plugs/ain/ain_api.dart';
 import 'package:plugs/ain/ain_buffered.dart';
 import 'package:plugs/ain/ain_snapshot.dart';
 import 'package:plugs/ain/ain_settings.dart';
-import 'package:plugs/ain/ain_sensor.dart';
+import 'package:plugs/ain/ain_sensor_param.dart';
 
 import 'package:plugs/plug/plug.dart';
 
@@ -23,10 +23,11 @@ class Smp extends Plug implements AinBuffered {
   Smp(String address, this.ainCount) : super(address);
 
   @override
-  Future<List<AinSensor>> get sensors => AinApi.getSensors<SmpSensor>(address);
+  Future<List<AinSensorParam>> get sensors =>
+      AinApi.getSensors<SmpSensor>(address);
 
   @override
-  Future<void> setSensors(List<AinSensor> sensors) async =>
+  Future<void> setSensors(List<AinSensorParam> sensors) async =>
       AinApi.setSensors(address, sensors);
 
   @override
