@@ -1,9 +1,8 @@
 import 'dart:convert';
 
-import 'package:plugs/cp/smp_sensor_data.dart';
-
 import '../ain/ain_sensor_data.dart';
 import '../ain/ain_snapshot.dart';
+import 'smp_sensor_data.dart';
 
 class SmpSnapshot extends AinSnapshot {
   SmpSnapshot(int ts, List<AinSensorData> sensors) : super(ts, sensors);

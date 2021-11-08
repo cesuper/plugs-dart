@@ -1,4 +1,4 @@
-import 'package:plugs/cp/smp_sensor.dart';
+import 'smp_sensor.dart';
 
 final smpSensors = <SmpSensor>[
   SmpSensor('5OCUGBGR', 'Ch 1', 10.0, 0, 0, 0, 0),

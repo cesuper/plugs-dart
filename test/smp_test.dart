@@ -1,6 +1,5 @@
-import 'package:plugs/cp/smp_const.dart';
-import 'package:plugs/cp/smp.dart';
-
+import 'package:plugs/smp/smp.dart';
+import 'package:plugs/smp/smp_const.dart';
 import 'package:test/test.dart';
 
 void main() async {

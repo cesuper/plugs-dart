@@ -3,10 +3,12 @@ import 'package:plugs/ain/ain_buffered.dart';
 import 'package:plugs/ain/ain_snapshot.dart';
 import 'package:plugs/ain/ain_settings.dart';
 import 'package:plugs/ain/ain_sensor.dart';
-import 'package:plugs/cp/smp_sensor.dart';
-import 'package:plugs/cp/smp_settings.dart';
-import 'package:plugs/cp/smp_snapshot.dart';
+
 import 'package:plugs/plug/plug.dart';
+
+import 'smp_sensor.dart';
+import 'smp_settings.dart';
+import 'smp_snapshot.dart';
 
 class Smp extends Plug implements AinBuffered {
 //

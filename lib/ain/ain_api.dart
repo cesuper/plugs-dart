@@ -1,9 +1,9 @@
 import 'dart:convert';
 
 import 'package:http/http.dart';
-import 'package:plugs/cp/smp_sensor.dart';
-import 'package:plugs/cp/smp_settings.dart';
-import 'package:plugs/cp/smp_snapshot.dart';
+import 'package:plugs/smp/smp_sensor.dart';
+import 'package:plugs/smp/smp_settings.dart';
+import 'package:plugs/smp/smp_snapshot.dart';
 
 import '../flw/flw_sensor.dart';
 import '../flw/flw_settings.dart';
