@@ -3,7 +3,7 @@ import '../ain/ain_api.dart';
 import '../ain/ain_settings.dart';
 import '../ain/ain_sensor_param.dart';
 import '../plug/plug.dart';
-import 'flw_sensor.dart';
+import 'flw_sensor_param.dart';
 import 'flw_settings.dart';
 import 'flw_snapshot.dart';
 
@@ -22,7 +22,8 @@ class Flw extends Plug implements Ain {
   Future<FlwSnapshot> get snapshot => AinApi.getSnapshot<FlwSnapshot>(address);
 
   @override
-  Future<List<FlwSensor>> get sensors => AinApi.getSensors<FlwSensor>(address);
+  Future<List<FlwSensorParam>> get sensors =>
+      AinApi.getSensors<FlwSensorParam>(address);
 
   @override
   Future<FlwSettings> get settings => AinApi.getSettings<FlwSettings>(address);

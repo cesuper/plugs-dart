@@ -1,17 +1,17 @@
 import 'dart:convert';
 
 import 'package:http/http.dart';
-import 'package:plugs/smp/smp_sensor.dart';
+import 'package:plugs/smp/smp_sensor_param.dart';
 import 'package:plugs/smp/smp_settings.dart';
 import 'package:plugs/smp/smp_snapshot.dart';
 
-import '../flw/flw_sensor.dart';
+import '../flw/flw_sensor_param.dart';
 import '../flw/flw_settings.dart';
 import '../flw/flw_snapshot.dart';
 
 import '../scp/scp_ain_settings.dart';
 import '../scp/scp_ain_snapshot.dart';
-import '../scp/scp_ain_sensor.dart';
+import '../scp/scp_ain_sensor_param.dart';
 import 'ain_sensor_param.dart';
 import 'ain_settings.dart';
 import 'ain_snapshot.dart';
@@ -79,12 +79,12 @@ class AinApi {
     var jSensors = jsonDecode(response.body) as List;
     return List<T>.from(jSensors.map((e) {
       switch (T) {
-        case FlwSensor:
-          return FlwSensor.fromMap(e);
-        case ScpAinSensor:
-          return ScpAinSensor.fromMap(e);
-        case SmpSensor:
-          return SmpSensor.fromMap(e);
+        case FlwSensorParam:
+          return FlwSensorParam.fromMap(e);
+        case ScpAinSensorParam:
+          return ScpAinSensorParam.fromMap(e);
+        case SmpSensorParam:
+          return SmpSensorParam.fromMap(e);
         default:
           throw UnimplementedError();
       }

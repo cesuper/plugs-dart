@@ -1,6 +1,6 @@
-import 'flw_sensor.dart';
+import 'flw_sensor_param.dart';
 
-final flwSensors = <FlwSensor>[
-  FlwSensor('994559880192100081', 'Channel 1'),
-  FlwSensor('994559880192100105', 'Channel 2'),
+final flwSensors = <FlwSensorParam>[
+  FlwSensorParam('994559880192100081', 'Channel 1'),
+  FlwSensorParam('994559880192100105', 'Channel 2'),
 ];

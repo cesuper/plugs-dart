@@ -4,7 +4,7 @@ import 'package:plugs/ain/ain_sensor_param.dart';
 
 // This class represents the very basic cp sensor model
 // with values are needed to get pressure data
-class SmpSensor extends AinSensorParam {
+class SmpSensorParam extends AinSensorParam {
   //
   final num area;
 
@@ -20,7 +20,7 @@ class SmpSensor extends AinSensorParam {
   // hot runner nozzle number
   final int hrn;
 
-  SmpSensor(
+  SmpSensorParam(
     String serial,
     String name,
     this.area,
@@ -42,8 +42,8 @@ class SmpSensor extends AinSensorParam {
       });
   }
 
-  factory SmpSensor.fromMap(Map<String, dynamic> map) {
-    return SmpSensor(
+  factory SmpSensorParam.fromMap(Map<String, dynamic> map) {
+    return SmpSensorParam(
       map['serial'],
       map['name'],
       map['area'],
@@ -54,11 +54,11 @@ class SmpSensor extends AinSensorParam {
     );
   }
 
-  factory SmpSensor.fromJson(String source) =>
-      SmpSensor.fromMap(json.decode(source));
+  factory SmpSensorParam.fromJson(String source) =>
+      SmpSensorParam.fromMap(json.decode(source));
 
   @override
   String toString() {
-    return 'SmpSensor(serial: $serial, name: $name, index: $index, cavity: $cavity, position: $position, hrn: $hrn)';
+    return 'SmpSensorParam(serial: $serial, name: $name, index: $index, cavity: $cavity, position: $position, hrn: $hrn)';
   }
 }

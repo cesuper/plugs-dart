@@ -2,7 +2,7 @@ import 'dart:convert';
 
 import '../ain/ain_sensor_param.dart';
 
-class ScpAinSensor extends AinSensorParam {
+class ScpAinSensorParam extends AinSensorParam {
   //
   final num min;
 
@@ -12,7 +12,7 @@ class ScpAinSensor extends AinSensorParam {
   //
   final num range;
 
-  ScpAinSensor(
+  ScpAinSensorParam(
     String serial,
     String name,
     this.min,
@@ -21,12 +21,12 @@ class ScpAinSensor extends AinSensorParam {
   ) : super(serial, name);
 
   ///
-  factory ScpAinSensor.fromJson(String source) =>
-      ScpAinSensor.fromMap(json.decode(source));
+  factory ScpAinSensorParam.fromJson(String source) =>
+      ScpAinSensorParam.fromMap(json.decode(source));
 
   ///
-  factory ScpAinSensor.fromMap(Map<String, dynamic> map) {
-    return ScpAinSensor(
+  factory ScpAinSensorParam.fromMap(Map<String, dynamic> map) {
+    return ScpAinSensorParam(
       map['serial'],
       map['name'],
       map['min'],
@@ -37,7 +37,7 @@ class ScpAinSensor extends AinSensorParam {
 
   @override
   String toString() =>
-      'ScpSensor(serial: $serial, name: $name, min: $min, max: $max, range: $range)';
+      'ScpSensorParam(serial: $serial, name: $name, min: $min, max: $max, range: $range)';
 
   @override
   Map<String, dynamic> toMap() {

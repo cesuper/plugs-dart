@@ -1,16 +1,17 @@
 import 'dart:convert';
 
-import 'flw_sensor.dart';
+import 'flw_sensor_param.dart';
 
 class FlwSocketContent {
   //
-  final List<FlwSensor> sensors;
+  final List<FlwSensorParam> sensors;
 
   FlwSocketContent(this.sensors);
 
   factory FlwSocketContent.fromList(List<dynamic> list) {
     return FlwSocketContent(
-        List<FlwSensor>.from(list.map((e) => FlwSensor.fromMap(e))).toList());
+        List<FlwSensorParam>.from(list.map((e) => FlwSensorParam.fromMap(e)))
+            .toList());
   }
 
   String toJson() => json.encode(sensors.map((x) => x.toMap()).toList());
