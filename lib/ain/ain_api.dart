@@ -104,13 +104,13 @@ class AinApi {
   }
 
   ///
-  static Future<bool> buffer(String address, {int ts = 0}) async {
+  static Future<int> buffer(String address, {int ts = 0}) async {
     var r = await post(
       Uri.http(address, apiAinBuffer),
       headers: {'Content-Type': 'application/json'},
       body: jsonEncode({'ts': ts}),
     );
 
-    return true;
+    return r.statusCode;
   }
 }

@@ -52,7 +52,7 @@ abstract class Scp extends Plug implements AinBuffered, Dio {
       AinApi.setSettings(address, settings);
 
   @override
-  Future<bool> buffer() => AinApi.buffer(address);
+  Future<int> buffer() => AinApi.buffer(address);
 
   //
   // dio

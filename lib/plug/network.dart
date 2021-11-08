@@ -16,10 +16,7 @@ class Network {
   //
   final String dns;
 
-  //
-  final String sntp;
-
-  Network(this.dhcp, this.ip, this.mask, this.gateway, this.dns, this.sntp);
+  Network(this.dhcp, this.ip, this.mask, this.gateway, this.dns);
 
   Map<String, dynamic> toMap() {
     return {
@@ -28,7 +25,6 @@ class Network {
       'mask': mask,
       'gateway': gateway,
       'dns': dns,
-      'sntp': sntp,
     };
   }
 
@@ -39,7 +35,6 @@ class Network {
       map['mask'],
       map['gateway'],
       map['dns'],
-      map['sntp'],
     );
   }
 
@@ -50,6 +45,6 @@ class Network {
 
   @override
   String toString() {
-    return 'Network(dhcp: $dhcp, ip: $ip, mask: $mask, gateway: $gateway, dns: $dns, sntp: $sntp)';
+    return 'Network(dhcp: $dhcp, ip: $ip, mask: $mask, gateway: $gateway, dns: $dns)';
   }
 }
