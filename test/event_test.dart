@@ -1,10 +1,10 @@
-import 'package:plugs/plug/plug.dart';
+import 'package:plugs/smp/smp.dart';
 
 import 'package:test/test.dart';
 
 void main() async {
   //
-  var plug = Plug('192.168.100.109:80');
+  var plug = Smp('192.168.100.110:80', 8);
 
   test('event test', () async {
     var _notifier = await plug.connect();
@@ -33,14 +33,12 @@ void main() async {
       }
     });
 
-    //await Future.delayed(const Duration(seconds: 3));
-
     //socket.close();
     //socket.destroy();
     //print('close sent');
 
     await Future.delayed(const Duration(seconds: 15));
-  });
+  }, timeout: const Timeout(Duration(seconds: 60)));
 
   //
 }
