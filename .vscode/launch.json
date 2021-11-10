@@ -5,8 +5,8 @@
     "version": "0.2.0",
     "configurations": [
         {
-            "program": "main.dart",
-            "console": "terminal",
+            "program": "test/slot_test.dart",
+            "console": "debugConsole",
             "name": "plugs",
             "request": "launch",
             "type": "dart"
