@@ -109,13 +109,16 @@ class AinApi {
   }
 
   ///
-  static Future<T> buffer<T extends AinSnapshot>(String address,
-      {int ts = 0}) async {
+  static Future<T> buffer<T extends AinSnapshot>(
+    String address,
+    Duration timeout, {
+    int ts = 0,
+  }) async {
     var response = await post(
       Uri.http(address, apiAinBuffer),
       headers: {'Content-Type': 'application/json'},
       body: jsonEncode({'ts': ts}),
-    );
+    ).timeout(timeout);
 
     return AinApi._tSnapshotFromJson<T>(response.body);
   }

@@ -10,6 +10,9 @@ import 'info.dart';
 const Duration timeout = Duration(seconds: 2);
 
 class Plug {
+  // timeout for http calls
+  final Duration timeout;
+
   // plug network address with port
   final String address;
 
@@ -17,10 +20,11 @@ class Plug {
   final Socket socket;
 
   //
-  Plug(this.address) : socket = Socket(address);
+  Plug(this.address, {this.timeout = const Duration(seconds: 2)})
+      : socket = Socket(address);
 
   ///
-  Future<Info> info({Duration timeout = timeout}) async {
+  Future<Info> info() async {
     var uri = Uri.http(address, '/api/plug.cgi');
     var r = await http.get(uri).timeout(timeout);
     return Info.fromJson(r.body);

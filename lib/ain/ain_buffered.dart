@@ -7,5 +7,5 @@ abstract class AinBuffered extends Ain {
   Future<AinSnapshot> get bufferedSnapshot;
 
   /// Starts buffered sampling
-  Future<void> buffer();
+  Future<AinSnapshot> buffer(Duration timeout);
 }

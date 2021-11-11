@@ -41,7 +41,8 @@ class Smp extends Plug implements AinBuffered {
   Future<AinSnapshot> get snapshot => AinApi.getSnapshot<SmpSnapshot>(address);
 
   @override
-  Future<SmpSnapshot> buffer() => AinApi.buffer<SmpSnapshot>(address);
+  Future<SmpSnapshot> buffer(Duration timeout) =>
+      AinApi.buffer<SmpSnapshot>(address, timeout);
 
   @override
   Future<SmpSnapshot> get bufferedSnapshot =>
