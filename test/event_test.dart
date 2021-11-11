@@ -1,3 +1,5 @@
+// ignore_for_file: avoid_print
+
 import 'package:plugs/smp/smp.dart';
 
 import 'package:test/test.dart';

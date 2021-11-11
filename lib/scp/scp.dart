@@ -52,8 +52,8 @@ abstract class Scp extends Plug implements AinBuffered, Dio {
       AinApi.setSettings(address, settings);
 
   @override
-  Future<ScpAinSnapshot> buffer(Duration timeout) =>
-      AinApi.buffer<ScpAinSnapshot>(address, timeout);
+  Future<ScpAinSnapshot> buffer(int time) =>
+      AinApi.buffer<ScpAinSnapshot>(address, time);
 
   //
   // dio

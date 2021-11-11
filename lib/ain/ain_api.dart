@@ -22,6 +22,9 @@ const apiAinSettings = '/api/ain/settings.cgi';
 const apiAinSensors = '/api/ain/sensors.cgi';
 const apiAinBuffer = '/api/ain/buffer.cgi';
 
+//
+const timeOverhead = 500;
+
 class AinApi {
   ///
   static T _tSnapshotFromJson<T extends AinSnapshot>(String source) {
@@ -111,14 +114,16 @@ class AinApi {
   ///
   static Future<T> buffer<T extends AinSnapshot>(
     String address,
-    Duration timeout, {
-    int ts = 0,
-  }) async {
+    int time,
+  ) async {
     var response = await post(
       Uri.http(address, apiAinBuffer),
       headers: {'Content-Type': 'application/json'},
-      body: jsonEncode({'ts': ts}),
-    ).timeout(timeout);
+      body: jsonEncode({
+        'ts': 0,
+        'time': time,
+      }),
+    ).timeout(Duration(milliseconds: time + timeOverhead));
 
     return AinApi._tSnapshotFromJson<T>(response.body);
   }

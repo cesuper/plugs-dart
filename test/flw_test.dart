@@ -1,3 +1,5 @@
+// ignore_for_file: avoid_print
+
 import 'package:plugs/flw/flw.dart';
 import 'package:plugs/flw/flw_const.dart';
 

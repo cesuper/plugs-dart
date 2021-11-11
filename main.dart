@@ -1,15 +1,9 @@
+// ignore_for_file: avoid_print
+
 import 'dart:io';
 
 const address = '192.168.100.110:80';
 const port = 6069;
-
-// void test1() {
-//   //
-//   var slot = CpSlot(address);
-//   slot.init();
-// }
-
-void test2() async {}
 
 void main() async {
   //

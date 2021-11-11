@@ -1,3 +1,5 @@
+// ignore_for_file: avoid_print
+
 import 'package:plugs/scp/scp_442.dart';
 import 'package:plugs/scp/scp_const.dart';
 import 'package:test/test.dart';

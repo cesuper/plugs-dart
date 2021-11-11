@@ -62,7 +62,7 @@ void main() async {
   });
 
   test('buffer', () async {
-    var timeout = const Duration(seconds: 3);
-    log.i(await plug.buffer(timeout));
+    var time = 1000;
+    log.i(await plug.buffer(time));
   });
 }
