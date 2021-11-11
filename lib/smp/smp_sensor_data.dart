@@ -20,5 +20,5 @@ class SmpSensorData extends AinSensorData {
 
   @override
   String toString() =>
-      'ScpSensorData(serial: $serial, name: $name, value: $value)';
+      'SmpSensorData(serial: $serial, name: $name, value: $value)';
 }

@@ -24,22 +24,27 @@ const apiAinBuffer = '/api/ain/buffer.cgi';
 
 class AinApi {
   ///
+  static T _tSnapshotFromJson<T extends AinSnapshot>(String source) {
+    switch (T) {
+      case FlwSnapshot:
+        return FlwSnapshot.fromJson(source) as T;
+      case ScpAinSnapshot:
+        return ScpAinSnapshot.fromJson(source) as T;
+      case SmpSnapshot:
+        return SmpSnapshot.fromJson(source) as T;
+      default:
+        throw UnimplementedError();
+    }
+  }
+
+  ///
   static Future<T> getSnapshot<T extends AinSnapshot>(String address,
       {bool isBuffered = false}) async {
     //
     var response =
         await get(Uri.http(address, isBuffered ? apiAinBuffer : apiAin));
 
-    switch (T) {
-      case FlwSnapshot:
-        return FlwSnapshot.fromJson(response.body) as T;
-      case ScpAinSnapshot:
-        return ScpAinSnapshot.fromJson(response.body) as T;
-      case SmpSnapshot:
-        return SmpSnapshot.fromJson(response.body) as T;
-      default:
-        throw UnimplementedError();
-    }
+    return AinApi._tSnapshotFromJson(response.body);
   }
 
   ///
@@ -104,13 +109,14 @@ class AinApi {
   }
 
   ///
-  static Future<int> buffer(String address, {int ts = 0}) async {
-    var r = await post(
+  static Future<T> buffer<T extends AinSnapshot>(String address,
+      {int ts = 0}) async {
+    var response = await post(
       Uri.http(address, apiAinBuffer),
       headers: {'Content-Type': 'application/json'},
       body: jsonEncode({'ts': ts}),
     );
 
-    return r.statusCode;
+    return AinApi._tSnapshotFromJson<T>(response.body);
   }
 }

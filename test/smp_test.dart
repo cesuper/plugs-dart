@@ -9,33 +9,33 @@ void main() async {
   //
   var plug = Smp('192.168.100.110:80', 8);
 
-  test('Socket', () async {
-    var notifer = await plug.connect();
+  // test('Socket', () async {
+  //   var notifer = await plug.connect();
 
-    log.i(
-        'Connected to: ${notifer.remoteAddress.address}:${notifer.remotePort}');
+  //   log.i(
+  //       'Connected to: ${notifer.remoteAddress.address}:${notifer.remotePort}');
 
-    const int msgSize = 16;
-    notifer.listen((packet) {
-      // get the number of messages
-      var noMsg = packet.length ~/ msgSize;
-      var offset = 0;
+  //   const int msgSize = 16;
+  //   notifer.listen((packet) {
+  //     // get the number of messages
+  //     var noMsg = packet.length ~/ msgSize;
+  //     var offset = 0;
 
-      for (var i = 0; i < noMsg; i++) {
-        // get msg and shift offset
-        var msg = packet.skip(offset).take(msgSize);
+  //     for (var i = 0; i < noMsg; i++) {
+  //       // get msg and shift offset
+  //       var msg = packet.skip(offset).take(msgSize);
 
-        // get event from msg
-        int event = msg.first;
+  //       // get event from msg
+  //       int event = msg.first;
 
-        if (event != 255) {
-          log.i(event);
-        }
+  //       if (event != 255) {
+  //         log.i(event);
+  //       }
 
-        offset += msgSize;
-      }
-    });
-  });
+  //       offset += msgSize;
+  //     }
+  //   });
+  // });
 
   test('getSensors', () async {
     var sensors = await plug.sensors;
@@ -62,6 +62,6 @@ void main() async {
   });
 
   test('buffer', () async {
-    await plug.buffer();
+    log.i(await plug.buffer());
   });
 }
