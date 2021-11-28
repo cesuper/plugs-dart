@@ -5,11 +5,14 @@ abstract class AinSnapshot {
   final int ts;
 
   //
+  final String plug;
+
+  //
   final List<AinSensorData> sensors;
 
   //
-  AinSnapshot(this.ts, this.sensors);
+  AinSnapshot(this.ts, this.plug, this.sensors);
 
   @override
-  String toString() => 'AinSnapshot(ts: $ts)';
+  String toString() => 'AinSnapshot(ts: $ts, plug:$plug)';
 }

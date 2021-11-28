@@ -7,7 +7,7 @@ import 'package:plugs/flw/flw_socket_content.dart';
 import 'package:test/test.dart';
 
 void main() async {
-  var plug = Flw('192.168.100.107:80');
+  var plug = Flw('192.168.100.117:80');
 
   test('Read Sensors', () async {
     var sensors = await plug.sensors;
