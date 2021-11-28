@@ -1,46 +1,52 @@
 import 'dart:convert';
 
 class Hardware {
-  // mac
-  final String mac;
-
   // product name numerical value name <-> code
   final int code;
 
   //
+  final String family;
+
+  //
   final String model;
 
-  // serial number: serial = ['name' + '-' + 'num']
-  final String serial;
-
-  // product revision value
+  //
   final String rev;
 
+  //
+  final String serial;
+
+  // mac
+  final String mac;
+
   Hardware(
-    this.mac,
     this.code,
+    this.family,
     this.model,
-    this.serial,
     this.rev,
+    this.serial,
+    this.mac,
   );
 
   Map<String, dynamic> toMap() {
     return {
-      'mac': mac,
       'code': code,
+      'family': family,
       'model': model,
-      'serial': serial,
       'rev': rev,
+      'serial': serial,
+      'mac': mac,
     };
   }
 
   factory Hardware.fromMap(Map<String, dynamic> map) {
     return Hardware(
-      map['mac'],
       map['code'],
+      map['family'],
       map['model'],
-      map['serial'],
       map['rev'],
+      map['serial'],
+      map['mac'],
     );
   }
 
@@ -51,6 +57,6 @@ class Hardware {
 
   @override
   String toString() {
-    return 'Hardware(mac: $mac, code: $code, model: $model, serial: $serial, rev: $rev)';
+    return 'Hardware(code: $code, family: $family, model: $model, rev: $rev, serial: $serial, mac: $mac)';
   }
 }
