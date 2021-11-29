@@ -1,12 +1,13 @@
 import 'dart:convert';
 
-import '../ain/ain_sensor_data.dart';
 import '../ain/ain_snapshot.dart';
 import 'smp_sensor_data.dart';
 
 class SmpSnapshot extends AinSnapshot {
-  SmpSnapshot(int ts, String plug, List<AinSensorData> sensors)
-      : super(ts, plug, sensors);
+  //
+  final List<SmpSensorData> sensors;
+
+  SmpSnapshot(int ts, String plug, this.sensors) : super(ts, plug);
 
   ///
   factory SmpSnapshot.fromMap(Map<String, dynamic> map) {

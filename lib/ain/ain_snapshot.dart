@@ -1,5 +1,3 @@
-import 'ain_sensor_data.dart';
-
 abstract class AinSnapshot {
   // timestamp of the snapshot, when data is created
   final int ts;
@@ -8,10 +6,7 @@ abstract class AinSnapshot {
   final String plug;
 
   //
-  final List<AinSensorData> sensors;
-
-  //
-  AinSnapshot(this.ts, this.plug, this.sensors);
+  AinSnapshot(this.ts, this.plug);
 
   @override
   String toString() => 'AinSnapshot(ts: $ts, plug:$plug)';
