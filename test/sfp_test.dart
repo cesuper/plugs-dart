@@ -1,9 +1,8 @@
 // ignore_for_file: avoid_print
 
-import 'package:plugs/flw/sfp.dart';
-import 'package:plugs/flw/sfp_const.dart';
+import 'package:plugs/sfp/sfp.dart';
+import 'package:plugs/sfp/sfp_const.dart';
 
-import 'package:plugs/flw/sfp_socket_content.dart';
 import 'package:test/test.dart';
 
 void main() async {

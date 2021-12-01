@@ -5,9 +5,9 @@ import 'package:plugs/smp/smp_sensor_param.dart';
 import 'package:plugs/smp/smp_settings.dart';
 import 'package:plugs/smp/smp_snapshot.dart';
 
-import '../flw/sfp_sensor_param.dart';
-import '../flw/sfp_settings.dart';
-import '../flw/sfp_snapshot.dart';
+import '../sfp/sfp_sensor_param.dart';
+import '../sfp/sfp_settings.dart';
+import '../sfp/sfp_snapshot.dart';
 
 import '../scp/scp_ain_settings.dart';
 import '../scp/scp_ain_snapshot.dart';
