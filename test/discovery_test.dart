@@ -13,6 +13,9 @@ void main() async {
   //
   socket.broadcastEnabled = true;
 
+  //
+  socket.listen((event) {});
+
   RawDatagramSocket.bind(InternetAddress.anyIPv4, 0)
       .then((RawDatagramSocket udpSocket) {
     udpSocket.broadcastEnabled = true;
