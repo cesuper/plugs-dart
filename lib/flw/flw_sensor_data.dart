@@ -1,6 +1,12 @@
 import '../ain/ain_sensor_data.dart';
 
 class FlwSensorData extends AinSensorData {
+  ///
+  final String group;
+
+  ///
+  final int dir;
+
   /// Flowrate value in l/min
   final num v;
 
@@ -15,6 +21,8 @@ class FlwSensorData extends AinSensorData {
     int status,
     String serial,
     String name,
+    this.group,
+    this.dir,
     this.v,
     this.t,
     this.p,
@@ -26,6 +34,8 @@ class FlwSensorData extends AinSensorData {
       map['status'],
       map['serial'],
       map['name'],
+      map['group'],
+      map['dir'],
       map['v'],
       map['t'],
       map['p'],
@@ -33,6 +43,7 @@ class FlwSensorData extends AinSensorData {
   }
 
   @override
-  String toString() =>
-      'FlwSensorData(serial: $serial, name: $name, v: $v, t:$t, p:$p)';
+  String toString() {
+    return 'FlwSensorData(group: $group, dir: $dir, v: $v, t: $t, p: $p)';
+  }
 }

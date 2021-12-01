@@ -23,18 +23,18 @@ void main() async {
     print(snapshot);
   });
 
-  test('Read Content', () async {
-    // get first address
-    var addresses = await plug.socket.addresses();
+  // test('Read Content', () async {
+  //   // get first address
+  //   var addresses = await plug.socket.addresses();
 
-    // get h43
-    var h43 = await plug.socket.readH43(addresses.first);
+  //   // get h43
+  //   var h43 = await plug.socket.readH43(addresses.first);
 
-    //
-    var content = FlwSocketContent.fromJson(h43.content);
+  //   //
+  //   var content = FlwSocketContent.fromJson(h43.content);
 
-    print(content);
-  });
+  //   print(content);
+  // });
 
   // test('Write Content', () async {
   //   // get first address
