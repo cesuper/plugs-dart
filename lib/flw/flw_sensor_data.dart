@@ -5,7 +5,7 @@ class FlwSensorData extends AinSensorData {
   final String group;
 
   ///
-  final int dir;
+  final String dir;
 
   /// Flowrate value in l/min
   final num v;

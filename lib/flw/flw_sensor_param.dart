@@ -7,7 +7,7 @@ class FlwSensorParam extends AinSensorParam {
   final String group;
 
   //
-  final int dir;
+  final String dir;
 
   ///
   FlwSensorParam(String serial, String name, this.group, this.dir)
