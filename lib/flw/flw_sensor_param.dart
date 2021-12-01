@@ -28,5 +28,6 @@ class FlwSensorParam extends AinSensorParam {
       FlwSensorParam.fromMap(json.decode(source));
 
   @override
-  String toString() => 'FlwSensorParam(serial: $serial, name: $name)';
+  String toString() =>
+      'FlwSensorParam(serial: $serial, name: $name, group:$group, dir:$dir)';
 }
