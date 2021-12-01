@@ -11,6 +11,9 @@ class Sfp extends Plug implements Ain {
   //
   final int _noAin;
 
+  //
+  static const String model = 'sfp';
+
   Sfp(String address, {int noAin = 9})
       : _noAin = noAin,
         super(address);
