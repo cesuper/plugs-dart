@@ -1,6 +1,6 @@
 import '../ain/ain_sensor_data.dart';
 
-class FlwSensorData extends AinSensorData {
+class SfpSensorData extends AinSensorData {
   ///
   final String group;
 
@@ -17,7 +17,7 @@ class FlwSensorData extends AinSensorData {
   final num p;
 
   ///
-  FlwSensorData(
+  SfpSensorData(
     int status,
     String serial,
     String name,
@@ -29,8 +29,8 @@ class FlwSensorData extends AinSensorData {
   ) : super(status, serial, name);
 
   ///
-  factory FlwSensorData.fromMap(Map<String, dynamic> map) {
-    return FlwSensorData(
+  factory SfpSensorData.fromMap(Map<String, dynamic> map) {
+    return SfpSensorData(
       map['status'],
       map['serial'],
       map['name'],
@@ -44,6 +44,6 @@ class FlwSensorData extends AinSensorData {
 
   @override
   String toString() {
-    return 'FlwSensorData(group: $group, dir: $dir, v: $v, t: $t, p: $p)';
+    return 'SfpSensorData(group: $group, dir: $dir, v: $v, t: $t, p: $p)';
   }
 }

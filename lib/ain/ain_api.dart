@@ -5,9 +5,9 @@ import 'package:plugs/smp/smp_sensor_param.dart';
 import 'package:plugs/smp/smp_settings.dart';
 import 'package:plugs/smp/smp_snapshot.dart';
 
-import '../flw/flw_sensor_param.dart';
-import '../flw/flw_settings.dart';
-import '../flw/flw_snapshot.dart';
+import '../flw/sfp_sensor_param.dart';
+import '../flw/sfp_settings.dart';
+import '../flw/sfp_snapshot.dart';
 
 import '../scp/scp_ain_settings.dart';
 import '../scp/scp_ain_snapshot.dart';
@@ -29,8 +29,8 @@ class AinApi {
   ///
   static T _tSnapshotFromJson<T extends AinSnapshot>(String source) {
     switch (T) {
-      case FlwSnapshot:
-        return FlwSnapshot.fromJson(source) as T;
+      case SfpSnapshot:
+        return SfpSnapshot.fromJson(source) as T;
       case ScpAinSnapshot:
         return ScpAinSnapshot.fromJson(source) as T;
       case SmpSnapshot:
@@ -56,8 +56,8 @@ class AinApi {
     var response = await get(Uri.http(address, apiAinSettings));
 
     switch (T) {
-      case FlwSettings:
-        return FlwSettings.fromJson(response.body) as T;
+      case SfpSettings:
+        return SfpSettings.fromJson(response.body) as T;
       case ScpAinSettings:
         return ScpAinSettings.fromJson(response.body) as T;
       case SmpSettings:
@@ -87,8 +87,8 @@ class AinApi {
     var jSensors = jsonDecode(response.body) as List;
     return List<T>.from(jSensors.map((e) {
       switch (T) {
-        case FlwSensorParam:
-          return FlwSensorParam.fromMap(e);
+        case SfpSensorParam:
+          return SfpSensorParam.fromMap(e);
         case ScpAinSensorParam:
           return ScpAinSensorParam.fromMap(e);
         case SmpSensorParam:

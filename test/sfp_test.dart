@@ -1,13 +1,13 @@
 // ignore_for_file: avoid_print
 
-import 'package:plugs/flw/flw.dart';
-import 'package:plugs/flw/flw_const.dart';
+import 'package:plugs/flw/sfp.dart';
+import 'package:plugs/flw/sfp_const.dart';
 
-import 'package:plugs/flw/flw_socket_content.dart';
+import 'package:plugs/flw/sfp_socket_content.dart';
 import 'package:test/test.dart';
 
 void main() async {
-  var plug = Flw('192.168.100.117:80');
+  var plug = Sfp('192.168.100.117:80');
 
   test('Read Sensors', () async {
     var sensors = await plug.sensors;
