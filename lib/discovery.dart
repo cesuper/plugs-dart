@@ -24,24 +24,27 @@ class Discovery {
     socket.broadcastEnabled = true;
 
     //
-    socket.listen((e) {
-      if (e == RawSocketEvent.read) {
-        // read a chunk
-        Datagram? dg = socket.receive();
+    socket.listen(
+      (e) {
+        if (e == RawSocketEvent.read) {
+          // read a chunk
+          Datagram? dg = socket.receive();
 
-        // check if dg available
-        if (dg != null) {
-          // get the string content from the datagram
-          var sub = dg.data.takeWhile((value) => value != 0).toList();
+          // check if dg available
+          if (dg != null) {
+            // get the string content from the datagram
+            var sub = dg.data.takeWhile((value) => value != 0).toList();
 
-          //
-          var str = utf8.decode(sub, allowMalformed: true);
+            //
+            var str = utf8.decode(sub, allowMalformed: true);
 
-          //
-          infos.add(Info.fromJson(str));
+            //
+            infos.add(Info.fromJson(str));
+          }
         }
-      }
-    });
+      },
+      onDone: () => print('Done'),
+    );
     //
     var targetRawAddress = localAddress.rawAddress..[3] = 0xFF;
 
