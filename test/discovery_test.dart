@@ -13,5 +13,7 @@ void main() async {
     const Duration(seconds: 2),
   );
 
-  print(devices.length);
+  for (var item in devices) {
+    print(item.network.ip);
+  }
 }
