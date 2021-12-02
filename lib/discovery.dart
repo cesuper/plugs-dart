@@ -43,7 +43,6 @@ class Discovery {
           }
         }
       },
-      onDone: () => print('Done'),
     );
     //
     var targetRawAddress = localAddress.rawAddress..[3] = 0xFF;
