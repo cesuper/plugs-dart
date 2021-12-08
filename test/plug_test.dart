@@ -4,7 +4,7 @@ import 'package:plugs/plug/plug.dart';
 import 'package:test/test.dart';
 
 void main() async {
-  var plug = Plug('192.168.100.117');
+  var plug = Plug('192.168.100.101');
 
   test('Info', () async {
     // here we expect only response
@@ -16,10 +16,9 @@ void main() async {
     print(await plug.diagnostic());
   });
 
-//   group('Restart', () {
-//     test('Restart', () async {
-//       expect(await plug.restart(), 200);
-//     });
+  test('Restart', () async {
+    expect(await plug.restart(bootloader: true), 200);
+  });
 
 //     test('Bootloader', () async {
 //       expect(await plug.restart(bootloader: true), 200);

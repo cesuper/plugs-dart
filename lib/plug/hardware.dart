@@ -4,19 +4,22 @@ class Hardware {
   // product name numerical value name <-> code
   final int code;
 
-  //
+  // device family like: sfp, smp, etc
   final String family;
 
-  //
+  // device model like: 9,32
   final String model;
 
-  //
+  // device revision like: r1, r2,
   final String rev;
 
-  //
+  // device serial number
+  final int sn;
+
+  // device serial combined from family, model, rev and sn
   final String serial;
 
-  // mac
+  // device mac address
   final String mac;
 
   Hardware(
@@ -24,6 +27,7 @@ class Hardware {
     this.family,
     this.model,
     this.rev,
+    this.sn,
     this.serial,
     this.mac,
   );
@@ -34,6 +38,7 @@ class Hardware {
       'family': family,
       'model': model,
       'rev': rev,
+      'sn': sn,
       'serial': serial,
       'mac': mac,
     };
@@ -45,6 +50,7 @@ class Hardware {
       map['family'],
       map['model'],
       map['rev'],
+      map['sn'],
       map['serial'],
       map['mac'],
     );
@@ -57,6 +63,6 @@ class Hardware {
 
   @override
   String toString() {
-    return 'Hardware(code: $code, family: $family, model: $model, rev: $rev, serial: $serial, mac: $mac)';
+    return 'Hardware(code: $code, family: $family, model: $model, rev: $rev, sn: $sn, serial: $serial, mac: $mac)';
   }
 }

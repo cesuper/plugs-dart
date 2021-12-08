@@ -1,12 +1,11 @@
 // ignore_for_file: avoid_print
 
-import 'package:plugs/smp/smp.dart';
-
+import 'package:plugs/plug/plug.dart';
 import 'package:test/test.dart';
 
 void main() async {
   //
-  var plug = Smp('192.168.100.110:80', 8);
+  var plug = Plug('192.168.100.101:80');
 
   test('event test', () async {
     var _notifier = await plug.connect();
