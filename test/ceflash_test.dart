@@ -6,6 +6,7 @@ import 'package:logger/logger.dart';
 import 'package:plugs/ceflash/bootp_server.dart';
 import 'package:plugs/ceflash/tftp_data_server.dart';
 import 'package:plugs/ceflash/tftp_server.dart';
+import 'package:test/scaffolding.dart';
 
 // local address
 final localAddress =
@@ -26,32 +27,34 @@ const tftpRequestTimmeout = Duration(seconds: 10);
 const tftpDataRequestTimeout = Duration(seconds: 10);
 
 void main() async {
-  //
-  var file = await File(Directory.current.path + '/' + path).readAsBytes();
-  print(file.length);
+  test('firmware update', () async {
+    //
+    var file = await File(Directory.current.path + '/' + path).readAsBytes();
+    print(file.length);
 
-  //
-  await BootpServer.waitForBootpPacket(
-    localAddress,
-    remoteAddress,
-    remoteMac,
-    bootpRequestTimeout,
-    logLevel: Level.info,
-  ).then((isTargetExists) async {
-    await TftpServer.waitForTftpRrq(
-      localAddress,
-      tftpRequestTimmeout,
-      logLevel: Level.info,
-    );
-  }).then((value) async {
-    await TftpDataServer.transfer(
+    //
+    await BootpServer.waitForBootpPacket(
       localAddress,
       remoteAddress,
-      tftpDataRequestTimeout,
-      file,
-      logLevel: Level.debug,
-    ).then((value) {
-      print(value);
+      remoteMac,
+      bootpRequestTimeout,
+      logLevel: Level.info,
+    ).then((isTargetExists) async {
+      await TftpServer.waitForTftpRrq(
+        localAddress,
+        tftpRequestTimmeout,
+        logLevel: Level.info,
+      );
+    }).then((value) async {
+      await TftpDataServer.transfer(
+        localAddress,
+        remoteAddress,
+        tftpDataRequestTimeout,
+        file,
+        logLevel: Level.debug,
+      ).then((value) {
+        print(value);
+      });
     });
   });
 }
