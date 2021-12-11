@@ -4,6 +4,7 @@ import 'dart:io';
 
 import 'package:logger/logger.dart';
 import 'package:plugs/ceflash/bootp_server.dart';
+import 'package:plugs/ceflash/ceflash.dart';
 import 'package:plugs/ceflash/tftp_data_server.dart';
 import 'package:plugs/ceflash/tftp_server.dart';
 import 'package:test/scaffolding.dart';
@@ -27,34 +28,20 @@ const tftpRequestTimmeout = Duration(seconds: 10);
 const tftpDataRequestTimeout = Duration(seconds: 10);
 
 void main() async {
-  test('firmware update', () async {
+  test('ceflash test', () async {
     //
-    var file = await File(Directory.current.path + '/' + path).readAsBytes();
-    print(file.length);
+    var firmware = File(Directory.current.path + '/' + path);
 
     //
-    await BootpServer.waitForBootpPacket(
+    var result = await CeFlash.update(
       localAddress,
       remoteAddress,
       remoteMac,
-      bootpRequestTimeout,
+      firmware,
       logLevel: Level.info,
-    ).then((isTargetExists) async {
-      await TftpServer.waitForTftpRrq(
-        localAddress,
-        tftpRequestTimmeout,
-        logLevel: Level.info,
-      );
-    }).then((value) async {
-      await TftpDataServer.transfer(
-        localAddress,
-        remoteAddress,
-        tftpDataRequestTimeout,
-        file,
-        logLevel: Level.debug,
-      ).then((value) {
-        print(value);
-      });
-    });
+    );
+
+    //
+    print(result);
   });
 }
