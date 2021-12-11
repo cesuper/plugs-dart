@@ -17,13 +17,12 @@ void main() async {
   });
 
   test('Restart', () async {
-    expect(await plug.restart(bootloader: true), 200);
+    expect(await plug.restart(), 200);
   });
 
-//     test('Bootloader', () async {
-//       expect(await plug.restart(bootloader: true), 200);
-//     });
-//   }, skip: true);
+  test('Bootloader', () async {
+    expect(await plug.restart(bootloader: true), 200);
+  });
 
 //   group('EEPROM', () {
 //     test('Invalid json', () async {
