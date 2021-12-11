@@ -3,10 +3,7 @@
 import 'dart:io';
 
 import 'package:logger/logger.dart';
-import 'package:plugs/ceflash/bootp_server.dart';
 import 'package:plugs/ceflash/ceflash.dart';
-import 'package:plugs/ceflash/tftp_data_server.dart';
-import 'package:plugs/ceflash/tftp_server.dart';
 import 'package:test/scaffolding.dart';
 
 // local address
