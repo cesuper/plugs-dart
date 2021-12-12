@@ -13,10 +13,14 @@ class CeFlash {
   /// [remoteMac] target mac address
   /// [firmware] firmware file
   /// [timeout] operation timeout, default 5 sec
-  static Future<bool> update(InternetAddress localAddress,
-      InternetAddress remoteAddress, List<int> remoteMac, File firmware,
-      {Duration timeout = const Duration(seconds: 5),
-      Level logLevel = Level.error}) async {
+  static Future<bool> update(
+    InternetAddress localAddress,
+    InternetAddress remoteAddress,
+    List<int> remoteMac,
+    File firmware, {
+    Duration timeout = const Duration(seconds: 5),
+    Level logLevel = Level.error,
+  }) async {
     //
     bool isCompleted = false;
 
@@ -30,11 +34,15 @@ class CeFlash {
       timeout,
       logLevel: logLevel,
     ).then((isTargetExists) async {
-      await TftpServer.waitForTftpRrq(
-        localAddress,
-        timeout,
-        logLevel: logLevel,
-      );
+      if (isTargetExists) {
+        await TftpServer.waitForTftpRrq(
+          localAddress,
+          timeout,
+          logLevel: logLevel,
+        );
+      } else {
+        isCompleted = false;
+      }
     }).then((value) async {
       await TftpDataServer.transfer(
         localAddress,
