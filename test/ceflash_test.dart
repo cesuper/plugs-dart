@@ -3,6 +3,7 @@
 import 'dart:io';
 
 import 'package:logger/logger.dart';
+import 'package:plugs/ceflash/bootp_server.dart';
 import 'package:plugs/ceflash/ceflash.dart';
 import 'package:plugs/plug/plug.dart';
 import 'package:test/scaffolding.dart';
@@ -44,7 +45,9 @@ void main() async {
       remoteAddress,
       remoteMac,
       firmware,
-      timeout: const Duration(seconds: 10),
+      bootpServerPort: BootpServer.serverPort + 1000,
+      bootpClientPort: BootpServer.clientPort + 1000,
+      timeout: const Duration(seconds: 5),
       logLevel: Level.debug,
     );
 

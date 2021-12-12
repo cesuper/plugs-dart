@@ -20,6 +20,7 @@ class TftpDataServer {
     InternetAddress remoteAddress,
     Duration timeout,
     Uint8List file, {
+    int localPort = 0,
     Level logLevel = Level.error,
   }) async {
     //
@@ -33,7 +34,7 @@ class TftpDataServer {
     bool isSuccess = false;
 
     // try to bind to ANY port
-    await RawDatagramSocket.bind(localAddress, 0).then(
+    await RawDatagramSocket.bind(localAddress, localPort).then(
       (socket) async {
         try {
           // set block number

@@ -62,6 +62,8 @@ class BootpServer {
     InternetAddress remoteAddress,
     List<int> remoteMac,
     Duration timeout, {
+    int serverPort = BootpServer.serverPort,
+    int clientPort = BootpServer.clientPort,
     Level logLevel = Level.error,
   }) async {
     //
@@ -73,90 +75,82 @@ class BootpServer {
     bool isBootpResponseSent = false;
 
     //
-    await RawDatagramSocket.bind(localAddress, serverPort).then(
-      (socket) async {
-        // enable broadcast
-        socket.broadcastEnabled = true;
+    await RawDatagramSocket.bind(localAddress, serverPort).then((socket) async {
+      // enable broadcast
+      socket.broadcastEnabled = true;
 
-        try {
-          // wait for bootp request for timeout
-          await socket.timeout(timeout).forEach((e) {
-            if (e == RawSocketEvent.read) {
-              // read
-              Datagram? dg = socket.receive();
+      try {
+        // wait for bootp request for timeout
+        await socket.timeout(timeout).forEach((e) {
+          if (e == RawSocketEvent.read) {
+            // read
+            Datagram? dg = socket.receive();
 
-              // check for null
-              if (dg != null) {
+            // check for null
+            if (dg != null) {
+              //
+              log.d('Reading BOOTP packet from: ${dg.address}}: ${dg.port}');
+
+              // get bootp request
+              var request = BootpPacket.fromBytes(dg.data);
+
+              //
+              log.d('Verifying BOOTP packet');
+
+              //
+              if (_isValidRequest(request, remoteMac)) {
                 //
-                log.d('Reading BOOTP packet from: ${dg.address}}: ${dg.port}');
+                log.d('Generating BOOTP response');
 
-                // get bootp request
-                var request = BootpPacket.fromBytes(dg.data);
+                // create reply from request
+                var reply =
+                    _createBootpReply(request, localAddress, remoteAddress);
+
+                // create direct broadcast address to send reply back the target
+                var destinationAddress = InternetAddress.fromRawAddress(
+                  localAddress.rawAddress..[3] = 0xFF, // set to 255
+                  type: InternetAddressType.IPv4,
+                );
 
                 //
-                log.d('Verifying BOOTP packet');
+                log.d('Broadcast address for BOOTP reply: $destinationAddress');
+
+                // Send the reply back to the client using broadcast
+                log.d('Sending BOOTP response');
+
+                // send response back to target with extra info
+                socket.send(reply.datagram, destinationAddress, dg.port);
+
+                // set flag
+                isBootpResponseSent = true;
+
+                // close socket, done
+                socket.close();
 
                 //
-                if (_isValidRequest(request, remoteMac)) {
-                  //
-                  log.d('Generating BOOTP response');
+                log.i('BOOTP operation completed');
+              } else {
+                //
+                log.e('Invalid BOOTP request, close');
 
-                  // create reply from request
-                  var reply =
-                      _createBootpReply(request, localAddress, remoteAddress);
-
-                  // create direct broadcast address to send reply back the target
-                  var destinationAddress = InternetAddress.fromRawAddress(
-                    localAddress.rawAddress..[3] = 0xFF, // set to 255
-                    type: InternetAddressType.IPv4,
-                  );
-
-                  //
-                  log.d(
-                      'Broadcast address for BOOTP reply: $destinationAddress');
-
-                  // Send the reply back to the client using broadcast
-                  log.d('Sending BOOTP response');
-
-                  // send response back to target with extra info
-                  socket.send(reply.datagram, destinationAddress, dg.port);
-
-                  // set flag
-                  isBootpResponseSent = true;
-
-                  // close socket, done
-                  socket.close();
-
-                  //
-                  log.i('BOOTP operation completed');
-                } else {
-                  //
-                  log.e('Invalid BOOTP request, close');
-
-                  // close socket for invalid requests
-                  socket.close();
-                }
+                // close socket for invalid requests
+                socket.close();
               }
             }
-          });
-        } on TimeoutException {
-          //
-          log.d('BOOTP request not arrived: $timeout');
-        } catch (e) {
-          log.e(e);
-        } finally {
-          // close socket
-          socket.close();
-
-          //
-          log.d('Stopping BOOTP server');
-        }
-      },
-      onError: (e) {
-        // log error, here we expect port in use
-        log.e('Socket bind failed: $e');
-      },
-    );
+          }
+        });
+      } on TimeoutException {
+        //
+        log.d('BOOTP request not arrived: $timeout');
+      } catch (e) {
+        log.e(e);
+      } finally {
+        // close socket
+        socket.close();
+        //
+        log.d('Stopping BOOTP server');
+      }
+    });
 
     //
     return isBootpResponseSent;

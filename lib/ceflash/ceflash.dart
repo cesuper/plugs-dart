@@ -18,44 +18,39 @@ class CeFlash {
     InternetAddress remoteAddress,
     List<int> remoteMac,
     File firmware, {
+    int bootpServerPort = BootpServer.serverPort,
+    int bootpClientPort = BootpServer.clientPort,
     Duration timeout = const Duration(seconds: 5),
     Level logLevel = Level.error,
   }) async {
     //
-    bool isCompleted = false;
-
     var fw = await firmware.readAsBytes();
 
-    //
-    await BootpServer.waitForBootpPacket(
-      localAddress,
-      remoteAddress,
-      remoteMac,
-      timeout,
-      logLevel: logLevel,
-    ).then((isTargetExists) async {
-      if (isTargetExists) {
-        await TftpServer.waitForTftpRrq(
-          localAddress,
-          timeout,
-          logLevel: logLevel,
-        );
-      } else {
-        isCompleted = false;
-      }
-    }).then((value) async {
-      await TftpDataServer.transfer(
+    // check if client exists
+    if (await BootpServer.waitForBootpPacket(
+        localAddress, remoteAddress, remoteMac, timeout,
+        serverPort: bootpServerPort,
+        clientPort: bootpClientPort,
+        logLevel: logLevel)) {
+      // check if valid RRQ arrived
+      if (await TftpServer.waitForTftpRrq(
         localAddress,
-        remoteAddress,
         timeout,
-        fw,
         logLevel: logLevel,
-      ).then((value) {
-        isCompleted = value;
-      });
-    });
+      )) {
+        // check if transfer completed
+        if (await TftpDataServer.transfer(
+          localAddress,
+          remoteAddress,
+          timeout,
+          fw,
+          logLevel: logLevel,
+        )) {
+          return true;
+        }
+      }
+    }
 
-    //
-    return isCompleted;
+    return false;
   }
 }
