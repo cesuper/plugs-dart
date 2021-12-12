@@ -29,7 +29,7 @@ const tftpRequestTimmeout = Duration(seconds: 10);
 const tftpDataRequestTimeout = Duration(seconds: 10);
 
 void main() async {
-  test('ceflash test', () async {
+  test('update by mac', () async {
     //
     //var plug = Plug('192.168.100.100');
 
@@ -45,8 +45,8 @@ void main() async {
       remoteAddress,
       remoteMac,
       firmware,
-      bootpServerPort: BootpServer.serverPort + 1000,
-      bootpClientPort: BootpServer.clientPort + 1000,
+      bootpServerPort: BootpServer.serverPort + 0,
+      bootpClientPort: BootpServer.clientPort + 0,
       timeout: const Duration(seconds: 5),
       logLevel: Level.debug,
     );
