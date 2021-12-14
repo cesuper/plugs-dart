@@ -5,7 +5,6 @@ import 'dart:io';
 import 'package:logger/logger.dart';
 import 'package:plugs/ceflash/bootp_server.dart';
 import 'package:plugs/ceflash/ceflash.dart';
-import 'package:plugs/plug/plug.dart';
 import 'package:test/scaffolding.dart';
 
 // local address
@@ -16,13 +15,17 @@ final localAddress =
 final remoteAddress =
     InternetAddress('192.168.100.100', type: InternetAddressType.IPv4);
 
-// target mac address
+// launchpad
 //final remoteMac = <int>[0x94, 0xFB, 0xA7, 0x51, 0x00, 0x8C];
-final remoteMac = <int>[0x08, 0x00, 0x28, 0x5A, 0x8F, 0xCB];
+
+// 08-00-28-5A-8F-CB
+//final remoteMac = <int>[0x08, 0x00, 0x28, 0x5A, 0x8F, 0xCB];
+
+// 94-FB-A7-51-00-3B
+final remoteMac = <int>[0x94, 0xFB, 0xA7, 0x51, 0x00, 0x3B];
 
 // firmware path
-//const path = 'assets/sfp9-r2-1.0.0.bin';
-const path = 'assets/tcpEcho_EK_TM4C129EXL_TI.bin';
+const path = 'assets/sfp9-r2-1.0.0.bin';
 
 const bootpRequestTimeout = Duration(seconds: 25);
 const tftpRequestTimmeout = Duration(seconds: 10);
@@ -30,12 +33,6 @@ const tftpDataRequestTimeout = Duration(seconds: 10);
 
 void main() async {
   test('update by mac', () async {
-    //
-    //var plug = Plug('192.168.100.100');
-
-    //
-    //plug.restart(bootloader: true);
-
     //
     var firmware = File(Directory.current.path + '/' + path);
 
