@@ -1,6 +1,7 @@
 import 'dart:convert';
 
 import 'package:http/http.dart';
+
 import 'package:plugs/smp/smp_sensor_param.dart';
 import 'package:plugs/smp/smp_settings.dart';
 import 'package:plugs/smp/smp_snapshot.dart';
@@ -41,19 +42,25 @@ class AinApi {
   }
 
   ///
-  static Future<T> getSnapshot<T extends AinSnapshot>(String address,
-      {bool isBuffered = false}) async {
+  static Future<T> getSnapshot<T extends AinSnapshot>(
+    String address,
+    Duration timeout, {
+    bool isBuffered = false,
+  }) async {
     //
     var response =
-        await get(Uri.http(address, isBuffered ? apiAinBuffer : apiAin));
+        await get(Uri.http(address, isBuffered ? apiAinBuffer : apiAin))
+            .timeout(timeout);
 
     return AinApi._tSnapshotFromJson(response.body);
   }
 
   ///
-  static Future<T> getSettings<T extends AinSettings>(String address) async {
+  static Future<T> getSettings<T extends AinSettings>(
+      String address, Duration timeout) async {
     //
-    var response = await get(Uri.http(address, apiAinSettings));
+    var response =
+        await get(Uri.http(address, apiAinSettings)).timeout(timeout);
 
     switch (T) {
       case SfpSettings:
@@ -68,21 +75,22 @@ class AinApi {
   }
 
   ///
-  static Future<int> setSettings(String address, AinSettings settings) async {
+  static Future<int> setSettings(
+      String address, AinSettings settings, Duration timeout) async {
     var r = await post(
       Uri.http(address, apiAinSettings),
       headers: {'Content-Type': 'application/json'},
       body: settings.toJson(),
-    );
+    ).timeout(timeout);
 
     return r.statusCode;
   }
 
   ///
   static Future<List<T>> getSensors<T extends AinSensorParam>(
-      String address) async {
+      String address, Duration timeout) async {
     //
-    var response = await get(Uri.http(address, apiAinSensors));
+    var response = await get(Uri.http(address, apiAinSensors)).timeout(timeout);
 
     var jSensors = jsonDecode(response.body) as List;
     return List<T>.from(jSensors.map((e) {
@@ -101,12 +109,15 @@ class AinApi {
 
   ///
   static Future<int> setSensors(
-      String address, List<AinSensorParam> sensors) async {
+    String address,
+    List<AinSensorParam> sensors,
+    Duration timeout,
+  ) async {
     var r = await post(
       Uri.http(address, apiAinSensors),
       headers: {'Content-Type': 'application/json'},
       body: jsonEncode(sensors.map((e) => e.toMap()).toList()),
-    );
+    ).timeout(timeout);
 
     return r.statusCode;
   }

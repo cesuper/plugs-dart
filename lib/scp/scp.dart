@@ -29,27 +29,27 @@ abstract class Scp extends Plug implements AinBuffered, Dio {
 
   @override
   Future<ScpAinSnapshot> get snapshot =>
-      AinApi.getSnapshot<ScpAinSnapshot>(address);
+      AinApi.getSnapshot<ScpAinSnapshot>(address, timeout);
 
   @override
   Future<List<ScpAinSensorParam>> get sensors =>
-      AinApi.getSensors<ScpAinSensorParam>(address);
+      AinApi.getSensors<ScpAinSensorParam>(address, timeout);
 
   @override
   Future<ScpAinSettings> get settings =>
-      AinApi.getSettings<ScpAinSettings>(address);
+      AinApi.getSettings<ScpAinSettings>(address, timeout);
 
   @override
   Future<AinSnapshot> get bufferedSnapshot =>
-      AinApi.getSnapshot<ScpAinSnapshot>(address, isBuffered: true);
+      AinApi.getSnapshot<ScpAinSnapshot>(address, timeout, isBuffered: true);
 
   @override
   Future<int> setSensors(List<AinSensorParam> sensors) async =>
-      AinApi.setSensors(address, sensors);
+      AinApi.setSensors(address, sensors, timeout);
 
   @override
   Future<void> setSettings(AinSettings settings) =>
-      AinApi.setSettings(address, settings);
+      AinApi.setSettings(address, settings, timeout);
 
   @override
   Future<ScpAinSnapshot> buffer(int time) =>

@@ -22,20 +22,22 @@ class Sfp extends Plug implements Ain {
   int get ainCount => _noAin;
 
   @override
-  Future<SfpSnapshot> get snapshot => AinApi.getSnapshot<SfpSnapshot>(address);
+  Future<SfpSnapshot> get snapshot =>
+      AinApi.getSnapshot<SfpSnapshot>(address, timeout);
 
   @override
   Future<List<SfpSensorParam>> get sensors =>
-      AinApi.getSensors<SfpSensorParam>(address);
+      AinApi.getSensors<SfpSensorParam>(address, timeout);
 
   @override
-  Future<SfpSettings> get settings => AinApi.getSettings<SfpSettings>(address);
+  Future<SfpSettings> get settings =>
+      AinApi.getSettings<SfpSettings>(address, timeout);
 
   @override
   Future<void> setSensors(List<AinSensorParam> sensors) =>
-      AinApi.setSensors(address, sensors);
+      AinApi.setSensors(address, sensors, timeout);
 
   @override
   Future<void> setSettings(AinSettings settings) =>
-      AinApi.setSettings(address, settings);
+      AinApi.setSettings(address, settings, timeout);
 }

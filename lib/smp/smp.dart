@@ -24,21 +24,22 @@ class Smp extends Plug implements AinBuffered {
 
   @override
   Future<List<AinSensorParam>> get sensors =>
-      AinApi.getSensors<SmpSensorParam>(address);
+      AinApi.getSensors<SmpSensorParam>(address, timeout);
 
   @override
   Future<void> setSensors(List<AinSensorParam> sensors) async =>
-      AinApi.setSensors(address, sensors);
+      AinApi.setSensors(address, sensors, timeout);
 
   @override
   Future<void> setSettings(AinSettings settings) =>
-      AinApi.setSettings(address, settings);
+      AinApi.setSettings(address, settings, timeout);
 
   @override
-  Future<SmpSettings> get settings => AinApi.getSettings(address);
+  Future<SmpSettings> get settings => AinApi.getSettings(address, timeout);
 
   @override
-  Future<AinSnapshot> get snapshot => AinApi.getSnapshot<SmpSnapshot>(address);
+  Future<AinSnapshot> get snapshot =>
+      AinApi.getSnapshot<SmpSnapshot>(address, timeout);
 
   @override
   Future<SmpSnapshot> buffer(int time) =>
@@ -46,5 +47,5 @@ class Smp extends Plug implements AinBuffered {
 
   @override
   Future<SmpSnapshot> get bufferedSnapshot =>
-      AinApi.getSnapshot<SmpSnapshot>(address, isBuffered: true);
+      AinApi.getSnapshot<SmpSnapshot>(address, timeout, isBuffered: true);
 }

@@ -7,8 +7,6 @@ import 'package:plugs/socket/socket.dart';
 
 import 'info.dart';
 
-const Duration timeout = Duration(seconds: 2);
-
 class Plug {
   // timeout for http calls
   final Duration timeout;
