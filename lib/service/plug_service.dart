@@ -5,21 +5,17 @@ import 'package:logger/logger.dart';
 import 'package:plugs/discovery.dart';
 import 'package:plugs/plugs/plug/info.dart';
 
-import 'plug_info.dart';
+//
+typedef PlugConnectedCallback = void Function();
 
 //
-typedef OnPlugConnected = void Function(List<PlugInfo> plugs);
-
-//
-typedef OnPlugDisconnected = void Function(List<PlugInfo> plugs);
-
-//
+typedef PlugDisconnectedCallback = void Function();
 
 /// TODO: provide detailed description about device service
 ///
 class PlugService {
   // logger
-  final Logger _logger;
+  final Logger? logger;
 
   // local address where plugs expected to be
   final InternetAddress localAddress;
@@ -32,6 +28,12 @@ class PlugService {
 
   // port to bind socket used for discovery
   final int port;
+
+  // callback
+  final PlugConnectedCallback? onConnected;
+
+  // callback
+  final PlugDisconnectedCallback? onDisconnected;
 
   // list of discovered devices
   List<Info> _devices = [];
@@ -51,12 +53,14 @@ class PlugService {
   /// [period] defines the device scan period
   /// [timeout] defines the time to wait for responses
   PlugService(
-    Logger logger,
     this.localAddress, {
     this.period = const Duration(seconds: 3),
     this.timeout = const Duration(seconds: 1),
     this.port = 0,
-  }) : _logger = logger;
+    this.onConnected,
+    this.onDisconnected,
+    this.logger,
+  });
 
   ///
   void start() {
@@ -76,9 +80,9 @@ class PlugService {
           );
         } on SocketException catch (e, stackTrace) {
           // log socket exceptions
-          _logger.e('Socket Exception', e, stackTrace);
+          logger?.e('Socket Exception, check port?', e, stackTrace);
         } catch (e) {
-          _logger.e(e);
+          logger?.e(e);
         }
 
         // reset flag

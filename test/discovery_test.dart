@@ -7,7 +7,7 @@ import 'package:plugs/discovery.dart';
 void main() async {
   var devices = await Discovery.discover(
     InternetAddress('192.168.100.118', type: InternetAddressType.IPv4),
-    const Duration(seconds: 2),
+    timeout: const Duration(seconds: 2),
   );
 
   for (var item in devices) {
