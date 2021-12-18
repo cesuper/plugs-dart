@@ -1,4 +1,4 @@
-import '../ain/ain_sensor_data.dart';
+import 'package:plugs/plugs/ain/ain_sensor_data.dart';
 
 class ScpAinSensorData extends AinSensorData {
   ///

@@ -1,10 +1,9 @@
 import 'dart:convert';
 
 import 'package:http/http.dart';
-
-import 'package:plugs/smp/smp_sensor_param.dart';
-import 'package:plugs/smp/smp_settings.dart';
-import 'package:plugs/smp/smp_snapshot.dart';
+import 'package:plugs/plugs/smp/smp_sensor_param.dart';
+import 'package:plugs/plugs/smp/smp_settings.dart';
+import 'package:plugs/plugs/smp/smp_snapshot.dart';
 
 import '../sfp/sfp_sensor_param.dart';
 import '../sfp/sfp_settings.dart';

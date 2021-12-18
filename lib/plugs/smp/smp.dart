@@ -1,10 +1,9 @@
-import 'package:plugs/ain/ain_api.dart';
-import 'package:plugs/ain/ain_buffered.dart';
-import 'package:plugs/ain/ain_snapshot.dart';
-import 'package:plugs/ain/ain_settings.dart';
-import 'package:plugs/ain/ain_sensor_param.dart';
-
-import 'package:plugs/plug/plug.dart';
+import 'package:plugs/plugs/ain/ain_api.dart';
+import 'package:plugs/plugs/ain/ain_buffered.dart';
+import 'package:plugs/plugs/ain/ain_sensor_param.dart';
+import 'package:plugs/plugs/ain/ain_settings.dart';
+import 'package:plugs/plugs/ain/ain_snapshot.dart';
+import 'package:plugs/plugs/plug/plug.dart';
 
 import 'smp_sensor_param.dart';
 import 'smp_settings.dart';

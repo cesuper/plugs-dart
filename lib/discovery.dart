@@ -1,7 +1,7 @@
 import 'dart:convert';
 import 'dart:io';
 
-import 'package:plugs/plug/info.dart';
+import 'plugs/plug/info.dart';
 
 /// Utility class for discovering plugs in the subnet
 /// same as [localAddress]. A directed broadcast udp

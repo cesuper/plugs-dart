@@ -2,9 +2,9 @@ import 'dart:convert';
 import 'dart:io' as io;
 
 import 'package:http/http.dart' as http;
-import 'package:plugs/plug/diagnostic.dart';
 import 'package:plugs/socket/socket.dart';
 
+import 'diagnostic.dart';
 import 'info.dart';
 
 class Plug {

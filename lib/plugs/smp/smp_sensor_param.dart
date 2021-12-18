@@ -1,6 +1,6 @@
 import 'dart:convert';
 
-import 'package:plugs/ain/ain_sensor_param.dart';
+import 'package:plugs/plugs/ain/ain_sensor_param.dart';
 
 // This class represents the very basic cp sensor model
 // with values are needed to get pressure data

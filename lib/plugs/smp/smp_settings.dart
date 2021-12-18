@@ -1,6 +1,6 @@
 import 'dart:convert';
 
-import 'package:plugs/ain/ain_settings.dart';
+import 'package:plugs/plugs/ain/ain_settings.dart';
 
 class SmpSettings extends AinSettings {
   //
