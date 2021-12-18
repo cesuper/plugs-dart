@@ -1,6 +1,6 @@
 import 'dart:convert';
 
-class DeviceInfo {
+class PlugInfo {
   //
   final String ip;
 
@@ -19,7 +19,7 @@ class DeviceInfo {
   //
   final String build;
 
-  DeviceInfo(this.ip, this.mac, this.serial, this.fw, this.release, this.build);
+  PlugInfo(this.ip, this.mac, this.serial, this.fw, this.release, this.build);
 
   Map<String, dynamic> toMap() {
     return {
@@ -32,8 +32,8 @@ class DeviceInfo {
     };
   }
 
-  factory DeviceInfo.fromMap(Map<String, dynamic> map) {
-    return DeviceInfo(
+  factory PlugInfo.fromMap(Map<String, dynamic> map) {
+    return PlugInfo(
       map['ip'] ?? '',
       map['mac'] ?? '',
       map['serial'] ?? '',
@@ -45,8 +45,8 @@ class DeviceInfo {
 
   String toJson() => json.encode(toMap());
 
-  factory DeviceInfo.fromJson(String source) =>
-      DeviceInfo.fromMap(json.decode(source));
+  factory PlugInfo.fromJson(String source) =>
+      PlugInfo.fromMap(json.decode(source));
 
   @override
   String toString() {
