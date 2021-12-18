@@ -2,12 +2,22 @@ import 'dart:convert';
 import 'dart:io' as io;
 
 import 'package:http/http.dart' as http;
+import 'package:meta/meta.dart';
 import 'package:plugs/socket/socket.dart';
 
 import 'diagnostic.dart';
 import 'info.dart';
 
+//
+typedef EventCallback = void Function(String address, int event);
+
 class Plug {
+  // tcp port from where notification packets comes
+  static const eventPort = 6069;
+
+  // size of the tcp packet in bytes
+  static const eventSize = 16;
+
   // timeout for http calls
   final Duration timeout;
 
@@ -35,9 +45,63 @@ class Plug {
     return Diagnostic.fromJson(r.body);
   }
 
-  //
-  Future<io.Socket> connect({int port = 6069}) {
-    return io.Socket.connect(address.split(':').first, port);
+  ///
+  Future<void> connect({
+    bool ignorePingEvent = true,
+    EventCallback? onEvent,
+    Function? onError,
+    Function? onDone,
+  }) async {
+    //
+    var notifier = await io.Socket.connect(address.split(':').first, eventPort);
+
+    // listen on incoming packets
+    notifier.listen(
+      (packet) {
+        // multipe events may arrive in one packet, so we need
+        // search multiple events within one packet by slicing the packet
+        // into multiple events
+        var noEvents = packet.length ~/ eventSize;
+
+        var offset = 0;
+        for (var i = 0; i < noEvents; i++) {
+          // get msg and shift offset
+          var msg = packet.skip(offset).take(eventSize);
+
+          // get event from msg
+          int event = msg.first;
+
+          // handle events
+          switch (event) {
+            case 255:
+              if (!ignorePingEvent) onEvent!(address, event);
+              break;
+            default:
+              onEvent!(address, event);
+          }
+
+          //
+          offset += eventSize;
+        }
+      },
+      cancelOnError: true,
+      onError: onError,
+      onDone: () => onDone,
+    );
+  }
+
+  ///
+  /// Handles incoming event from notifier and provides
+  /// notifyListeners() call based on [event] value.
+  /// Unhandled events must be propagated to the super method
+  @protected
+  bool handleEventCode(int event) {
+    switch (event) {
+      case 255:
+        return true;
+      default:
+        return false;
+    }
   }
 
   /// Restarts the plug

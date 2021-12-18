@@ -1,5 +1,6 @@
-import 'dart:io';
 import 'package:logger/logger.dart';
+import 'package:plugs/plugs/plug/plug.dart';
+import 'package:test/scaffolding.dart';
 
 final log = Logger(printer: PrettyPrinter(methodCount: 0));
 
@@ -8,20 +9,20 @@ void main() async {
   const port = 6069;
 
   //
-  const address = '192.168.100.101';
-
+  const address = '192.168.100.100';
   //
-  while (true) {
-    try {
-      var notifier = await Socket.connect(address.split(':').first, port)
-          .timeout(const Duration(seconds: 2));
-      log.i('Connected');
-      notifier.destroy();
-      break;
-    } catch (e) {
-      log.e(e);
-    }
-  }
+  final plug = Plug(address);
+
+  test('description', () async {
+    var n1 = await plug.connect(
+      onEvent: (address, event) => print('$address - $event'),
+    );
+    //var n2 = await plug.connect();
+    //var n3 = await plug.connect();
+    //var n4 = await plug.connect();
+
+    await Future.delayed(const Duration(seconds: 40));
+  });
 
   //
   //var plug = Smp('192.168.100.110:80', 8);

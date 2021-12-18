@@ -4,6 +4,7 @@ import 'dart:io';
 import 'package:logger/logger.dart';
 import 'package:plugs/discovery.dart';
 import 'package:plugs/plugs/plug/info.dart';
+import 'package:plugs/plugs/plug/plug.dart';
 
 //
 typedef NetworkStateChangedCallback = void Function(List<Info> plugs);
@@ -34,6 +35,9 @@ class PlugService {
 
   // list of discovered devices
   List<Info> _devices = [];
+
+  //
+  final Map<String, Socket> _deviceRegistry = {};
 
   // list of devices discovered
   List<Info> get devices => _devices;
@@ -95,10 +99,10 @@ class PlugService {
     });
   }
 
-  /// Function to filter new plugs.
+  /// Function to find plugs just connected
   /// Plugs are considered as new when not present in the previous
-  /// discovery result.
-  void _searchForNew(List<Info> previous, List<Info> recent) {
+  /// but in recent.
+  void _searchForNew(List<Info> previous, List<Info> recent) async {
     // plug is not new when the plug serial and ip address remains unchanged
 
     // list of new plugs
@@ -113,13 +117,60 @@ class PlugService {
         list.add(r);
       }
     }
-    //
+
+    // update device registry
+    _register(list);
+
+    // fire callback
     onConnected!(list);
   }
 
-  /// Function to find disconnected plugs
+  ///
+  void _register(List<Info> list) async {
+    //
+    for (var info in list) {
+      // try to open tcp socket for a new plug
+      var socket = await Plug(info.network.ip).connect(
+        onEvent: (address, event) => print('$address - $event'),
+      );
+
+      // // listen for event with as 16 bytes
+      // socket.listen((packet) {
+      //   // multipe events may arrive in one packet, so we need
+      //   // search multiple events within one packet by slicing the packet
+      //   // into multiple events
+
+      //   // get the number of events in the packet
+      //   var noEvents = packet.length ~/ Plug.eventSize;
+
+      //   var offset = 0;
+
+      //   for (var i = 0; i < noEvents; i++) {
+      //     // get msg and shift offset
+      //     var event = packet.skip(offset).take(Plug.eventSize);
+
+      //     // get event code from the event
+      //     int code = event.first;
+
+      //     if (code != 255) {
+      //       //logger.d(event);
+      //     }
+
+      //     // check if event is handled properly
+      //     if (handleEventCode(code) == false) {
+      //       // log unhandled events
+      //       logger.d('Unhandled event code: $code');
+      //     }
+
+      //     offset += Plug.eventSize;
+      //   }
+      // });
+    }
+  }
+
+  /// Function to find plugs just removed
   /// Plugs are considered as disconnected when existed in the previous but
-  /// not in recent
+  /// not in recent.
   void _searchForDisconnected(List<Info> previous, List<Info> recent) {
     // list of new plugs
     var list = <Info>[];
