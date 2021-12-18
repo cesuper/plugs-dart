@@ -13,7 +13,7 @@ abstract class Ain {
   Future<List<AinSensorParam>> get sensors;
 
   /// Sets the sensor parameters
-  Future<void> setSensors(List<AinSensorParam> sensors);
+  Future<int> setSensors(List<AinSensorParam> sensors);
 
   /// Returns the settings structure
   Future<AinSettings> get settings;

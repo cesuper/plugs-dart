@@ -26,7 +26,7 @@ class Smp extends Plug implements AinBuffered {
       AinApi.getSensors<SmpSensorParam>(address, timeout);
 
   @override
-  Future<void> setSensors(List<AinSensorParam> sensors) async =>
+  Future<int> setSensors(List<AinSensorParam> sensors) async =>
       AinApi.setSensors(address, sensors, timeout);
 
   @override

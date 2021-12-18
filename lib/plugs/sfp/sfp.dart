@@ -34,7 +34,7 @@ class Sfp extends Plug implements Ain {
       AinApi.getSettings<SfpSettings>(address, timeout);
 
   @override
-  Future<void> setSensors(List<AinSensorParam> sensors) =>
+  Future<int> setSensors(List<AinSensorParam> sensors) =>
       AinApi.setSensors(address, sensors, timeout);
 
   @override
