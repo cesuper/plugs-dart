@@ -1,6 +1,7 @@
 import 'package:logger/logger.dart';
-import 'package:plugs/smp/smp.dart';
-import 'package:plugs/smp/smp_const.dart';
+import 'package:plugs/plugs/smp/smp.dart';
+import 'package:plugs/plugs/smp/smp_const.dart';
+
 import 'package:test/test.dart';
 
 final log = Logger(printer: PrettyPrinter(methodCount: 0));

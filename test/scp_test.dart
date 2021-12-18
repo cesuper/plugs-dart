@@ -1,7 +1,7 @@
 // ignore_for_file: avoid_print
 
-import 'package:plugs/scp/scp_442.dart';
-import 'package:plugs/scp/scp_const.dart';
+import 'package:plugs/plugs/ain/ain_sensor_param.dart';
+import 'package:plugs/plugs/scp/scp_442.dart';
 import 'package:test/test.dart';
 
 void main() async {
@@ -34,6 +34,7 @@ void main() async {
 
   test('ain sensor params', () async {
     // set
+    List<AinSensorParam> scpSensorParams;
     await plug.setSensors(scpSensorParams);
 
     var sensors = await plug.sensors;

@@ -1,6 +1,6 @@
 // ignore_for_file: avoid_print
 
-import 'package:plugs/plug/plug.dart';
+import 'package:plugs/plugs/plug/plug.dart';
 import 'package:test/test.dart';
 
 void main() async {
