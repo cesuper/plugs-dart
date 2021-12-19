@@ -47,7 +47,6 @@ class Plug {
 
   ///
   Future<void> connect({
-    bool ignorePingEvent = true,
     EventCallback? onEvent,
     Function? onError,
     Function? onDone,
@@ -56,7 +55,7 @@ class Plug {
     var notifier = await io.Socket.connect(address.split(':').first, eventPort);
 
     // listen on incoming packets
-    notifier.listen(
+    notifier.timeout(const Duration(seconds: 2)).listen(
       (packet) {
         // multipe events may arrive in one packet, so we need
         // search multiple events within one packet by slicing the packet
@@ -74,7 +73,7 @@ class Plug {
           // handle events
           switch (event) {
             case 255:
-              if (!ignorePingEvent) onEvent!(address, event);
+              // ignore ping event
               break;
             default:
               onEvent!(address, event);
@@ -84,9 +83,11 @@ class Plug {
           offset += eventSize;
         }
       },
-      cancelOnError: true,
-      onError: onError,
-      onDone: () => onDone,
+      onError: (e, trace) {
+        notifier.destroy();
+        onError!(address, e, trace);
+      },
+      onDone: () => onDone!(address),
     );
   }
 

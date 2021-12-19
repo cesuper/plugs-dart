@@ -6,9 +6,6 @@ import 'package:plugs/discovery.dart';
 import 'package:plugs/plugs/plug/info.dart';
 import 'package:plugs/plugs/plug/plug.dart';
 
-//
-typedef NetworkStateChangedCallback = void Function(List<Info> plugs);
-
 /// TODO: provide detailed description about device service
 ///
 class PlugService {
@@ -27,17 +24,8 @@ class PlugService {
   // port to bind socket used for discovery
   final int port;
 
-  // callback
-  final NetworkStateChangedCallback? onConnected;
-
-  // callback
-  final NetworkStateChangedCallback? onDisconnected;
-
   // list of discovered devices
-  List<Info> _devices = [];
-
-  //
-  final Map<String, Socket> _deviceRegistry = {};
+  final List<Info> _devices = [];
 
   // list of devices discovered
   List<Info> get devices => _devices;
@@ -58,8 +46,6 @@ class PlugService {
     this.period = const Duration(seconds: 3),
     this.timeout = const Duration(seconds: 1),
     this.port = 0,
-    this.onConnected,
-    this.onDisconnected,
     this.logger,
   });
 
@@ -73,19 +59,18 @@ class PlugService {
         _isDiscovering = true;
 
         try {
-          // start discovery and wait for result
-          var recent = await Discovery.discover(
+          // scan devices
+          var result = await Discovery.discover(
             localAddress,
             timeout: timeout,
             port: port,
           );
-          //
-          _searchForNew(_devices, recent);
-          //
-          _searchForDisconnected(_devices, recent);
 
-          // update devices
-          _devices = recent;
+          // get the new devices only
+          var newDevices = _getNewConnections(result);
+
+          // register new devices
+          _register(newDevices);
         } on SocketException catch (e, stackTrace) {
           // log socket exceptions
           logger?.e('Socket Exception, check port?', e, stackTrace);
@@ -99,73 +84,44 @@ class PlugService {
     });
   }
 
-  /// Function to find plugs just connected
-  /// Plugs are considered as new when not present in the previous
-  /// but in recent.
-  void _searchForNew(List<Info> previous, List<Info> recent) async {
-    // plug is not new when the plug serial and ip address remains unchanged
-
+  ///
+  /// Function to find plugs just recently connected
+  /// Plugs are considered as new when not present in the [_devices]
+  List<Info> _getNewConnections(List<Info> discovered) {
     // list of new plugs
-    var list = <Info>[];
-    for (var r in recent) {
+    var newDevices = <Info>[];
+    for (var device in discovered) {
       // is r exists in the last dicovery?
-      var isExising = previous.any((e) =>
-          (e.network.ip == r.network.ip) &&
-          (e.hardware.serial == r.hardware.serial));
+      var isExising = _devices.any((e) =>
+          (e.network.ip == device.network.ip) &&
+          (e.hardware.serial == device.hardware.serial));
       // if not, then add as new plug
       if (isExising == false) {
-        list.add(r);
+        newDevices.add(device);
       }
     }
 
-    // update device registry
-    _register(list);
-
-    // fire callback
-    onConnected!(list);
+    // return the new devices
+    return newDevices;
   }
 
   ///
-  void _register(List<Info> list) async {
-    //
-    for (var info in list) {
-      // try to open tcp socket for a new plug
-      var socket = await Plug(info.network.ip).connect(
-        onEvent: (address, event) => print('$address - $event'),
-      );
-
-      // // listen for event with as 16 bytes
-      // socket.listen((packet) {
-      //   // multipe events may arrive in one packet, so we need
-      //   // search multiple events within one packet by slicing the packet
-      //   // into multiple events
-
-      //   // get the number of events in the packet
-      //   var noEvents = packet.length ~/ Plug.eventSize;
-
-      //   var offset = 0;
-
-      //   for (var i = 0; i < noEvents; i++) {
-      //     // get msg and shift offset
-      //     var event = packet.skip(offset).take(Plug.eventSize);
-
-      //     // get event code from the event
-      //     int code = event.first;
-
-      //     if (code != 255) {
-      //       //logger.d(event);
-      //     }
-
-      //     // check if event is handled properly
-      //     if (handleEventCode(code) == false) {
-      //       // log unhandled events
-      //       logger.d('Unhandled event code: $code');
-      //     }
-
-      //     offset += Plug.eventSize;
-      //   }
-      // });
-    }
+  void _register(List<Info> devices) async {
+    Future.wait(devices.map((e) => Plug(e.network.ip).connect(
+          onEvent: (address, event) {
+            print('$address - $event');
+          },
+          onError: (address, e, trace) {
+            print('Error');
+          },
+          onDone: (address) {
+            print('Disconnected: $address');
+            _devices.removeWhere((element) => element.network.ip == address);
+          },
+        ).then((value) {
+          print('Connected: ${e.hardware.serial}');
+          _devices.add(e);
+        })));
   }
 
   /// Function to find plugs just removed
@@ -184,7 +140,5 @@ class PlugService {
         list.add(p);
       }
     }
-    //
-    onDisconnected!(list);
   }
 }

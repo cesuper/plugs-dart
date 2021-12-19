@@ -22,7 +22,7 @@ void main() async {
     //var n4 = await plug.connect();
 
     await Future.delayed(const Duration(seconds: 40));
-  });
+  }, timeout: const Timeout(Duration(seconds: 50)));
 
   //
   //var plug = Smp('192.168.100.110:80', 8);
