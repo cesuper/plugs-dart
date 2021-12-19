@@ -4,11 +4,12 @@ import 'dart:io';
 import 'package:logger/logger.dart';
 import 'package:plugs/discovery.dart';
 import 'package:plugs/plugs/plug/info.dart';
-import 'package:plugs/plugs/plug/plug.dart';
+import 'package:plugs/service/event.dart';
+import 'package:plugs/service/event_listener.dart';
 
 /// TODO: provide detailed description about device service
 ///
-class PlugService {
+class EventService {
   // logger
   final Logger? logger;
 
@@ -27,6 +28,12 @@ class PlugService {
   // list of discovered devices
   final List<Info> _devices = [];
 
+  //
+  final StreamController<Event> eventStream = StreamController();
+
+  // list of
+  final List<EventListener> _listeners = [];
+
   // list of devices discovered
   List<Info> get devices => _devices;
 
@@ -41,7 +48,7 @@ class PlugService {
   /// [localAddress] local interface address where the plugs being searched
   /// [period] defines the device scan period
   /// [timeout] defines the time to wait for responses
-  PlugService(
+  EventService(
     this.localAddress, {
     this.period = const Duration(seconds: 3),
     this.timeout = const Duration(seconds: 1),
@@ -67,11 +74,11 @@ class PlugService {
             port: port,
           );
 
-          // get the new devices only
-          var newDevices = _getNewConnections(result);
+          // get new devices only
+          var addresses = _getNewConnections(result);
 
           // register new devices
-          _register(newDevices);
+          _register(addresses);
         } on SocketException catch (e, stackTrace) {
           // log socket exceptions
           logger?.e('Socket Exception, check port?', e, stackTrace);
@@ -88,9 +95,9 @@ class PlugService {
   ///
   /// Function to find plugs just recently connected
   /// Plugs are considered as new when not present in the [_devices]
-  List<Info> _getNewConnections(List<Info> discovered) {
+  List<String> _getNewConnections(List<Info> discovered) {
     // list of new plugs
-    var newDevices = <Info>[];
+    var addresses = <String>[];
     for (var device in discovered) {
       // is r exists in the last dicovery?
       var isExising = _devices.any((e) =>
@@ -98,16 +105,31 @@ class PlugService {
           (e.hardware.serial == device.hardware.serial));
       // if not, then add as new plug
       if (isExising == false) {
-        newDevices.add(device);
+        addresses.add(device.network.ip);
       }
     }
 
     // return the new devices
-    return newDevices;
+    return addresses;
   }
 
   ///
-  void _register(List<Info> devices) async {
+  void _register(List<String> addresses) async {
+    //
+    for (var address in addresses) {
+      // create listener
+      var listener = EventListener(InternetAddress(address), eventStream);
+
+      // connect to plug
+      listener.connect().then((value) {
+        // add to listeners only when successfully connected event socket
+        _listeners.add(listener);
+      }, onError: (e, trace) {
+        logger?.e('$addresses discovered but eventListener failed to connect',
+            e, trace);
+      });
+    }
+
     // Future.wait(devices.map((e) => Plug(e.network.ip).connect(
     //       onEvent: (address, event) {
     //         print('$address - $event');

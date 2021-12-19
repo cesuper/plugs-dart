@@ -1,8 +1,10 @@
 // ignore_for_file: avoid_print
 
 import 'dart:async';
+import 'dart:io';
 
 import 'package:plugs/plugs/plug/plug.dart';
+import 'package:plugs/service/event.dart';
 import 'package:plugs/service/event_listener.dart';
 import 'package:test/test.dart';
 
@@ -15,8 +17,9 @@ void main() async {
   //
   final plug = Plug('192.168.100.101');
 
+  final sourceAddress = InternetAddress('192.168.100.118');
   //
-  StreamController<String> ctrl = StreamController();
+  StreamController<Event> ctrl = StreamController();
 
   ctrl.stream.listen((event) {
     print(event);
@@ -24,11 +27,15 @@ void main() async {
 
   test('', () async {
     //
-    var listener = EventListener(plug.address, ctrl);
+    var listener = EventListener(
+      InternetAddress(plug.address),
+      ctrl,
+      sourceAddress: sourceAddress,
+    );
 
-    listener.listen();
+    listener.connect();
 
-    await Future.delayed(Duration(seconds: 5));
+    await Future.delayed(const Duration(seconds: 5));
     print('close');
     listener.close();
 
