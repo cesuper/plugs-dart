@@ -122,6 +122,7 @@ class EventService {
     ));
   }
 
+  ///
   void _onDisconnect(EventListener listener, int code) {
     //
     _listeners.removeWhere(
@@ -135,6 +136,7 @@ class EventService {
     ));
   }
 
+  ///
   void _onEvent(EventListener listener, int code) {
     //
     eventStream.add(Event(
@@ -144,6 +146,7 @@ class EventService {
     ));
   }
 
+  ///
   void _onError(EventListener listener, int code) {
     //
     eventStream.add(Event(
@@ -179,24 +182,6 @@ class EventService {
       //   logger?.e('$addresses discovered but eventListener failed to connect',
       //       e, trace);
       // });
-    }
-  }
-
-  /// Function to find plugs just removed
-  /// Plugs are considered as disconnected when existed in the previous but
-  /// not in recent.
-  void _searchForDisconnected(List<Info> previous, List<Info> recent) {
-    // list of new plugs
-    var list = <Info>[];
-    for (var p in previous) {
-      // is r exists in the last dicovery?
-      var isExising = recent.any((e) =>
-          (e.network.ip == p.network.ip) &&
-          (e.hardware.serial == p.hardware.serial));
-      // if not, then add as new plug
-      if (isExising == false) {
-        list.add(p);
-      }
     }
   }
 }
