@@ -1,8 +1,6 @@
 import 'dart:async';
 import 'dart:io';
 
-import 'event.dart';
-
 typedef EventListenerCallaback = void Function(
   EventListener listener,
   int code,
