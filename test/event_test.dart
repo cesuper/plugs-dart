@@ -24,7 +24,13 @@ void main() async {
 
   test('', () async {
     //
-    EventListener(plug.address, ctrl).listen();
+    var listener = EventListener(plug.address, ctrl);
+
+    listener.listen();
+
+    await Future.delayed(Duration(seconds: 5));
+    print('close');
+    listener.close();
 
     await Future.delayed(delay);
   }, timeout: const Timeout(duration));

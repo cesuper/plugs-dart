@@ -64,7 +64,7 @@ class EventListener {
         onError: (e, trace) {
           // close the socket
           socket.destroy();
-          print('$address error');
+          stream.add('$address error: $e');
         },
         onDone: () {
           stream.add('$address disconnected');
