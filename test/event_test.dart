@@ -5,7 +5,6 @@ import 'dart:io';
 
 import 'package:plugs/plugs/plug/plug.dart';
 import 'package:plugs/service/event.dart';
-import 'package:plugs/service/event_listener.dart';
 import 'package:test/test.dart';
 
 // test timeout
@@ -17,7 +16,8 @@ void main() async {
   //
   final plug = Plug('192.168.100.101');
 
-  final sourceAddress = InternetAddress('192.168.100.118');
+  final sourceAddress =
+      InternetAddress('192.168.100.118', type: InternetAddressType.IPv4);
   //
   StreamController<Event> ctrl = StreamController();
 
@@ -27,54 +27,20 @@ void main() async {
 
   test('', () async {
     //
-    var listener = EventListener(
-      InternetAddress(plug.address),
-      ctrl,
-      sourceAddress: sourceAddress,
+    plug.connect(
+      sourceAddress,
+      onDisconnected: (plug, code) => print('${plug.address} disconnected'),
+      onEvent: (plug, code) => print('${plug.address} event: $code'),
+      onError: (plug, e, trace) => print(e),
     );
 
-    listener.connect();
-
+    //
     await Future.delayed(const Duration(seconds: 5));
-    print('close');
-    listener.close();
+    print('closing');
+
+    //
+    plug.close();
 
     await Future.delayed(delay);
   }, timeout: const Timeout(duration));
-
-  // test('event test', () async {
-  //   var _notifier = await plug.connect();
-
-  //   const int msgSize = 16;
-
-  //   // listen for event with as 16 bytes
-  //   _notifier.listen((packet) {
-  //     // get the number of messages
-  //     var noMsg = packet.length ~/ msgSize;
-
-  //     var offset = 0;
-
-  //     for (var i = 0; i < noMsg; i++) {
-  //       // get msg and shift offset
-  //       var msg = packet.skip(offset).take(msgSize);
-
-  //       // get event from msg
-  //       int event = msg.first;
-
-  //       if (event != 255) {
-  //         print(event);
-  //       }
-
-  //       offset += msgSize;
-  //     }
-  //   });
-
-  //   //socket.close();
-  //   //socket.destroy();
-  //   //print('close sent');
-
-  //   await Future.delayed(const Duration(seconds: 15));
-  // }, timeout: const Timeout(Duration(seconds: 60)));
-
-  //
 }

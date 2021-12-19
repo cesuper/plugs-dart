@@ -2,11 +2,11 @@ import 'dart:async';
 import 'dart:io';
 
 typedef EventListenerCallaback = void Function(
-  EventListener listener,
+  Listener listener,
   int code,
 );
 
-class EventListener {
+class Listener {
   // remote tcp port from where events originated
   static const port = 6069;
 
@@ -45,7 +45,7 @@ class EventListener {
   /// [host] plug address
   /// [stream] streamcontroller as source of plug events
   /// [sourceAddress] can be used to specify the local address to bind when making the connection.
-  EventListener(
+  Listener(
     this.host,
     this.onConnect,
     this.onDisconnect,

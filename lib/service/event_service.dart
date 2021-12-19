@@ -5,7 +5,6 @@ import 'package:logger/logger.dart';
 import 'package:plugs/discovery.dart';
 import 'package:plugs/plugs/plug/info.dart';
 import 'package:plugs/service/event.dart';
-import 'package:plugs/service/event_listener.dart';
 
 /// TODO: provide detailed description about device service
 ///
@@ -29,10 +28,10 @@ class EventService {
   final StreamController<Event> eventStream = StreamController();
 
   // list of
-  final List<EventListener> _listeners = [];
+  final List<Listener> _listeners = [];
 
   // list of devices discovered
-  List<EventListener> get listeners => _listeners;
+  List<Listener> get listeners => _listeners;
 
   // timer for periodically check device presence
   // ignore: unused_field
@@ -110,7 +109,7 @@ class EventService {
   }
 
   ///
-  void _onConnect(EventListener listener, int code) {
+  void _onConnect(Listener listener, int code) {
     //
     _listeners.add(listener);
 
@@ -123,7 +122,7 @@ class EventService {
   }
 
   ///
-  void _onDisconnect(EventListener listener, int code) {
+  void _onDisconnect(Listener listener, int code) {
     //
     _listeners.removeWhere(
         (element) => element.host.address == listener.host.address);
@@ -137,7 +136,7 @@ class EventService {
   }
 
   ///
-  void _onEvent(EventListener listener, int code) {
+  void _onEvent(Listener listener, int code) {
     //
     eventStream.add(Event(
       DateTime.now(),
@@ -147,7 +146,7 @@ class EventService {
   }
 
   ///
-  void _onError(EventListener listener, int code) {
+  void _onError(Listener listener, int code) {
     //
     eventStream.add(Event(
       DateTime.now(),
@@ -161,7 +160,7 @@ class EventService {
     //
     for (var address in addresses) {
       // create listener for a plug
-      var listener = EventListener(
+      var listener = Listener(
         InternetAddress(address),
         _onConnect,
         _onDisconnect,
