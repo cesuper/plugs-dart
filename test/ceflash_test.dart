@@ -18,14 +18,14 @@ final remoteAddress =
 // launchpad
 //final remoteMac = <int>[0x94, 0xFB, 0xA7, 0x51, 0x00, 0x8C];
 
-// 08-00-28-5A-8F-CB
-//final remoteMac = <int>[0x08, 0x00, 0x28, 0x5A, 0x8F, 0xCB];
-
 // 94-FB-A7-51-00-3B
-final remoteMac = <int>[0x94, 0xFB, 0xA7, 0x51, 0x00, 0x8C];
+final remoteMac = <int>[0x94, 0xFB, 0xA7, 0x51, 0x00, 0x3B];
+
+// 94-FB-A7-51-00-8C
+//final remoteMac = <int>[0x94, 0xFB, 0xA7, 0x51, 0x00, 0x8C];
 
 // firmware path
-const path = 'assets/sfp9-r2-1.0.0.bin';
+const path = 'assets/sfp9-r2-1.1.0.bin';
 
 const bootpRequestTimeout = Duration(seconds: 25);
 const tftpRequestTimmeout = Duration(seconds: 10);

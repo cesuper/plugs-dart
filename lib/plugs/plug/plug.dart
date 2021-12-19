@@ -1,8 +1,6 @@
 import 'dart:convert';
-import 'dart:io' as io;
 
 import 'package:http/http.dart' as http;
-import 'package:meta/meta.dart';
 import 'package:plugs/socket/socket.dart';
 
 import 'diagnostic.dart';
@@ -17,6 +15,11 @@ class Plug {
 
   // size of the tcp packet in bytes
   static const eventSize = 16;
+
+  // Ping event is used to get life-signal from plugs. These events
+  // are not handled by the api, but the loss if the ping event results
+  // device disconnect event. Plug sends ping events in 1 sec period.
+  static const eventCodePing = 255;
 
   // timeout for http calls
   final Duration timeout;
@@ -43,66 +46,6 @@ class Plug {
     var uri = Uri.http(address, '/api/plug/diagnostic.cgi');
     var r = await http.get(uri);
     return Diagnostic.fromJson(r.body);
-  }
-
-  ///
-  Future<void> connect({
-    EventCallback? onEvent,
-    Function? onError,
-    Function? onDone,
-  }) async {
-    //
-    var notifier = await io.Socket.connect(address.split(':').first, eventPort);
-
-    // listen on incoming packets
-    notifier.timeout(const Duration(seconds: 2)).listen(
-      (packet) {
-        // multipe events may arrive in one packet, so we need
-        // search multiple events within one packet by slicing the packet
-        // into multiple events
-        var noEvents = packet.length ~/ eventSize;
-
-        var offset = 0;
-        for (var i = 0; i < noEvents; i++) {
-          // get msg and shift offset
-          var msg = packet.skip(offset).take(eventSize);
-
-          // get event from msg
-          int event = msg.first;
-
-          // handle events
-          switch (event) {
-            case 255:
-              // ignore ping event
-              break;
-            default:
-              onEvent!(address, event);
-          }
-
-          //
-          offset += eventSize;
-        }
-      },
-      onError: (e, trace) {
-        notifier.destroy();
-        onError!(address, e, trace);
-      },
-      onDone: () => onDone!(address),
-    );
-  }
-
-  ///
-  /// Handles incoming event from notifier and provides
-  /// notifyListeners() call based on [event] value.
-  /// Unhandled events must be propagated to the super method
-  @protected
-  bool handleEventCode(int event) {
-    switch (event) {
-      case 255:
-        return true;
-      default:
-        return false;
-    }
   }
 
   /// Restarts the plug

@@ -50,6 +50,7 @@ class PlugService {
   });
 
   ///
+  /// Starts a periodic timer to check devices on the network.
   void start() {
     //
     _timer = Timer.periodic(period, (timer) async {
@@ -107,21 +108,21 @@ class PlugService {
 
   ///
   void _register(List<Info> devices) async {
-    Future.wait(devices.map((e) => Plug(e.network.ip).connect(
-          onEvent: (address, event) {
-            print('$address - $event');
-          },
-          onError: (address, e, trace) {
-            print('Error');
-          },
-          onDone: (address) {
-            print('Disconnected: $address');
-            _devices.removeWhere((element) => element.network.ip == address);
-          },
-        ).then((value) {
-          print('Connected: ${e.hardware.serial}');
-          _devices.add(e);
-        })));
+    // Future.wait(devices.map((e) => Plug(e.network.ip).connect(
+    //       onEvent: (address, event) {
+    //         print('$address - $event');
+    //       },
+    //       onError: (address, e, trace) {
+    //         print('Error');
+    //       },
+    //       onDone: (address) {
+    //         print('Disconnected: $address');
+    //         _devices.removeWhere((element) => element.network.ip == address);
+    //       },
+    //     ).then((value) {
+    //       print('Connected: ${e.hardware.serial}');
+    //       _devices.add(e);
+    //     })));
   }
 
   /// Function to find plugs just removed

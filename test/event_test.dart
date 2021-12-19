@@ -1,11 +1,33 @@
 // ignore_for_file: avoid_print
 
+import 'dart:async';
+
 import 'package:plugs/plugs/plug/plug.dart';
+import 'package:plugs/service/event_listener.dart';
 import 'package:test/test.dart';
+
+// test timeout
+const duration = Duration(seconds: 45);
+
+const delay = Duration(seconds: 40);
 
 void main() async {
   //
-  var plug = Plug('192.168.100.101:80');
+  final plug = Plug('192.168.100.101');
+
+  //
+  StreamController<String> ctrl = StreamController();
+
+  ctrl.stream.listen((event) {
+    print(event);
+  });
+
+  test('', () async {
+    //
+    EventListener(plug.address, ctrl).listen();
+
+    await Future.delayed(delay);
+  }, timeout: const Timeout(duration));
 
   // test('event test', () async {
   //   var _notifier = await plug.connect();
