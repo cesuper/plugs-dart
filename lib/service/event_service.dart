@@ -25,9 +25,6 @@ class EventService {
   // port to bind socket used for discovery
   final int port;
 
-  // list of discovered devices
-  final List<Info> _devices = [];
-
   //
   final StreamController<Event> eventStream = StreamController();
 
@@ -35,7 +32,7 @@ class EventService {
   final List<EventListener> _listeners = [];
 
   // list of devices discovered
-  List<Info> get devices => _devices;
+  List<EventListener> get listeners => _listeners;
 
   // timer for periodically check device presence
   // ignore: unused_field
@@ -78,7 +75,7 @@ class EventService {
           var addresses = _getNewConnections(result);
 
           // register new devices
-          _register(addresses);
+          _registerListener(addresses);
         } on SocketException catch (e, stackTrace) {
           // log socket exceptions
           logger?.e('Socket Exception, check port?', e, stackTrace);
@@ -100,9 +97,8 @@ class EventService {
     var addresses = <String>[];
     for (var device in discovered) {
       // is r exists in the last dicovery?
-      var isExising = _devices.any((e) =>
-          (e.network.ip == device.network.ip) &&
-          (e.hardware.serial == device.hardware.serial));
+      var isExising =
+          _listeners.any((e) => e.host.address == device.network.ip);
       // if not, then add as new plug
       if (isExising == false) {
         addresses.add(device.network.ip);
@@ -114,37 +110,76 @@ class EventService {
   }
 
   ///
-  void _register(List<String> addresses) async {
+  void _onConnect(EventListener listener, int code) {
+    //
+    _listeners.add(listener);
+
+    //
+    eventStream.add(Event(
+      DateTime.now(),
+      listener.host.address,
+      Event.online,
+    ));
+  }
+
+  void _onDisconnect(EventListener listener, int code) {
+    //
+    _listeners.removeWhere(
+        (element) => element.host.address == listener.host.address);
+
+    //
+    eventStream.add(Event(
+      DateTime.now(),
+      listener.host.address,
+      Event.offline,
+    ));
+  }
+
+  void _onEvent(EventListener listener, int code) {
+    //
+    eventStream.add(Event(
+      DateTime.now(),
+      listener.host.address,
+      code,
+    ));
+  }
+
+  void _onError(EventListener listener, int code) {
+    //
+    eventStream.add(Event(
+      DateTime.now(),
+      listener.host.address,
+      Event.error,
+    ));
+  }
+
+  ///
+  void _registerListener(List<String> addresses) async {
     //
     for (var address in addresses) {
-      // create listener
-      var listener = EventListener(InternetAddress(address), eventStream);
+      // create listener for a plug
+      var listener = EventListener(
+        InternetAddress(address),
+        _onConnect,
+        _onDisconnect,
+        _onEvent,
+        _onError,
+      );
 
       // connect to plug
-      listener.connect().then((value) {
-        // add to listeners only when successfully connected event socket
-        _listeners.add(listener);
-      }, onError: (e, trace) {
-        logger?.e('$addresses discovered but eventListener failed to connect',
-            e, trace);
-      });
-    }
+      await listener.connect();
 
-    // Future.wait(devices.map((e) => Plug(e.network.ip).connect(
-    //       onEvent: (address, event) {
-    //         print('$address - $event');
-    //       },
-    //       onError: (address, e, trace) {
-    //         print('Error');
-    //       },
-    //       onDone: (address) {
-    //         print('Disconnected: $address');
-    //         _devices.removeWhere((element) => element.network.ip == address);
-    //       },
-    //     ).then((value) {
-    //       print('Connected: ${e.hardware.serial}');
-    //       _devices.add(e);
-    //     })));
+      // TODO: add error handler
+
+      // // connect to plug
+      // listener.connect().then((value) {
+      //   // add to listeners only when successfully connected event socket
+      //   _listeners.add(listener);
+      // }, onError: (e, trace) {
+      //   logger?.e('$addresses discovered but eventListener failed to connect',
+      //       e, trace);
+      // });
+    }
   }
 
   /// Function to find plugs just removed

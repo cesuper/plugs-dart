@@ -21,6 +21,10 @@ void main() async {
     // create and start service
     var service = EventService(localAddress, period: period)..start();
 
+    service.eventStream.stream.listen((event) {
+      print(event);
+    });
+
     //
     await Future.delayed(const Duration(seconds: 45));
   }, timeout: const Timeout(Duration(seconds: 50)));

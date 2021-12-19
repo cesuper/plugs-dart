@@ -9,7 +9,10 @@ class Event {
   static const offline = 2;
 
   //
-  static const networkError = 3;
+  static const error = 3;
+
+  //
+  final DateTime ts;
 
   //
   final String host;
@@ -17,8 +20,8 @@ class Event {
   //
   final int code;
 
-  //
-  final DateTime ts;
-
   const Event(this.ts, this.host, this.code);
+
+  @override
+  String toString() => 'Event(ts: $ts, host: $host, code: $code)';
 }

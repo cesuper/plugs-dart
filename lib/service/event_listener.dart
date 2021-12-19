@@ -3,6 +3,11 @@ import 'dart:io';
 
 import 'event.dart';
 
+typedef EventListenerCallaback = void Function(
+  EventListener listener,
+  int code,
+);
+
 class EventListener {
   // remote tcp port from where events originated
   static const port = 6069;
@@ -22,7 +27,16 @@ class EventListener {
   final InternetAddress? sourceAddress;
 
   //
-  final StreamController<Event> eventStream;
+  final EventListenerCallaback onConnect;
+
+  //
+  final EventListenerCallaback onDisconnect;
+
+  //
+  final EventListenerCallaback onEvent;
+
+  //
+  final EventListenerCallaback onError;
 
   //
   Socket? _socket;
@@ -33,7 +47,14 @@ class EventListener {
   /// [host] plug address
   /// [stream] streamcontroller as source of plug events
   /// [sourceAddress] can be used to specify the local address to bind when making the connection.
-  EventListener(this.host, this.eventStream, {this.sourceAddress});
+  EventListener(
+    this.host,
+    this.onConnect,
+    this.onDisconnect,
+    this.onEvent,
+    this.onError, {
+    this.sourceAddress,
+  });
 
   ///
   /// Function to open TCP socket client to the [host] and listen for incoming
@@ -55,11 +76,8 @@ class EventListener {
       sourceAddress: sourceAddress,
       timeout: timeout,
     ).then((socket) {
-      eventStream.add(Event(
-        DateTime.now(),
-        host.address,
-        Event.online,
-      ));
+      // call provided callback
+      onConnect(this, 0);
 
       // set as local variable
       _socket = socket;
@@ -84,11 +102,9 @@ class EventListener {
                 // ignore ping event
                 break;
               default:
-                eventStream.add(Event(
-                  DateTime.now(),
-                  host.address,
-                  code,
-                ));
+                onEvent(this, code);
+              // create general event
+              //eventStream.add(Event(DateTime.now(), host.address, code));
             }
 
             //
@@ -98,18 +114,15 @@ class EventListener {
         onError: (e, trace) {
           // close the socket
           socket.destroy();
-          eventStream.add(Event(
-            DateTime.now(),
-            host.address,
-            Event.networkError,
-          ));
+
+          // create network error event
+          onError(this, 0);
+          // eventStream.add(Event(DateTime.now(), host.address, Event.error));
         },
         onDone: () {
-          eventStream.add(Event(
-            DateTime.now(),
-            host.address,
-            Event.offline,
-          ));
+          // create offline event
+          onDisconnect(this, 0);
+          //eventStream.add(Event(DateTime.now(), host.address, Event.offline));
         },
       );
     });
