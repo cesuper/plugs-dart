@@ -28,7 +28,7 @@ class Discovery {
   List<Info> _devices = [];
 
   // list of devices discovered
-  List<Info> get listeners => _devices;
+  List<Info> get devices => _devices;
 
   // timer for periodically check device presence
   Timer? _timer;
