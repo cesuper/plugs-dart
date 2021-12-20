@@ -2,6 +2,7 @@ import 'dart:async';
 import 'dart:convert';
 import 'dart:io';
 
+import 'package:meta/meta.dart';
 import 'package:plugs/plugs/plug/info.dart';
 
 //
@@ -40,7 +41,7 @@ class Discovery {
 
   /// Returns a new instance of device service.
   /// [localAddress] local interface address where the plugs being searched
-  /// [period] device scan period
+  /// [onStateChanged] when privided callback is fired on new device or removal
   /// [timeout] timeout for discovery response
   /// [port] port to bind discovery socket, default is 0
   Discovery(
@@ -82,7 +83,10 @@ class Discovery {
 
   /// Starts a periodic timer to check devices on the network.
   /// [onStateChanged] callback is fired when new device discovered or lost
-  void start({Duration period = const Duration(seconds: 3)}) {
+  void start({Duration period = const Duration(seconds: 3)}) async {
+    // start now and
+    await discover();
+
     // setup timer for period calls
     _timer = Timer.periodic(period, (timer) async => await discover());
   }
@@ -124,11 +128,8 @@ class Discovery {
     return lost;
   }
 
-  /// Starts the discovery process
-  /// [localAddress] local interface address where the plugs being searched
-  /// [timeout] time to wait for discovery response
-  /// [port] port number to bind, 0 = random port
-  ///
+  /// Starts the discovery process by sending discovery request from [localAddress]
+  /// to [remotePort]  and wait for reply witing [timeout].
   Future<List<Info>> _discover() async {
     //
     var result = <Info>[];
