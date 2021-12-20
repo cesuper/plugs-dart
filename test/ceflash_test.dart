@@ -34,7 +34,8 @@ const tftpDataRequestTimeout = Duration(seconds: 10);
 void main() async {
   test('update by mac', () async {
     //
-    var firmware = File(Directory.current.path + '/' + path);
+    final file = File(Directory.current.path + '/' + path);
+    final firmware = await file.readAsBytes();
 
     //
     var result = await CeFlash.update(

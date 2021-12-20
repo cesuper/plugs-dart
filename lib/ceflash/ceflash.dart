@@ -1,4 +1,5 @@
 import 'dart:io';
+import 'dart:typed_data';
 
 import 'package:logger/logger.dart';
 
@@ -17,14 +18,14 @@ class CeFlash {
     InternetAddress localAddress,
     InternetAddress remoteAddress,
     List<int> remoteMac,
-    File firmware, {
+    Uint8List firmware, {
     int bootpServerPort = BootpServer.serverPort,
     int bootpClientPort = BootpServer.clientPort,
     Duration timeout = const Duration(seconds: 5),
     Level logLevel = Level.error,
   }) async {
     //
-    var fw = await firmware.readAsBytes();
+    //var fw = await firmware.readAsBytes();
 
     // check if client exists
     if (await BootpServer.waitForBootpPacket(
@@ -43,7 +44,7 @@ class CeFlash {
           localAddress,
           remoteAddress,
           timeout,
-          fw,
+          firmware,
           logLevel: logLevel,
         )) {
           return true;
