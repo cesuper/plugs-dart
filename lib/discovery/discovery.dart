@@ -1,7 +1,7 @@
 import 'dart:convert';
 import 'dart:io';
 
-import 'plugs/plug/info.dart';
+import '../plugs/plug/info.dart';
 
 ///
 /// Class for discovering plugs under [localAddress].

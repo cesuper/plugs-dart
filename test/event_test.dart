@@ -16,8 +16,7 @@ void main() async {
   //
   final plug = Plug('192.168.100.101');
 
-  final sourceAddress =
-      InternetAddress('192.168.100.118', type: InternetAddressType.IPv4);
+  final sourceAddress = InternetAddress('192.168.100.118');
   //
   StreamController<Event> ctrl = StreamController();
 

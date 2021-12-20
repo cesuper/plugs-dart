@@ -2,7 +2,7 @@
 
 import 'dart:io';
 
-import 'package:plugs/discovery.dart';
+import 'package:plugs/discovery/discovery.dart';
 
 void main() async {
   var devices = await Discovery.discover(

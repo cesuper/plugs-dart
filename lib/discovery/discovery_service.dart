@@ -2,13 +2,13 @@ import 'dart:async';
 import 'dart:io';
 
 import 'package:logger/logger.dart';
-import 'package:plugs/discovery.dart';
+import 'package:plugs/discovery/discovery.dart';
 import 'package:plugs/plugs/plug/info.dart';
-import 'package:plugs/service/event.dart';
+import 'package:plugs/plugs/plug/plug.dart';
 
 /// TODO: provide detailed description about device service
 ///
-class EventService {
+class DiscoveryService {
   // logger
   final Logger? logger;
 
@@ -28,10 +28,10 @@ class EventService {
   final StreamController<Event> eventStream = StreamController();
 
   // list of
-  final List<Listener> _listeners = [];
+  final List<Plug> _devices = [];
 
   // list of devices discovered
-  List<Listener> get listeners => _listeners;
+  List<Plug> get listeners => _devices;
 
   // timer for periodically check device presence
   // ignore: unused_field
@@ -44,7 +44,7 @@ class EventService {
   /// [localAddress] local interface address where the plugs being searched
   /// [period] defines the device scan period
   /// [timeout] defines the time to wait for responses
-  EventService(
+  DiscoveryService(
     this.localAddress, {
     this.period = const Duration(seconds: 3),
     this.timeout = const Duration(seconds: 1),
@@ -96,8 +96,7 @@ class EventService {
     var addresses = <String>[];
     for (var device in discovered) {
       // is r exists in the last dicovery?
-      var isExising =
-          _listeners.any((e) => e.host.address == device.network.ip);
+      var isExising = _devices.any((e) => e.host.address == device.network.ip);
       // if not, then add as new plug
       if (isExising == false) {
         addresses.add(device.network.ip);
@@ -109,50 +108,49 @@ class EventService {
   }
 
   ///
-  void _onConnect(Listener listener, int code) {
+  void _onConnect(Plug plug, int code) {
     //
-    _listeners.add(listener);
+    _devices.add(plug);
 
     //
-    eventStream.add(Event(
-      DateTime.now(),
-      listener.host.address,
-      Event.online,
-    ));
+    // eventStream.add(Event(
+    //   DateTime.now(),
+    //   listener.host.address,
+    //   Event.online,
+    // ));
   }
 
   ///
-  void _onDisconnect(Listener listener, int code) {
-    //
-    _listeners.removeWhere(
-        (element) => element.host.address == listener.host.address);
+  void _onDisconnect(Plug plug, int code) {
+    // remove device from pool
+    _devices.removeWhere((element) => element.address == plug.address);
 
     //
-    eventStream.add(Event(
-      DateTime.now(),
-      listener.host.address,
-      Event.offline,
-    ));
+    // eventStream.add(Event(
+    //   DateTime.now(),
+    //   listener.host.address,
+    //   Event.offline,
+    // ));
   }
 
   ///
-  void _onEvent(Listener listener, int code) {
+  void _onEvent(Plug plug, int code) {
     //
-    eventStream.add(Event(
-      DateTime.now(),
-      listener.host.address,
-      code,
-    ));
+    // eventStream.add(Event(
+    //   DateTime.now(),
+    //   listener.host.address,
+    //   code,
+    // ));
   }
 
   ///
-  void _onError(Listener listener, int code) {
+  void _onError(Plug plug, int code) {
     //
-    eventStream.add(Event(
-      DateTime.now(),
-      listener.host.address,
-      Event.error,
-    ));
+    // eventStream.add(Event(
+    //   DateTime.now(),
+    //   listener.host.address,
+    //   Event.error,
+    // ));
   }
 
   ///
