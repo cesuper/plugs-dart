@@ -1,7 +1,6 @@
 import 'dart:async';
 import 'dart:io';
 
-import 'package:logger/logger.dart';
 import 'package:plugs/discovery/discovery.dart';
 import 'package:plugs/plugs/plug/info.dart';
 
@@ -13,9 +12,6 @@ typedef ConnectionStateChangedCallback = Function(Info info, bool isConnected);
 /// TODO: provide detailed description about device service
 ///
 class DiscoveryService {
-  // logger
-  final Logger? logger;
-
   // local address where plugs expected to be
   final InternetAddress localAddress;
 
@@ -54,7 +50,6 @@ class DiscoveryService {
     this.period = const Duration(seconds: 3),
     this.timeout = const Duration(seconds: 1),
     this.port = 0,
-    this.logger,
   });
 
   ///
@@ -67,32 +62,22 @@ class DiscoveryService {
         // set discovery flag
         _isDiscovering = true;
 
-        try {
-          // scan devices
-          var result = await Discovery.discover(
-            localAddress,
-            timeout: timeout,
-            port: port,
-          );
+        // scan devices
+        var result = await Discovery.discover(localAddress,
+            timeout: timeout, port: port);
 
-          // handle new connections
-          _checkConnections(_devices, result).forEach((e) {
-            onStateChanged?.call(e, true);
-          });
+        // handle new connections
+        _checkConnections(_devices, result).forEach((e) {
+          onStateChanged?.call(e, true);
+        });
 
-          // handle removals
-          _checkRemovals(_devices, result).forEach((e) {
-            onStateChanged?.call(e, false);
-          });
+        // handle removals
+        _checkRemovals(_devices, result).forEach((e) {
+          onStateChanged?.call(e, false);
+        });
 
-          // update devices
-          _devices = result;
-        } on SocketException catch (e, stackTrace) {
-          // log socket exceptions
-          logger?.e('Socket Exception, check port?', e, stackTrace);
-        } catch (e) {
-          logger?.e(e);
-        }
+        // update devices
+        _devices = result;
 
         // reset flag
         _isDiscovering = false;
