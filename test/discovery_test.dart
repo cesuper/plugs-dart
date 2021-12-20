@@ -1,16 +1,35 @@
 // ignore_for_file: avoid_print
 
 import 'dart:io';
-
 import 'package:plugs/discovery/discovery.dart';
+import 'package:plugs/discovery/discovery_service.dart';
+import 'package:test/scaffolding.dart';
+
+final localAddress =
+    InternetAddress('192.168.100.118', type: InternetAddressType.IPv4);
 
 void main() async {
-  var devices = await Discovery.discover(
-    InternetAddress('192.168.100.118', type: InternetAddressType.IPv4),
-    timeout: const Duration(seconds: 2),
-  );
+  test('Discovey', () async {
+    //
+    var devices = await Discovery.discover(localAddress);
 
-  for (var item in devices) {
-    print(item.network.ip);
-  }
+    // print found
+    for (var device in devices) {
+      print(device.network.ip);
+    }
+  });
+
+  test('Service', () async {
+    //
+    var service = DiscoveryService(
+      localAddress,
+      onStateChanged: (info, isConnected) =>
+          print('${info.network.ip} $isConnected'),
+    );
+
+    // start service
+    service.start();
+
+    await Future.delayed(const Duration(seconds: 25));
+  });
 }
