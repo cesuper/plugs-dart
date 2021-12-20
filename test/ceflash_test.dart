@@ -32,11 +32,17 @@ const tftpRequestTimmeout = Duration(seconds: 10);
 const tftpDataRequestTimeout = Duration(seconds: 10);
 
 void main() async {
-  test('update by mac', () async {
-    //
-    final file = File(Directory.current.path + '/' + path);
-    final firmware = await file.readAsBytes();
+  final file = File(Directory.current.path + '/' + path);
+  final filename = file.uri.pathSegments.last;
+  final firmware = await file.readAsBytes();
 
+  test('file check', () {
+    //
+    final result = CeFlash.checkFilename(filename);
+    print(result);
+  });
+
+  test('update by mac', () async {
     //
     var result = await CeFlash.update(
       localAddress,

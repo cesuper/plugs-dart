@@ -8,6 +8,31 @@ import 'tftp_data_server.dart';
 import 'tftp_server.dart';
 
 class CeFlash {
+  /// Function returns true when the provided filename has valid format
+  /// Filename has valid format when the device and firmware version can be
+  /// extracted from it.
+  static bool checkFilename(String filename) {
+    // check extension
+    if (filename.split('.').last != 'bin') return false;
+
+    // splist to  segments
+    final segments = filename.split('-');
+
+    // check segments length
+    if (segments.length != 3) return false;
+
+    // check family+model, must have at least 3 char
+    if (segments[0].length < 3) return false;
+
+    // check rev segments, starts with r
+    if (!segments[1].startsWith('r')) return false;
+
+    // check fw segment for major, minor, fix and file extension
+    if (segments[2].split('.').length != 4) return false;
+
+    return true;
+  }
+
   ///
   /// [localAddress] interface address where devices expected to be
   /// [remoteAddress] target ip address
