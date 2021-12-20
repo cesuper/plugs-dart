@@ -8,6 +8,10 @@ import 'package:plugs/plugs/plug/info.dart';
 //
 typedef ConnectionStateChangedCallback = Function(Info info, bool isConnected);
 
+/// TODO: Start, stop discovery
+/// TODO: Manual discover
+/// TODO: Start Timer callback fx immediately
+
 /// TODO: provide detailed description about device service
 ///
 class DiscoveryService {
