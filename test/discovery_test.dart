@@ -9,7 +9,7 @@ final localAddress =
     InternetAddress('192.168.100.118', type: InternetAddressType.IPv4);
 
 void main() async {
-  test('Discovey', () async {
+  test('Function', () async {
     //
     var devices = await Discovery.discover(localAddress);
 

@@ -8,10 +8,8 @@ import 'package:plugs/plugs/plug/info.dart';
 //
 typedef ConnectionStateChangedCallback = Function(Info info, bool isConnected);
 
-/// TODO: Start, stop discovery
 /// TODO: Manual discover
 /// TODO: Start Timer callback fx immediately
-
 /// TODO: provide detailed description about device service
 ///
 class DiscoveryService {
@@ -101,6 +99,9 @@ class DiscoveryService {
       }
     });
   }
+
+  /// Stops timer
+  void stop() => _timer?.cancel();
 
   /// List device connections.
   /// Connection is new, when an address presents in [discovered] but
