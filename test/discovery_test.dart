@@ -10,10 +10,12 @@ final localAddress = InternetAddress(
 );
 
 void main() async {
+  //
+  final discovery = Discovery(localAddress);
+
   test('Simple', () async {
     //
-    final service = Discovery(localAddress);
-    final result = await service.discover();
+    final result = await discovery.discover();
 
     // print found
     for (var device in result) {
@@ -21,17 +23,24 @@ void main() async {
     }
   });
 
-  test('Service', () async {
+  test('Continuous', () async {
     //
-    final service = Discovery(
-      localAddress,
-      onStateChanged: (info, isConnected) =>
-          print(info.network.ip + (isConnected ? ' Connected' : ' Removed')),
-    );
-    print('Service Started');
-    service.start();
-    await Future.delayed(const Duration(seconds: 20));
+    const int sec = 15;
+    print('Service Started for $sec seconds');
+
+    //
+    discovery.start((info, isConnected) =>
+        print(info.network.ip + (isConnected ? ' Connected' : ' Removed')));
+
+    // wait for device changes
+    await Future.delayed(const Duration(seconds: sec));
+
+    //
     print('Service Stopped');
-    service.stop();
+
+    //
+    discovery.stop();
+
+    //
   }, timeout: const Timeout(Duration(seconds: 25)));
 }

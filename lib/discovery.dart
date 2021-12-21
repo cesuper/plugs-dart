@@ -2,14 +2,15 @@ import 'dart:async';
 import 'dart:convert';
 import 'dart:io';
 
-import 'package:meta/meta.dart';
 import 'package:plugs/plugs/plug/info.dart';
 
 //
-typedef ConnectionStateChangedCallback = Function(Info info, bool isConnected);
+typedef StateChangedCallback = Function(Info info, bool isConnected);
 
 /// TODO: in service mode the timer should wait for period before start
 /// TODO: provide detailed description about device service
+/// TODO: this class can be singleton due to the port usage
+
 ///
 class Discovery {
   /// Port used by plugs to recieve discovery request
@@ -36,21 +37,15 @@ class Discovery {
   // flag indicating discovery is in progress
   bool _isDiscovering = false;
 
-  //
-  final ConnectionStateChangedCallback? onStateChanged;
-
   /// Returns a new instance of device service.
   /// [localAddress] local interface address where the plugs being searched
   /// [onStateChanged] when privided callback is fired on new device or removal
   /// [timeout] timeout for discovery response
   /// [port] port to bind discovery socket, default is 0
-  Discovery(
-    this.localAddress, {
-    this.onStateChanged,
-    this.timeout = const Duration(seconds: 1),
-  });
+  Discovery(this.localAddress, {this.timeout = const Duration(seconds: 1)});
 
-  ///
+  /// Starts a new discovery and returns the result. If the discovery
+  /// is in progress the result of the last discovery is returned
   Future<List<Info>> discover() async {
     // check if progress
     if (!_isDiscovering) {
@@ -60,16 +55,6 @@ class Discovery {
       // scan devices
       var result = await _discover();
 
-      // handle new connections
-      _checkConnections(_devices, result).forEach((e) {
-        onStateChanged?.call(e, true);
-      });
-
-      // handle removals
-      _checkRemovals(_devices, result).forEach((e) {
-        onStateChanged?.call(e, false);
-      });
-
       // update devices
       _devices = result;
 
@@ -77,18 +62,43 @@ class Discovery {
       _isDiscovering = false;
     }
 
-    // return devices discovered when service is running
+    // return the result of the last discovery
     return _devices;
   }
 
-  /// Starts a periodic timer to check devices on the network.
+  /// Starts a timer with [period] to periodically check devices on the network.
   /// [onStateChanged] callback is fired when new device discovered or lost
-  void start({Duration period = const Duration(seconds: 3)}) async {
-    // start now and
-    await discover();
-
+  /// [init] used as initial data, if not set the result of the last discovery
+  /// is used.
+  void start(StateChangedCallback? onStateChanged,
+      {List<Info>? init, Duration period = const Duration(seconds: 3)}) async {
     // setup timer for period calls
-    _timer = Timer.periodic(period, (timer) async => await discover());
+    _timer = Timer.periodic(period, (timer) async {
+      // check if progress
+      if (!_isDiscovering) {
+        // set discovery flag
+        _isDiscovering = true;
+
+        // scan devices
+        var result = await _discover();
+
+        // handle new connections
+        _checkConnections(_devices, result).forEach((e) {
+          onStateChanged?.call(e, true);
+        });
+
+        // handle removals
+        _checkRemovals(_devices, result).forEach((e) {
+          onStateChanged?.call(e, false);
+        });
+
+        // update devices
+        _devices = result;
+
+        // reset flag
+        _isDiscovering = false;
+      }
+    });
   }
 
   /// Stops timer
