@@ -44,13 +44,15 @@ class PlugEvent {
   /// Dio
   ///
 
-  //
+  // state of the field pin changed
   static const fieldChanged = 20;
 
-  //
+  // state of the input pin changed
+  // todo: add pin index, and new value for event data
   static const inputChanged = 21;
 
-  //
+  // state of the output pin changed
+  // todo: add pin index, and new value for event data
   static const outputChanged = 22;
 
   ///
