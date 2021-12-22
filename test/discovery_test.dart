@@ -1,7 +1,7 @@
 // ignore_for_file: avoid_print
 
 import 'dart:io';
-import 'package:plugs/discovery.dart';
+import 'package:plugs/discovery/discovery.dart';
 import 'package:test/scaffolding.dart';
 
 final localAddress = InternetAddress(
@@ -18,8 +18,8 @@ void main() async {
     final result = await discovery.discover();
 
     // print found
-    for (var device in result) {
-      print(device.network.ip);
+    for (var info in result) {
+      print(info.address);
     }
   });
 
@@ -30,7 +30,7 @@ void main() async {
 
     //
     discovery.start((info, isConnected) =>
-        print(info.network.ip + (isConnected ? ' Connected' : ' Removed')));
+        print(info.address + (isConnected ? ' Connected' : ' Removed')));
 
     // wait for device changes
     await Future.delayed(const Duration(seconds: sec));

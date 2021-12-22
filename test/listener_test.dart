@@ -1,7 +1,7 @@
 // ignore_for_file: avoid_print
 
 import 'dart:io';
-import 'package:plugs/discovery.dart';
+import 'package:plugs/discovery/discovery.dart';
 import 'package:plugs/listener/listener.dart';
 
 import 'package:test/scaffolding.dart';
@@ -22,11 +22,11 @@ void main() async {
 
     //
     for (var device in devices) {
-      print(device.software.toString());
+      print(device.firmware);
     }
 
     // create listener for all devices discovered
-    final listeners = devices.map((e) => Listener(e.network.ip)).toList();
+    final listeners = devices.map((e) => Listener(e.address)).toList();
 
     // listen for changes
     for (var listener in listeners) {

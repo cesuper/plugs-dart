@@ -2,10 +2,11 @@ import 'dart:async';
 import 'dart:convert';
 import 'dart:io';
 
+import 'package:plugs/discovery/discovery_info.dart';
 import 'package:plugs/plugs/plug/info.dart';
 
 //
-typedef StateChangedCallback = Function(Info info, bool isConnected);
+typedef StateChangedCallback = Function(DiscoveryInfo info, bool isConnected);
 
 /// TODO: in service mode the timer should wait for period before start
 /// TODO: provide detailed description about device service
@@ -26,10 +27,10 @@ class Discovery {
   final Duration timeout;
 
   // result of the last discovery
-  List<Info> _devices = [];
+  List<DiscoveryInfo> _devices = [];
 
   // list of devices discovered
-  List<Info> get devices => _devices;
+  List<DiscoveryInfo> get devices => _devices;
 
   // timer for periodically check device presence
   Timer? _timer;
@@ -46,7 +47,7 @@ class Discovery {
 
   /// Starts a new discovery and returns the result. If the discovery
   /// is in progress the result of the last discovery is returned
-  Future<List<Info>> discover() async {
+  Future<List<DiscoveryInfo>> discover() async {
     // check if progress
     if (!_isDiscovering) {
       // set discovery flag
@@ -70,8 +71,11 @@ class Discovery {
   /// [onStateChanged] callback is fired when new device discovered or lost
   /// [init] used as initial data, if not set the result of the last discovery
   /// is used.
-  void start(StateChangedCallback? onStateChanged,
-      {List<Info>? init, Duration period = const Duration(seconds: 3)}) async {
+  void start(
+    StateChangedCallback? onStateChanged, {
+    List<DiscoveryInfo>? init,
+    Duration period = const Duration(seconds: 3),
+  }) async {
     // setup timer for period calls
     _timer = Timer.periodic(period, (timer) async {
       // check if progress
@@ -107,12 +111,15 @@ class Discovery {
   /// List device connections.
   /// Connection is new, when an address presents in [discovered] but
   /// not available in [recent]
-  List<Info> _checkConnections(List<Info> recent, List<Info> discovered) {
+  List<DiscoveryInfo> _checkConnections(
+    List<DiscoveryInfo> recent,
+    List<DiscoveryInfo> discovered,
+  ) {
     // list of new plugs
-    var found = <Info>[];
+    var found = <DiscoveryInfo>[];
     for (var device in discovered) {
       // check if address is new since the last discovery
-      var exists = recent.any((e) => (e.network.ip == device.network.ip));
+      var exists = recent.any((e) => (e.address == device.address));
       // if not, then add as new plug
       if (exists == false) {
         found.add(device);
@@ -124,12 +131,15 @@ class Discovery {
   /// List device removals
   /// Connection is removed, when an address presents in [recent] but not
   /// available in [discovered]
-  List<Info> _checkRemovals(List<Info> recent, List<Info> discovered) {
+  List<DiscoveryInfo> _checkRemovals(
+    List<DiscoveryInfo> recent,
+    List<DiscoveryInfo> discovered,
+  ) {
     // list of lost
-    var lost = <Info>[];
+    var lost = <DiscoveryInfo>[];
     for (var device in recent) {
       // check if address is lost since the last dicovery
-      var exists = discovered.any((e) => (e.network.ip == device.network.ip));
+      var exists = discovered.any((e) => (e.address == device.address));
       // if not, then add as new plug
       if (exists == false) {
         lost.add(device);
@@ -140,9 +150,9 @@ class Discovery {
 
   /// Starts the discovery process by sending discovery request from [localAddress]
   /// to [remotePort]  and wait for reply witing [timeout].
-  Future<List<Info>> _discover() async {
+  Future<List<DiscoveryInfo>> _discover() async {
     //
-    var result = <Info>[];
+    var result = <DiscoveryInfo>[];
 
     // todo handle error
     // bind to any port
@@ -166,8 +176,18 @@ class Discovery {
             //
             var str = utf8.decode(sub, allowMalformed: true);
 
+            // todo tryParse
+            final info = Info.fromJson(str);
+
             //
-            result.add(Info.fromJson(str));
+            result.add(DiscoveryInfo(
+              dg.address.address,
+              info.hardware.mac,
+              info.hardware.code,
+              info.hardware.serial,
+              '${info.software.major}.${info.software.minor}.${info.software.fix}',
+              info.software.build,
+            ));
           }
         }
       },
