@@ -1,6 +1,6 @@
 import 'dart:io';
 import 'package:plugs/discovery.dart';
-import 'package:plugs/listener.dart';
+import 'package:plugs/listener/listener.dart';
 
 import 'package:test/scaffolding.dart';
 
@@ -33,12 +33,7 @@ void main() async {
       //
       listener.connect(
         localAddress,
-        onStateChanged: (address, isConnected) {
-          print(address + (isConnected ? ' Connected' : ' Removed'));
-        },
-        onEvent: (address, code) {
-          print(address + ': $code');
-        },
+        onEvent: (event) => print(event),
         onError: (address, error) {
           print(address + ': $error');
         },

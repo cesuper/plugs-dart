@@ -1,5 +1,7 @@
 import 'dart:io';
 
+import 'package:plugs/listener/plug_event.dart';
+
 //
 typedef EventCallback = void Function(String address, int code);
 
@@ -9,6 +11,9 @@ typedef ConnectionStateChangedCallback = void Function(
 
 //
 typedef ConnectionErrorCallback = void Function(String address, dynamic error);
+
+//
+typedef PlugEventCallback = void Function(PlugEvent event);
 
 class Listener {
   // remote tcp port from where events originated
@@ -33,8 +38,7 @@ class Listener {
   ///
   void connect(
     InternetAddress sourceAddress, {
-    ConnectionStateChangedCallback? onStateChanged,
-    EventCallback? onEvent,
+    PlugEventCallback? onEvent,
     ConnectionErrorCallback? onError,
     Duration timeout = const Duration(seconds: 2),
     int port = 0,
@@ -46,7 +50,7 @@ class Listener {
       timeout: timeout,
     ).then((socket) {
       // fire connected event
-      onStateChanged?.call(address, true);
+      onEvent?.call(PlugEvent(address, PlugEvent.connected));
 
       // set as local variable
       _socket = socket;
@@ -72,7 +76,7 @@ class Listener {
                 break;
               default:
                 // call event
-                onEvent?.call(address, code);
+                onEvent?.call(PlugEvent(address, code));
             }
 
             //
@@ -88,7 +92,7 @@ class Listener {
         },
         onDone: () {
           // create disconnected
-          onStateChanged?.call(address, false);
+          onEvent?.call(PlugEvent(address, PlugEvent.disconnected));
         },
       );
     });
