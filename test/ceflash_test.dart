@@ -25,7 +25,7 @@ final remoteAddress =
 final remoteMac = <int>[0x94, 0xFB, 0xA7, 0x51, 0x00, 0x8C];
 
 // firmware path
-const path = 'assets/sfp9-r2-1.1.1.bin';
+const path = 'assets/sfp9-r2-1.2.1.bin';
 
 const bootpRequestTimeout = Duration(seconds: 25);
 const tftpRequestTimmeout = Duration(seconds: 10);

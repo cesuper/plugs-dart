@@ -1,3 +1,5 @@
+// ignore_for_file: avoid_print
+
 import 'dart:io';
 import 'package:plugs/discovery.dart';
 import 'package:plugs/listener/listener.dart';
@@ -34,9 +36,6 @@ void main() async {
       listener.connect(
         localAddress,
         onEvent: (event) => print(event),
-        onError: (address, error) {
-          print(address + ': $error');
-        },
       );
     }
 
