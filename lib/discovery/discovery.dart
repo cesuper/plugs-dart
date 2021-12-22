@@ -6,7 +6,8 @@ import 'package:plugs/discovery/discovery_info.dart';
 import 'package:plugs/plugs/plug/info.dart';
 
 //
-typedef StateChangedCallback = Function(DiscoveryInfo info, bool isConnected);
+typedef StateChangedCallback = Function(
+    DiscoveryResponse info, bool isConnected);
 
 /// TODO: in service mode the timer should wait for period before start
 /// TODO: provide detailed description about device service
@@ -16,6 +17,9 @@ typedef StateChangedCallback = Function(DiscoveryInfo info, bool isConnected);
 class Discovery {
   /// Port used by plugs to recieve discovery request
   static const int remotePort = 6060;
+
+  /// Port used by plugs to recieve discovery request (ucq)
+  static const int remotePortLegacy = 1001;
 
   /// Discovery request
   static final request = <int>[0x01, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00];
@@ -27,10 +31,10 @@ class Discovery {
   final Duration timeout;
 
   // result of the last discovery
-  List<DiscoveryInfo> _devices = [];
+  List<DiscoveryResponse> _devices = [];
 
   // list of devices discovered
-  List<DiscoveryInfo> get devices => _devices;
+  List<DiscoveryResponse> get devices => _devices;
 
   // timer for periodically check device presence
   Timer? _timer;
@@ -47,7 +51,7 @@ class Discovery {
 
   /// Starts a new discovery and returns the result. If the discovery
   /// is in progress the result of the last discovery is returned
-  Future<List<DiscoveryInfo>> discover() async {
+  Future<List<DiscoveryResponse>> discover() async {
     // check if progress
     if (!_isDiscovering) {
       // set discovery flag
@@ -73,7 +77,7 @@ class Discovery {
   /// is used.
   void start(
     StateChangedCallback? onStateChanged, {
-    List<DiscoveryInfo>? init,
+    List<DiscoveryResponse>? init,
     Duration period = const Duration(seconds: 3),
   }) async {
     // setup timer for period calls
@@ -111,12 +115,12 @@ class Discovery {
   /// List device connections.
   /// Connection is new, when an address presents in [discovered] but
   /// not available in [recent]
-  List<DiscoveryInfo> _checkConnections(
-    List<DiscoveryInfo> recent,
-    List<DiscoveryInfo> discovered,
+  List<DiscoveryResponse> _checkConnections(
+    List<DiscoveryResponse> recent,
+    List<DiscoveryResponse> discovered,
   ) {
     // list of new plugs
-    var found = <DiscoveryInfo>[];
+    var found = <DiscoveryResponse>[];
     for (var device in discovered) {
       // check if address is new since the last discovery
       var exists = recent.any((e) => (e.address == device.address));
@@ -131,12 +135,12 @@ class Discovery {
   /// List device removals
   /// Connection is removed, when an address presents in [recent] but not
   /// available in [discovered]
-  List<DiscoveryInfo> _checkRemovals(
-    List<DiscoveryInfo> recent,
-    List<DiscoveryInfo> discovered,
+  List<DiscoveryResponse> _checkRemovals(
+    List<DiscoveryResponse> recent,
+    List<DiscoveryResponse> discovered,
   ) {
     // list of lost
-    var lost = <DiscoveryInfo>[];
+    var lost = <DiscoveryResponse>[];
     for (var device in recent) {
       // check if address is lost since the last dicovery
       var exists = discovered.any((e) => (e.address == device.address));
@@ -150,9 +154,9 @@ class Discovery {
 
   /// Starts the discovery process by sending discovery request from [localAddress]
   /// to [remotePort]  and wait for reply witing [timeout].
-  Future<List<DiscoveryInfo>> _discover() async {
+  Future<List<DiscoveryResponse>> _discover() async {
     //
-    var result = <DiscoveryInfo>[];
+    var result = <DiscoveryResponse>[];
 
     // todo handle error
     // bind to any port
@@ -180,13 +184,12 @@ class Discovery {
             final info = Info.fromJson(str);
 
             //
-            result.add(DiscoveryInfo(
+            result.add(DiscoveryResponse(
               dg.address.address,
               info.hardware.mac,
               info.hardware.code,
               info.hardware.serial,
               '${info.software.major}.${info.software.minor}.${info.software.fix}',
-              info.software.build,
             ));
           }
         }
