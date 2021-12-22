@@ -19,14 +19,6 @@ class Listener {
   // remote tcp port from where events originated
   static const eventPort = 6069;
 
-  // size of the tcp packet in bytes
-  static const eventSize = 16;
-
-  // Ping event is used to get life-signal from plugs. These events
-  // are not handled by the api, but the loss if the ping event results
-  // device disconnect event. Plug sends ping events in 1 sec period.
-  static const eventCodePing = 255;
-
   //
   final String address;
 
@@ -60,18 +52,18 @@ class Listener {
         (packet) {
           // multipe events may arrive in one packet, so we need
           // search multiple events within one packet by slicing it
-          var noEvents = packet.length ~/ eventSize;
+          var noEvents = packet.length ~/ PlugEvent.packetSize;
           var offset = 0;
           for (var i = 0; i < noEvents; i++) {
             // get event and shift offset
-            var event = packet.skip(offset).take(eventSize);
+            var event = packet.skip(offset).take(PlugEvent.packetSize);
 
             // get event from msg
             int code = event.first;
 
             // handle events
             switch (code) {
-              case eventCodePing:
+              case PlugEvent.ping:
                 // ignore ping event
                 break;
               default:
@@ -80,7 +72,7 @@ class Listener {
             }
 
             //
-            offset += eventSize;
+            offset += PlugEvent.packetSize;
           }
         },
         onError: (e, trace) {
@@ -92,7 +84,7 @@ class Listener {
         },
         onDone: () {
           // create disconnected
-          onEvent?.call(PlugEvent(address, PlugEvent.disconnected));
+          onEvent?.call(PlugEvent(address, PlugEvent.removed));
         },
       );
     });
