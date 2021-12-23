@@ -11,36 +11,14 @@ final localAddress = InternetAddress(
 
 void main() async {
   //
-  final discovery = Discovery(localAddress);
 
   test('Simple', () async {
     //
-    final result = await discovery.discover();
+    final result = await Discovery.discover(localAddress, legacy: true);
 
     // print found
     for (var info in result) {
-      print(info.address);
+      print(info);
     }
   });
-
-  test('Continuous', () async {
-    //
-    const int sec = 15;
-    print('Service Started for $sec seconds');
-
-    //
-    discovery.start((info, isConnected) =>
-        print(info.address + (isConnected ? ' Connected' : ' Removed')));
-
-    // wait for device changes
-    await Future.delayed(const Duration(seconds: sec));
-
-    //
-    print('Service Stopped');
-
-    //
-    discovery.stop();
-
-    //
-  }, timeout: const Timeout(Duration(seconds: 25)));
 }

@@ -1,19 +1,10 @@
-import 'dart:async';
 import 'dart:convert';
 import 'dart:io';
+import 'dart:typed_data';
 
-import 'package:plugs/discovery/discovery_info.dart';
+import 'package:plugs/discovery/discovery_response.dart';
 import 'package:plugs/plugs/plug/info.dart';
 
-//
-typedef StateChangedCallback = Function(
-    DiscoveryResponse info, bool isConnected);
-
-/// TODO: in service mode the timer should wait for period before start
-/// TODO: provide detailed description about device service
-/// TODO: this class can be singleton due to the port usage
-
-///
 class Discovery {
   /// Port used by plugs to recieve discovery request
   static const int remotePort = 6060;
@@ -21,149 +12,28 @@ class Discovery {
   /// Port used by plugs to recieve discovery request (ucq)
   static const int remotePortLegacy = 1001;
 
-  /// Discovery request
-  static final request = <int>[0x01, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00];
-
-  // local address where plugs expected to be
-  final InternetAddress localAddress;
-
-  // discovery response timeout
-  final Duration timeout;
-
-  // result of the last discovery
-  List<DiscoveryResponse> _devices = [];
-
-  // list of devices discovered
-  List<DiscoveryResponse> get devices => _devices;
-
-  // timer for periodically check device presence
-  Timer? _timer;
-
-  // flag indicating discovery is in progress
-  bool _isDiscovering = false;
-
-  /// Returns a new instance of device service.
-  /// [localAddress] local interface address where the plugs being searched
-  /// [onStateChanged] when privided callback is fired on new device or removal
-  /// [timeout] timeout for discovery response
-  /// [port] port to bind discovery socket, default is 0
-  Discovery(this.localAddress, {this.timeout = const Duration(seconds: 1)});
-
-  /// Starts a new discovery and returns the result. If the discovery
-  /// is in progress the result of the last discovery is returned
-  Future<List<DiscoveryResponse>> discover() async {
-    // check if progress
-    if (!_isDiscovering) {
-      // set discovery flag
-      _isDiscovering = true;
-
-      // scan devices
-      var result = await _discover();
-
-      // update devices
-      _devices = result;
-
-      // reset flag
-      _isDiscovering = false;
-    }
-
-    // return the result of the last discovery
-    return _devices;
-  }
-
-  /// Starts a timer with [period] to periodically check devices on the network.
-  /// [onStateChanged] callback is fired when new device discovered or lost
-  /// [init] used as initial data, if not set the result of the last discovery
-  /// is used.
-  void start(
-    StateChangedCallback? onStateChanged, {
-    List<DiscoveryResponse>? init,
-    Duration period = const Duration(seconds: 3),
+  //
+  static Future<List<DiscoveryResponse>> discover(
+    InternetAddress localAddress, {
+    Duration timeout = const Duration(seconds: 1),
+    bool legacy = false,
   }) async {
-    // setup timer for period calls
-    _timer = Timer.periodic(period, (timer) async {
-      // check if progress
-      if (!_isDiscovering) {
-        // set discovery flag
-        _isDiscovering = true;
-
-        // scan devices
-        var result = await _discover();
-
-        // handle new connections
-        _checkConnections(_devices, result).forEach((e) {
-          onStateChanged?.call(e, true);
-        });
-
-        // handle removals
-        _checkRemovals(_devices, result).forEach((e) {
-          onStateChanged?.call(e, false);
-        });
-
-        // update devices
-        _devices = result;
-
-        // reset flag
-        _isDiscovering = false;
-      }
-    });
-  }
-
-  /// Stops timer
-  void stop() => _timer?.cancel();
-
-  /// List device connections.
-  /// Connection is new, when an address presents in [discovered] but
-  /// not available in [recent]
-  List<DiscoveryResponse> _checkConnections(
-    List<DiscoveryResponse> recent,
-    List<DiscoveryResponse> discovered,
-  ) {
-    // list of new plugs
-    var found = <DiscoveryResponse>[];
-    for (var device in discovered) {
-      // check if address is new since the last discovery
-      var exists = recent.any((e) => (e.address == device.address));
-      // if not, then add as new plug
-      if (exists == false) {
-        found.add(device);
-      }
-    }
-    return found;
-  }
-
-  /// List device removals
-  /// Connection is removed, when an address presents in [recent] but not
-  /// available in [discovered]
-  List<DiscoveryResponse> _checkRemovals(
-    List<DiscoveryResponse> recent,
-    List<DiscoveryResponse> discovered,
-  ) {
-    // list of lost
-    var lost = <DiscoveryResponse>[];
-    for (var device in recent) {
-      // check if address is lost since the last dicovery
-      var exists = discovered.any((e) => (e.address == device.address));
-      // if not, then add as new plug
-      if (exists == false) {
-        lost.add(device);
-      }
-    }
-    return lost;
-  }
-
-  /// Starts the discovery process by sending discovery request from [localAddress]
-  /// to [remotePort]  and wait for reply witing [timeout].
-  Future<List<DiscoveryResponse>> _discover() async {
     //
-    var result = <DiscoveryResponse>[];
-
-    // todo handle error
-    // bind to any port
     var socket = await RawDatagramSocket.bind(localAddress, 0);
 
     // enable broadcast
     socket.broadcastEnabled = true;
+
+    // todo use unified request code
+    // create reqest
+    final request = List.generate(DiscoveryResponse.size, (index) => 0x00)
+      ..[0] = legacy ? 0xC9 : 0x01;
+
+    // set port
+    final port = legacy ? remotePortLegacy : remotePort;
+
+    // create result array
+    final result = <DiscoveryResponse>[];
 
     //
     socket.listen(
@@ -174,23 +44,26 @@ class Discovery {
 
           // check if dg available
           if (dg != null) {
-            // get the string content from the datagram
-            var sub = dg.data.takeWhile((value) => value != 0).toList();
+            // todo wait for DiscoveryResponse.size
 
             //
-            var str = utf8.decode(sub, allowMalformed: true);
+            if (legacy == false) {
+              // get the string content from the datagram
+              final sub = dg.data.takeWhile((value) => value != 0).toList();
+              final str = utf8.decode(sub, allowMalformed: true);
+              final info = Info.fromJson(str);
 
-            // todo tryParse
-            final info = Info.fromJson(str);
-
-            //
-            result.add(DiscoveryResponse(
-              dg.address.address,
-              info.hardware.mac,
-              info.hardware.code,
-              info.hardware.serial,
-              '${info.software.major}.${info.software.minor}.${info.software.fix}',
-            ));
+              //
+              result.add(DiscoveryResponse(
+                dg.address.address,
+                info.hardware.mac,
+                info.hardware.code,
+                info.hardware.serial,
+                '${info.software.major}.${info.software.minor}.${info.software.fix}',
+              ));
+            } else {
+              result.add(_fromLegacy(dg));
+            }
           }
         }
       },
@@ -205,7 +78,7 @@ class Discovery {
     );
 
     // send discovery request
-    socket.send(request, destinationAddress, remotePort);
+    socket.send(request, destinationAddress, port);
 
     // wait for reply
     await Future.delayed(timeout);
@@ -213,7 +86,44 @@ class Discovery {
     //
     socket.close();
 
-    // return the discovery result
+    // return result
     return result;
+  }
+
+  ///
+  static DiscoveryResponse _fromLegacy(Datagram dg) {
+    //
+    // mac
+    // convert base10 mac digits to formatted hex chars
+    final macDigitsB10 = dg.data.buffer.asUint8List(6, 6);
+    final buffer = StringBuffer();
+    for (var digit in macDigitsB10) {
+      buffer.write(digit.toRadixString(16).padLeft(2, '0'));
+      buffer.write('-');
+    }
+    var mac = buffer.toString();
+    // remove trailing '-'
+    mac = mac.substring(0, mac.length - 1);
+
+    //
+    // serial
+    //
+
+    // get name in format 'smp8-00422'
+    final name =
+        String.fromCharCodes(dg.data.buffer.asUint8List(22, 15)).toLowerCase();
+
+    // get family
+    final family = name.substring(0, 3);
+
+    final serial = family;
+
+    return DiscoveryResponse(
+      dg.address.address,
+      mac,
+      dg.data.buffer.asByteData().getUint8(2),
+      serial,
+      dg.data.buffer.asUint8List(12, 3).join('.'),
+    );
   }
 }
