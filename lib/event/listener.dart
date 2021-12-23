@@ -1,6 +1,6 @@
 import 'dart:io';
 
-import 'package:plugs/listener/event.dart';
+import 'package:plugs/event/event.dart';
 
 //
 typedef EventCallback = void Function(String address, int code);

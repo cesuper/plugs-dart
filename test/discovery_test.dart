@@ -10,13 +10,9 @@ final localAddress = InternetAddress(
 );
 
 void main() async {
-  //
-
-  const legacy = true;
-
   test('discovery', () async {
     //
-    final result = await Discovery.discover(localAddress, legacy: legacy);
+    final result = await Discovery.discover(localAddress, legacy: false);
 
     for (var entry in result.entries) {
       //

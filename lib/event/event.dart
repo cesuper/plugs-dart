@@ -109,5 +109,5 @@ class Event {
 
   @override
   String toString() =>
-      'Event(source: $source, code: $code, name: ${_getEventName(code)}, data: $data)';
+      'Event(source: $source, code: $code, name: ${_getEventName(code)})';
 }
