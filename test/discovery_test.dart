@@ -1,7 +1,7 @@
 // ignore_for_file: avoid_print
 
 import 'dart:io';
-import 'package:plugs/discovery/discovery.dart';
+import 'package:plugs/discovery.dart';
 import 'package:test/scaffolding.dart';
 
 final localAddress = InternetAddress(
@@ -12,13 +12,25 @@ final localAddress = InternetAddress(
 void main() async {
   //
 
-  test('Simple', () async {
-    //
-    final result = await Discovery.discover(localAddress, legacy: true);
+  const legacy = true;
 
-    // print found
-    for (var info in result) {
-      print(info);
+  test('discovery', () async {
+    //
+    final result = await Discovery.discover(localAddress, legacy: legacy);
+
+    for (var entry in result.entries) {
+      //
+      final info = entry.value;
+
+      //
+      print(entry.key + '-' + info.toString());
+
+      print(info.family +
+          info.model +
+          '-r' +
+          info.rev.toString() +
+          '-' +
+          info.sn.toString());
     }
   });
 }
