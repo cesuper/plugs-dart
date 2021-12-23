@@ -10,7 +10,9 @@ import 'package:plugs/plugs/plug/info.dart';
 ///
 /// For request, a fixed-size UDP frame is sent with leading [requestCode] byte.
 /// Plugs checks the [requestCode] and responds with their device information
-/// in order to construct [Info]
+/// in order to construct [Info].
+///
+/// For
 class Discovery {
   // size of the discovery response in bytes
   static const size = 128;
@@ -95,41 +97,42 @@ class Discovery {
 
   /// Answering the discovery request by sending 128-byte length UDP response with (little-endian)
   /// encoding.
-  /// The structure of the response is the following:
-  ///
-  /// index | value | desc
-  ///  0      0xc9    request code
-  ///  1      0x00    error code
-  /// --------------
-  ///  2      0x01    device code as uint8_t but serialized as int, lsb
-  ///  3      0x00
-  ///  4      0x00
-  ///  5      0x00    msb
-  /// --------------
-  ///  6      0x08    mac address first digit in base10
-  ///  7      0x00
-  ///  8      0x28
-  ///  9      0x5a
-  /// 10      0x8f
-  /// 11      0xa0    mac address last digit in base10
-  /// --------------
-  /// 12      0x05    firmware major version
-  /// 13      0x01    firmware minor version
-  /// 14      0x02    firmware fix version
-  /// --------------
-  /// 15      0x01    device code as uint8_t but serialized as int, lsb
-  /// 16      0x00
-  /// 17      0x00
-  /// 18      0x00    msb
-  /// --------------
-  /// 19      0x05  Revision major value as uint8_t
-  /// 20      0x00  Revision minor value with value of 0x00
-  /// 21      0x00  Revision fix value with value of 0x00
-  /// --------------
-  /// 22      0x53  'S', ASCII encoded char, the first char of serial
-  /// 23      0x4d  'M', ASCII encoded char, the sencond char of serial
-  /// ...
   static Info _fromLegacy(Datagram dg) {
+    /// The structure of the response is the following:
+    ///
+    /// index | value | desc
+    ///  0      0xc9    request code
+    ///  1      0x00    error code
+    /// --------------
+    ///  2      0x01    device code as uint8_t but serialized as int, lsb
+    ///  3      0x00
+    ///  4      0x00
+    ///  5      0x00    msb
+    /// --------------
+    ///  6      0x08    mac address first digit in base10
+    ///  7      0x00
+    ///  8      0x28
+    ///  9      0x5a
+    /// 10      0x8f
+    /// 11      0xa0    mac address last digit in base10
+    /// --------------
+    /// 12      0x05    firmware major version
+    /// 13      0x01    firmware minor version
+    /// 14      0x02    firmware fix version
+    /// --------------
+    /// 15      0x01    device code as uint8_t but serialized as int, lsb
+    /// 16      0x00
+    /// 17      0x00
+    /// 18      0x00    msb
+    /// --------------
+    /// 19      0x05  Revision major value as uint8_t
+    /// 20      0x00  Revision minor value with value of 0x00
+    /// 21      0x00  Revision fix value with value of 0x00
+    /// --------------
+    /// 22      0x53  'S', ASCII encoded char, the first char of serial
+    /// 23      0x4d  'M', ASCII encoded char, the sencond char of serial
+    /// ...
+
     //
     // Software
     //

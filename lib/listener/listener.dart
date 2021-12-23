@@ -1,6 +1,6 @@
 import 'dart:io';
 
-import 'package:plugs/listener/plug_event.dart';
+import 'package:plugs/listener/event.dart';
 
 //
 typedef EventCallback = void Function(String address, int code);
@@ -13,7 +13,7 @@ typedef ConnectionStateChangedCallback = void Function(
 typedef ConnectionErrorCallback = void Function(String address, dynamic error);
 
 //
-typedef PlugEventCallback = void Function(PlugEvent event);
+typedef PlugEventCallback = void Function(Event event);
 
 class Listener {
   // remote tcp port from where events originated
@@ -42,7 +42,7 @@ class Listener {
       timeout: timeout,
     ).then((socket) {
       // fire connected event
-      onEvent?.call(PlugEvent(address, PlugEvent.connected));
+      onEvent?.call(Event(address, Event.connected));
 
       // set as local variable
       _socket = socket;
@@ -52,27 +52,27 @@ class Listener {
         (packet) {
           // multipe events may arrive in one packet, so we need
           // search multiple events within one packet by slicing it
-          var noEvents = packet.length ~/ PlugEvent.packetSize;
+          var noEvents = packet.length ~/ Event.packetSize;
           var offset = 0;
           for (var i = 0; i < noEvents; i++) {
             // get event and shift offset
-            var event = packet.skip(offset).take(PlugEvent.packetSize);
+            var event = packet.skip(offset).take(Event.packetSize);
 
             // get event from msg
             int code = event.first;
 
             // handle events
             switch (code) {
-              case PlugEvent.ping:
+              case Event.ping:
                 // ignore ping event
                 break;
               default:
                 // call event
-                onEvent?.call(PlugEvent(address, code));
+                onEvent?.call(Event(address, code));
             }
 
             //
-            offset += PlugEvent.packetSize;
+            offset += Event.packetSize;
           }
         },
         onError: (e, trace) {
@@ -84,7 +84,7 @@ class Listener {
         },
         onDone: () {
           // create disconnected
-          onEvent?.call(PlugEvent(address, PlugEvent.removed));
+          onEvent?.call(Event(address, Event.removed));
         },
       );
     });
