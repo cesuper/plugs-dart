@@ -2,8 +2,7 @@
 
 import 'dart:io';
 import 'package:plugs/discovery.dart';
-import 'package:plugs/event/event.dart';
-import 'package:plugs/event/listener.dart';
+import 'package:plugs/listener.dart';
 
 import 'package:test/scaffolding.dart';
 
@@ -20,7 +19,7 @@ void main() async {
   test('listen test', () async {
     // fire discovered event for all devices found
     for (var address in result.keys) {
-      print(Event(address, Event.discovered));
+      print('$address - PLUG_DISCOVERED');
     }
 
     // create listener for all devices discovered
@@ -29,7 +28,10 @@ void main() async {
     // start listening
     for (var listener in listeners) {
       //
-      listener.connect(localAddress, onEvent: (event) => print(event));
+      listener.connect(
+        localAddress,
+        onEvent: (address, code) => print('$address - ${Listener.name(code)}'),
+      );
     }
 
     //
