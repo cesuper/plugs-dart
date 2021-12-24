@@ -1,21 +1,16 @@
 import 'dart:io';
 
 //
-typedef ListenerConnectionStateChangedCallback = void Function(
-    Listener listener);
+typedef ListenerConnectionStateChangedCallback = void Function(String address);
 
 //
-typedef PlugConnectedCallback = void Function(Listener listener);
+typedef PlugConnectedCallback = void Function(String address);
 
 //
 typedef ConnectionErrorCallback = void Function(String address, dynamic error);
 
 //
-typedef PlugEventCallback = void Function(
-  Listener listener,
-  int code,
-  String name,
-);
+typedef PlugEventCallback = void Function(String address, int code);
 
 class Listener {
   // Ping event is used to get life-signal from plugs. These events
@@ -113,7 +108,7 @@ class Listener {
       timeout: timeout,
     ).then((socket) {
       // fire connected event
-      onConnected?.call(this);
+      onConnected?.call(address);
 
       // set as local variable
       _socket = socket;
@@ -139,7 +134,7 @@ class Listener {
                 break;
               default:
                 // call event
-                onEvent?.call(this, code, getName(code));
+                onEvent?.call(address, code);
             }
 
             //
@@ -155,7 +150,7 @@ class Listener {
         },
         onDone: () {
           // create disconnected
-          onDisconnected?.call(this);
+          onDisconnected?.call(address);
         },
       );
     });

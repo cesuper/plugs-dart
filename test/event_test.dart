@@ -30,7 +30,7 @@ void main() async {
       //
       listener.connect(
         localAddress,
-        onEvent: (address, code, name) =>
+        onEvent: (address, code) =>
             print('$address - ${Listener.getName(code)}'),
       );
     }
