@@ -16,6 +16,9 @@ class Event {
   // ts
   DateTime dateTime;
 
+  //
+  String get name => _getEventName(code);
+
   Event(this.source, this.code, {this.data, DateTime? dateTime})
       : dateTime = dateTime ?? DateTime.now();
 
@@ -112,6 +115,5 @@ class Event {
   }
 
   @override
-  String toString() =>
-      'Event(source: $source, code: $code, name: ${_getEventName(code)})';
+  String toString() => 'Event(source: $source, code: $code, name: $name)';
 }
