@@ -11,7 +11,7 @@ typedef ConnectionStateChangedCallback = void Function(
 typedef ConnectionErrorCallback = void Function(String address, dynamic error);
 
 //
-typedef ListenerEventCallback = void Function(String address, int code);
+typedef ListenerEventCallback = void Function(Listener listener, int eventCode);
 
 class Listener {
   // response recieved for discovery request
@@ -114,7 +114,7 @@ class Listener {
 
   ///
   void connect(
-    InternetAddress sourceAddress, {
+    InternetAddress localAddress, {
     ListenerEventCallback? onEvent,
     ConnectionErrorCallback? onError,
     Duration timeout = const Duration(seconds: 2),
@@ -123,11 +123,11 @@ class Listener {
     Socket.connect(
       InternetAddress(address, type: InternetAddressType.IPv4),
       eventPort,
-      sourceAddress: sourceAddress,
+      sourceAddress: localAddress,
       timeout: timeout,
     ).then((socket) {
       // fire connected event
-      onEvent?.call(address, connected);
+      onEvent?.call(this, connected);
 
       // set as local variable
       _socket = socket;
@@ -153,7 +153,7 @@ class Listener {
                 break;
               default:
                 // call event
-                onEvent?.call(address, code);
+                onEvent?.call(this, code);
             }
 
             //
@@ -169,7 +169,7 @@ class Listener {
         },
         onDone: () {
           // create disconnected
-          onEvent?.call(address, disconnected);
+          onEvent?.call(this, disconnected);
         },
       );
     });
