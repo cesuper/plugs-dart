@@ -37,5 +37,10 @@ void main() async {
 
     //
     await Future.delayed(const Duration(seconds: 35));
+
+    // close listeners
+    for (var listener in listeners) {
+      listener.close();
+    }
   }, timeout: const Timeout(timeout));
 }
