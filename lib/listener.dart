@@ -1,11 +1,10 @@
 import 'dart:io';
 
 //
-typedef EventCallback = void Function(String address, int code);
-
-//
-typedef ConnectionStateChangedCallback = void Function(
-    String address, bool isConnected);
+typedef ListenerConnectionStateChangedCallback = void Function(
+  Listener listener,
+  bool isConnected,
+);
 
 //
 typedef ConnectionErrorCallback = void Function(String address, dynamic error);
@@ -99,8 +98,7 @@ class Listener {
   ///
   void connect(
     InternetAddress localAddress, {
-    Function? onConnected,
-    Function? onDisconnected,
+    ListenerConnectionStateChangedCallback? onConnectionStateChanged,
     PlugEventCallback? onEvent,
     ConnectionErrorCallback? onError,
     Duration timeout = const Duration(seconds: 2),
@@ -113,7 +111,7 @@ class Listener {
       timeout: timeout,
     ).then((socket) {
       // fire connected event
-      onConnected?.call(this);
+      onConnectionStateChanged?.call(this, true);
 
       // set as local variable
       _socket = socket;
@@ -155,7 +153,7 @@ class Listener {
         },
         onDone: () {
           // create disconnected
-          onDisconnected?.call(this);
+          onConnectionStateChanged?.call(this, false);
         },
       );
     });
