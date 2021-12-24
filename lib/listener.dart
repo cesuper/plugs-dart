@@ -11,7 +11,11 @@ typedef ConnectionStateChangedCallback = void Function(
 typedef ConnectionErrorCallback = void Function(String address, dynamic error);
 
 //
-typedef ListenerEventCallback = void Function(Listener listener, int eventCode);
+typedef ListenerEventCallback = void Function(
+  Listener listener,
+  int code,
+  String name,
+);
 
 class Listener {
   // response recieved for discovery request
@@ -127,7 +131,7 @@ class Listener {
       timeout: timeout,
     ).then((socket) {
       // fire connected event
-      onEvent?.call(this, connected);
+      onEvent?.call(this, connected, name(connected));
 
       // set as local variable
       _socket = socket;
@@ -153,7 +157,7 @@ class Listener {
                 break;
               default:
                 // call event
-                onEvent?.call(this, code);
+                onEvent?.call(this, code, name(code));
             }
 
             //
@@ -169,7 +173,7 @@ class Listener {
         },
         onDone: () {
           // create disconnected
-          onEvent?.call(this, disconnected);
+          onEvent?.call(this, disconnected, name(disconnected));
         },
       );
     });
