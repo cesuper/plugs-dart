@@ -58,7 +58,7 @@ class Listener {
   static const samplingFinished = 61;
 
   /// decode event to String
-  static String getName(int code) {
+  static String? getName(int code) {
     switch (code) {
       case ping:
         return 'PLUG_PING';
@@ -73,7 +73,7 @@ class Listener {
       case socketH43Changed:
         return 'SOCKET_H43_CHANGED';
       default:
-        return 'UNKNOWN';
+        return null;
     }
   }
 
