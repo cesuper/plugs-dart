@@ -11,9 +11,15 @@ class Event {
   final int code;
 
   // event data
-  final String data;
+  final String? data;
 
-  Event(this.source, this.code, {this.data = ""});
+  // ts
+  DateTime? dateTime;
+
+  Event(this.source, this.code, {this.data, DateTime? dateTime}) {
+    // use system time if parameter not provided
+    this.dateTime = dateTime ?? DateTime.now();
+  }
 
   ///
   /// Plug
