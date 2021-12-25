@@ -16,7 +16,8 @@ class Info {
   // plug firmware build value '${YYYY}-${MM}-${DD}T${hh}:${mm}:${ss}"
   final String build;
 
-  Info(this.code, this.serial, this.mac, this.fw, this.build);
+  Info(this.code, this.serial, String mac, this.fw, this.build)
+      : mac = mac.toLowerCase();
 
   Map<String, dynamic> toMap() {
     return {
