@@ -8,8 +8,8 @@ import 'package:plugs/plugs/plug/info.dart';
 /// address specified by [localAddress] to the port based on [legacy] mode, then
 /// [timeout] is waited to get responses from all available plugs.
 ///
-/// For request, a fixed-size UDP frame is sent with leading [requestCode] byte.
-/// Plugs checks the [requestCode] and responds with their device information
+/// For request, a fixed-size UDP frame is sent with leading [requestCodeDiscovery] byte.
+/// Plugs checks the [requestCodeDiscovery] and responds with their device information
 /// in order to construct [Info].
 ///
 /// For
@@ -24,7 +24,7 @@ class Discovery {
   static const int remotePortLegacy = 1001;
 
   /// request code to be answered with response
-  static const int requestCode = 0xc9;
+  static const int requestCodeDiscovery = 0xc9;
 
   /// Starts a new discovery and returns the result.
   static Future<Map<String, Info>> discover(
@@ -32,64 +32,65 @@ class Discovery {
     Duration timeout = const Duration(seconds: 1),
     bool legacy = false,
   }) async {
-    //
-    var socket = await RawDatagramSocket.bind(localAddress, 0);
-
-    // enable broadcast
-    socket.broadcastEnabled = true;
-
-    // todo use unified request code
-    // create reqest
-    final request = List.generate(size, (index) => 0x00)..[0] = requestCode;
-
-    // set port
-    final port = legacy ? remotePortLegacy : remotePort;
-
-    // create result array
+    // empty result
     final result = <String, Info>{};
 
     //
-    socket.listen(
-      (e) {
-        if (e == RawSocketEvent.read) {
-          // read a chunk
-          Datagram? dg = socket.receive();
+    await RawDatagramSocket.bind(localAddress, 0).then((socket) async {
+      // enable broadcast
+      socket.broadcastEnabled = true;
 
-          // check if dg available
-          if (dg != null) {
-            // todo wait for DiscoveryResponse.size
+      //
+      socket.listen(
+        (e) {
+          if (e == RawSocketEvent.read) {
+            // read a chunk
+            Datagram? dg = socket.receive();
 
-            //
-            if (legacy == false) {
-              // get the string content from the datagram
-              final sub = dg.data.takeWhile((value) => value != 0).toList();
-              final str = utf8.decode(sub, allowMalformed: true);
-              result[dg.address.address] = Info.fromJson(str);
-            } else {
-              // add new map entry
-              result[dg.address.address] = _fromLegacy(dg);
+            // check if dg available
+            if (dg != null) {
+              // todo wait for DiscoveryResponse.size
+
+              //
+              if (legacy == false) {
+                // get the string content from the datagram
+                final sub = dg.data.takeWhile((value) => value != 0).toList();
+                final str = utf8.decode(sub, allowMalformed: true);
+                result[dg.address.address] = Info.fromJson(str);
+              } else {
+                // add new map entry
+                result[dg.address.address] = _fromLegacy(dg);
+              }
             }
           }
-        }
-      },
-    );
-    // construct direct broadcast address from local address
-    var targetRawAddress = localAddress.rawAddress..[3] = 0xFF;
+        },
+      );
 
-    // create destination address from direct broadcast address
-    var destinationAddress = InternetAddress.fromRawAddress(
-      targetRawAddress,
-      type: InternetAddressType.IPv4,
-    );
+      // create reqest
+      final request = List.generate(size, (index) => 0x00)
+        ..[0] = requestCodeDiscovery;
 
-    // send discovery request
-    socket.send(request, destinationAddress, port);
+      // set port
+      final port = legacy ? remotePortLegacy : remotePort;
 
-    // wait for reply
-    await Future.delayed(timeout);
+      // construct direct broadcast address from local address
+      var targetRawAddress = localAddress.rawAddress..[3] = 0xFF;
 
-    //
-    socket.close();
+      // create destination address from direct broadcast address
+      var destinationAddress = InternetAddress.fromRawAddress(
+        targetRawAddress,
+        type: InternetAddressType.IPv4,
+      );
+
+      // send discovery request
+      socket.send(request, destinationAddress, port);
+
+      // wait for reply
+      await Future.delayed(timeout);
+
+      //
+      socket.close();
+    });
 
     // return result
     return result;

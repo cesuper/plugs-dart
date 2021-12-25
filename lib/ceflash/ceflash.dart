@@ -1,7 +1,9 @@
+import 'dart:async';
 import 'dart:io';
 import 'dart:typed_data';
 
 import 'package:logger/logger.dart';
+import 'package:plugs/ceflash/magic_packet.dart';
 
 import 'bootp_server.dart';
 import 'tftp_data_server.dart';
@@ -39,18 +41,25 @@ class CeFlash {
   /// [remoteMac] target mac address
   /// [firmware] firmware file
   /// [timeout] operation timeout, default 5 sec
+  /// [useMagicPacket] sends an upd magic packet to initiate bootloader mode for device
+  /// with address [remoteAddress]
   static Future<bool> update(
     InternetAddress localAddress,
     InternetAddress remoteAddress,
     List<int> remoteMac,
     Uint8List firmware, {
+    bool useMagicPacket = true,
     int bootpServerPort = BootpServer.serverPort,
     int bootpClientPort = BootpServer.clientPort,
     Duration timeout = const Duration(seconds: 5),
     Level logLevel = Level.error,
   }) async {
     //
-    //var fw = await firmware.readAsBytes();
+    if (useMagicPacket) {
+      // Sends a magic packet and wait for response. Not all devices send response
+      // for magic packet
+      await MagicPacket.send(localAddress, remoteAddress, logLevel: logLevel);
+    }
 
     // check if client exists
     if (await BootpServer.waitForBootpPacket(

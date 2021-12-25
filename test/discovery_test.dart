@@ -21,12 +21,12 @@ void main() async {
       //
       print(entry.key + '-' + info.toString());
 
-      print(info.family +
-          info.model +
-          '-r' +
-          info.rev.toString() +
-          '-' +
-          info.sn.toString());
+      // print(info.family +
+      //     info.model +
+      //     '-r' +
+      //     info.rev.toString() +
+      //     '-' +
+      //     info.sn.toString());
     }
   });
 }
