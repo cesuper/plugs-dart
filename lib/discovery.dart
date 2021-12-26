@@ -6,13 +6,13 @@ import 'package:plugs/plugs/plug/info.dart';
 /// Class for discovering devices within a subnet.
 /// Host sends [size]-byte UDP-based discovery request to the direct broadcast
 /// address specified by [localAddress] to the port based on [legacy] mode, then
-/// [timeout] is waited to get responses from all available plugs.
+/// [timeout] is waited to get responses from all plugs available.
 ///
 /// For request, a fixed-size UDP frame is sent with leading [requestCodeDiscovery] byte.
 /// Plugs checks the [requestCodeDiscovery] and responds with their device information
 /// in order to construct [Info].
 ///
-/// For
+/// Use [legacy] flag
 class Discovery {
   // size of the discovery response in bytes
   static const size = 128;

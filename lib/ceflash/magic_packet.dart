@@ -3,8 +3,9 @@ import 'dart:io';
 
 import 'package:logger/logger.dart';
 
+/// Class represents the a magic packet that triggers the bootlader mode on plugs.
 class MagicPacket {
-  // size of the discovery response in bytes
+  /// size of the magic packet request and response in bytes
   static const size = 128;
 
   /// Port used by plugs to recieve discovery request (recent)

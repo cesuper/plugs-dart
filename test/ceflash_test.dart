@@ -39,7 +39,7 @@ void main() async {
 
   test('file check', () {
     //
-    final result = CeFlash.checkFilename(filename);
+    final result = CeFlash.checkFilenameFormat(filename);
     print(result);
   });
 
@@ -59,8 +59,6 @@ void main() async {
       remoteAddress,
       remoteMac,
       firmware,
-      bootpServerPort: BootpServer.serverPort + 0,
-      bootpClientPort: BootpServer.clientPort + 0,
       timeout: const Duration(seconds: 5),
       logLevel: Level.debug,
     );
