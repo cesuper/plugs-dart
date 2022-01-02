@@ -45,7 +45,7 @@ class CeFlash {
   /// [magicPacket] when true, a magic packet is sent to the [remoteAddress] to
   /// initiate bootloader mode on target to accept new firmware. When false no
   /// magic packet is sent aka. the target is expected to be in bootloader mode
-
+  /// to start flashing.
   static Future<bool> update(
     InternetAddress localAddress,
     InternetAddress remoteAddress,

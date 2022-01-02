@@ -42,22 +42,48 @@ void main() async {
     print(result);
   });
 
-  test('magic packet', () async {
+  test('Magic packet', () async {
     //
     await MagicPacket.send(
       localAddress,
       remoteAddress,
       logLevel: Level.debug,
     );
+
+    // todo: check remoteAddress for bootloader mode to pass the test
   });
 
-  test('update by mac', () async {
+  test('Bootloader mode', () async {
+    // Target is expected to be in Bootloader mode and periodically
+    // sendins BOOTP requests indicating the device is ready to update itself
+    // with the new firmware
+
     //
     var result = await CeFlash.update(
       localAddress,
       remoteAddress,
       remoteMac,
       firmware,
+      magicPacket: false,
+      timeout: const Duration(seconds: 5),
+      logLevel: Level.debug,
+    );
+
+    //
+    print(result);
+  });
+
+  test('App mode', () async {
+    // Target is expected to be in App mode, waiting for magic packet to
+    // boot in bootloader mode to accept the firmware.
+
+    //
+    var result = await CeFlash.update(
+      localAddress,
+      remoteAddress,
+      remoteMac,
+      firmware,
+      magicPacket: true,
       timeout: const Duration(seconds: 5),
       logLevel: Level.debug,
     );
