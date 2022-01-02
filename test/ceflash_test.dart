@@ -71,15 +71,17 @@ void main() async {
   });
 
   test('Bootloader mode', () async {
+    // Target is expected to be in Bootloader mode and periodically
+    // sendins BOOTP requests indicating the device is ready to update itself
+    // with the new firmware
+
     // target mac address to be flashed
     const targetMac = '94-fb-a7-51-00-8c';
 
     // ip address to assign to the target for the duration of flashing
     const targetAddress = '192.168.100.109';
 
-    // Target is expected to be in Bootloader mode and periodically
-    // sendins BOOTP requests indicating the device is ready to update itself
-    // with the new firmware
+    //
     var result = await CeFlash.update(
       localAddress,
       InternetAddress(targetAddress),
@@ -90,27 +92,29 @@ void main() async {
       logLevel: Level.debug,
     );
 
-    //
-    print(result);
+    // test pass when result is true
+    expect(result, true);
   });
 
   test('App mode', () async {
     // Target is expected to be in App mode, waiting for magic packet to
-    // boot in bootloader mode to accept the firmware.
+    // restart itself in bootloader mode to accept the firmware.
+    // Test pass when device is available on the network after the flashing
 
     // target mac address to run the test on
-    const targetMac = '08-00-28-5a-8f-a1';
+    const targetMac = '94-fb-a7-51-00-8c';
 
     // get available devices
-    final devices = await Discovery.discover(localAddress);
+    var devices = await Discovery.discover(localAddress);
 
     // find device
-    final device =
+    var device =
         devices.entries.firstWhere((element) => element.value.mac == targetMac);
 
-    // target address
+    // get the address of the target
     final targetAddress = InternetAddress(device.key);
 
+    // flash
     var result = await CeFlash.update(
       localAddress,
       targetAddress,
@@ -120,6 +124,21 @@ void main() async {
       timeout: const Duration(seconds: 5),
       logLevel: Level.debug,
     );
+
+    // wait for a target to reboots itelf and receive ip address
+    await Future.delayed(const Duration(seconds: 5));
+
+    // run the discovery again and verify the presence of the device updated
+    devices = await Discovery.discover(localAddress);
+
+    // find device again
+    device =
+        devices.entries.firstWhere((element) => element.value.mac == targetMac);
+
+    // match mac
+    expect(targetMac, device.value.mac);
+
+    // TODO: match the firmware version
 
     //
     print(result);
