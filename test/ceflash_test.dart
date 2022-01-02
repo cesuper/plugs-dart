@@ -16,10 +16,6 @@ final localAddress = InternetAddress('192.168.100.118');
 // firmware path
 const path = 'assets/sfp9-r2-1.7.1.bin';
 
-const bootpRequestTimeout = Duration(seconds: 25);
-const tftpRequestTimmeout = Duration(seconds: 10);
-const tftpDataRequestTimeout = Duration(seconds: 10);
-
 void main() async {
   final file = File(Directory.current.path + '/' + path);
   final filename = file.uri.pathSegments.last;
@@ -27,7 +23,7 @@ void main() async {
 
   test('file check', () {
     //
-    final result = CeFlash.checkFilenameFormat(filename);
+    final result = CeFlash.isValidFirmware(filename);
     print(result);
   });
 
@@ -82,7 +78,7 @@ void main() async {
     const targetAddress = '192.168.100.109';
 
     //
-    var result = await CeFlash.update(
+    var result = await CeFlash.unsafeFlash(
       localAddress,
       InternetAddress(targetAddress),
       targetMac,
@@ -96,7 +92,7 @@ void main() async {
     expect(result, true);
   });
 
-  test('App mode', () async {
+  test('Unasafe flash', () async {
     // Target is expected to be in App mode, waiting for magic packet to
     // restart itself in bootloader mode to accept the firmware.
     // Test pass when device is available on the network after the flashing
@@ -115,7 +111,7 @@ void main() async {
     final targetAddress = InternetAddress(device.key);
 
     // flash
-    var result = await CeFlash.update(
+    var result = await CeFlash.unsafeFlash(
       localAddress,
       targetAddress,
       targetMac,
@@ -144,5 +140,11 @@ void main() async {
     print(result);
   });
 
-  test('Safe Update', () async {});
+  test('Flash', () async {
+    //
+    const mac = '94-fb-a7-51-00-3b';
+
+    //
+    await CeFlash.flash(localAddress, mac, path);
+  });
 }

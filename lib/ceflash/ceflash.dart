@@ -4,16 +4,19 @@ import 'dart:typed_data';
 
 import 'package:logger/logger.dart';
 
+import 'package:plugs/discovery.dart';
+
 import 'bootp_server.dart';
 import 'magic_packet.dart';
 import 'tftp_data_server.dart';
 import 'tftp_server.dart';
 
 class CeFlash {
-  /// Function returns true when the provided filename has valid format
-  /// Filename has valid format when the device and firmware version can be
-  /// extracted from it.
-  static bool checkFilenameFormat(String filename) {
+  /// Function returns true when the provided [filename] has valid format
+  static bool isValidFirmware(String filename) {
+    /// Filename has valid format when the device and firmware version can be
+    /// extracted from it.
+
     // check extension
     if (filename.split('.').last != 'bin') return false;
 
@@ -35,18 +38,60 @@ class CeFlash {
     return true;
   }
 
-  /// [localAddress]
-  /// [mac]
+  /// Performs safe firmware update on plug specified by [mac] address or
+  /// throws [CeFlashException] on failure with reason.
+  ///
+  /// [localAddress] interface address from where the update initiated
+  /// [mac] plug mac address in colon-hexadecimal notation
   /// [path] path to the firmware file
-  static Future<bool> flash(
+  static Future<void> flash(
     InternetAddress localAddress,
-    String serial,
+    String mac,
     String path,
   ) async {
-    // 1. run discovery to verify the presence of the device referred by its mac address
-    // 2. obtain
+    //
+    final file = File(path);
 
-    return false;
+    //
+    final filename = file.uri.pathSegments.last;
+
+    // Check if the provided file is found
+    if (file.existsSync() == false) throw CeFlashException('File not found');
+
+    // check filename format
+    if (isValidFirmware(filename) == false) {
+      throw CeFlashException('Invalid firmware file');
+    }
+
+    // run discovery to verify the presence of the device referred
+    final devices = await Discovery.discover(localAddress);
+
+    // if device not found, return false
+    if (devices.entries.any((e) => e.value.mac == mac) == false) {
+      throw CeFlashException('Device with $mac mac address not found');
+    }
+
+    // obtain Info instance from the plug, and verify the firmware support
+    final device = devices.entries.firstWhere((e) => e.value.mac == mac);
+
+    // check if firmware is supported by the hardware
+    if (device.value.isFirmwareSupported(filename)) {
+      throw CeFlashException('Firmware $filename not supported');
+    }
+
+    // read the firmware
+    final firmware = file.readAsBytesSync();
+
+    // device ip address
+    final address = InternetAddress(device.key);
+
+    // return the result of the update
+    final result = await unsafeFlash(localAddress, address, mac, firmware);
+
+    // TODO rethrow exception from update
+    if (result == false) {
+      throw CeFlashException('Ceflash internal error');
+    }
   }
 
   /// [localAddress] local interface address selected for operation
@@ -59,7 +104,7 @@ class CeFlash {
   /// initiate bootloader mode on target to accept new firmware. When false no
   /// magic packet is sent aka. the target is expected to be in bootloader mode
   /// to start flashing.
-  static Future<bool> update(
+  static Future<bool> unsafeFlash(
     InternetAddress localAddress,
     InternetAddress remoteAddress,
     String remoteMac,
@@ -117,4 +162,14 @@ class CeFlash {
 
     return false;
   }
+}
+
+class CeFlashException implements Exception {
+  //
+  final String cause;
+
+  CeFlashException(this.cause);
+
+  @override
+  String toString() => 'CeFlashException(cause: $cause)';
 }
