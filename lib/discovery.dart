@@ -1,4 +1,3 @@
-import 'dart:convert';
 import 'dart:io';
 
 import 'package:plugs/plugs/plug/info.dart';
@@ -23,7 +22,7 @@ class Discovery {
   static const size = 128;
 
   /// Port used by plugs to recieve discovery request (recent)
-  static const int remotePort = 6060;
+  //static const int remotePort = 6060;
 
   /// Port used by plugs to recieve discovery request (ucq)
   static const int remotePortLegacy = 1001;
@@ -35,7 +34,6 @@ class Discovery {
   static Future<Map<String, Info>> discover(
     InternetAddress localAddress, {
     Duration timeout = const Duration(seconds: 1),
-    bool legacy = true,
   }) async {
     // empty result
     final result = <String, Info>{};
@@ -54,18 +52,14 @@ class Discovery {
 
             // check if dg available
             if (dg != null) {
-              // todo wait for DiscoveryResponse.size
+              // add new map entry
+              result[dg.address.address] = _fromLegacy(dg);
 
-              //
-              if (legacy == false) {
-                // get the string content from the datagram
-                final sub = dg.data.takeWhile((value) => value != 0).toList();
-                final str = utf8.decode(sub, allowMalformed: true);
-                result[dg.address.address] = Info.fromJson(str);
-              } else {
-                // add new map entry
-                result[dg.address.address] = _fromLegacy(dg);
-              }
+              // Use code below to extract Info from udp frame
+              // get the string content from the datagram
+              // final sub = dg.data.takeWhile((value) => value != 0).toList();
+              // final str = utf8.decode(sub, allowMalformed: true);
+              // result[dg.address.address] = Info.fromJson(str);
             }
           }
         },
@@ -76,7 +70,7 @@ class Discovery {
         ..[0] = requestCodeDiscovery;
 
       // set port
-      final port = legacy ? remotePortLegacy : remotePort;
+      const port = remotePortLegacy;
 
       // construct direct broadcast address from local address
       var targetRawAddress = localAddress.rawAddress..[3] = 0xFF;
