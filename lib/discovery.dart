@@ -25,7 +25,7 @@ class Discovery {
   //static const int remotePort = 6060;
 
   /// Port used by plugs to recieve discovery request (ucq)
-  static const int remotePortLegacy = 1001;
+  static const int remotePort = 1001;
 
   /// request code to be answered with response
   static const int requestCodeDiscovery = 0xc9;
@@ -70,7 +70,7 @@ class Discovery {
         ..[0] = requestCodeDiscovery;
 
       // set port
-      const port = remotePortLegacy;
+      const port = remotePort;
 
       // construct direct broadcast address from local address
       var targetRawAddress = localAddress.rawAddress..[3] = 0xFF;

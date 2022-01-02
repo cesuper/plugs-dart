@@ -43,10 +43,12 @@ void main() async {
   });
 
   test('Magic packet', () async {
-    //
+    // Target is expected to be in App mode and ready to accept the magic
+    // packet. No response is expected, but the device must restart itself
+    // in bootloader mode
     await MagicPacket.send(
       localAddress,
-      remoteAddress,
+      InternetAddress('192.168.100.105'),
       logLevel: Level.debug,
     );
 
@@ -57,8 +59,6 @@ void main() async {
     // Target is expected to be in Bootloader mode and periodically
     // sendins BOOTP requests indicating the device is ready to update itself
     // with the new firmware
-
-    //
     var result = await CeFlash.update(
       localAddress,
       remoteAddress,
@@ -76,8 +76,6 @@ void main() async {
   test('App mode', () async {
     // Target is expected to be in App mode, waiting for magic packet to
     // boot in bootloader mode to accept the firmware.
-
-    //
     var result = await CeFlash.update(
       localAddress,
       remoteAddress,

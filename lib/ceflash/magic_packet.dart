@@ -9,10 +9,10 @@ class MagicPacket {
   static const size = 128;
 
   /// Port used by plugs to recieve discovery request (recent)
-  static const int remotePort = 6060;
+  //static const int remotePort = 6060;
 
   /// Port used by plugs to recieve discovery request (ucq)
-  static const int remotePortLegacy = 1001;
+  static const int remotePort = 1001;
 
   /// request code to be answered with response
   static const int requestCodeUpdate = 0xcd;
@@ -24,7 +24,6 @@ class MagicPacket {
     InternetAddress localAddress,
     InternetAddress remoteAddress, {
     Duration timeout = const Duration(seconds: 1),
-    bool legacy = false,
     Level logLevel = Level.error,
   }) async {
     // create logger
@@ -43,7 +42,7 @@ class MagicPacket {
         ..[0] = requestCodeUpdate;
 
       // set port
-      final port = legacy ? remotePortLegacy : remotePort;
+      const port = remotePort;
 
       // send discovery request
       socket.send(request, remoteAddress, port);
