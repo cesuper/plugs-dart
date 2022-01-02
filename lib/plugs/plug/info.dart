@@ -38,6 +38,26 @@ class Info {
     );
   }
 
+  /// Returns true when the firmware specified by [filename] is supported by the
+  /// device
+  bool isFirmwareSupported(String filename) {
+    // construct filename format based on device properties
+    final format = '$family$model-r$rev';
+
+    //
+    return filename.startsWith(format) && filename.endsWith('.bin');
+  }
+
+  /// Returns true when the firmware specified by [filename] matches with the
+  /// firmware on the device
+  bool isFirmwareMatch(String filename) {
+    // construct format
+    final format = '$major.$minor.$fix.bin';
+
+    //
+    return isFirmwareSupported(filename) && filename.endsWith(format);
+  }
+
   // device family like: sfp, smp, etc
   String get family => serial.substring(0, 3);
 

@@ -35,6 +35,20 @@ class CeFlash {
     return true;
   }
 
+  /// [localAddress]
+  /// [mac]
+  /// [path] path to the firmware file
+  static Future<bool> flash(
+    InternetAddress localAddress,
+    String serial,
+    String path,
+  ) async {
+    // 1. run discovery to verify the presence of the device referred by its mac address
+    // 2. obtain
+
+    return false;
+  }
+
   /// [localAddress] local interface address selected for operation
   /// [remoteAddress] target ip address to be flashed - if the target is online, or
   /// the target temporary ip address to be used during the update
