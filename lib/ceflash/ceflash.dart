@@ -39,7 +39,7 @@ class CeFlash {
   /// [localAddress] local interface address selected for operation
   /// [remoteAddress] target ip address to be flashed - if the target is online, or
   /// the target temporary ip address to be used during the update
-  /// [remoteMac] target device mac address
+  /// [remoteMac] target device mac address, in colon-hexadecimal notation
   /// [firmware] firmware binary to be flashed
   /// [timeout] operation timeout, default 5 sec
   /// [magicPacket] when true, a magic packet is sent to the [remoteAddress] to
@@ -49,7 +49,7 @@ class CeFlash {
   static Future<bool> update(
     InternetAddress localAddress,
     InternetAddress remoteAddress,
-    List<int> remoteMac,
+    String remoteMac,
     Uint8List firmware, {
     bool magicPacket = true,
     Duration timeout = const Duration(seconds: 5),
@@ -75,10 +75,14 @@ class CeFlash {
     // check if client has entered into bootloader mode by waiting for its
     // valid bootp request
     if (await BootpServer.waitForBootpPacket(
-        localAddress, remoteAddress, remoteMac, timeout,
-        serverPort: bootpServerPort,
-        clientPort: bootpClientPort,
-        logLevel: logLevel)) {
+      localAddress,
+      remoteAddress,
+      remoteMac,
+      serverPort: bootpServerPort,
+      clientPort: bootpClientPort,
+      timeout: timeout,
+      logLevel: logLevel,
+    )) {
       // check if valid TFTP RRQ arrived
       if (await TftpServer.waitForTftpRrq(
         localAddress,

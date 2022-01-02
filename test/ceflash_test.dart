@@ -3,26 +3,24 @@
 import 'dart:io';
 
 import 'package:logger/logger.dart';
+import 'package:plugs/ceflash/bootp_server.dart';
 import 'package:plugs/ceflash/ceflash.dart';
 import 'package:plugs/ceflash/magic_packet.dart';
+import 'package:plugs/discovery.dart';
+import 'package:test/expect.dart';
 import 'package:test/scaffolding.dart';
 
 // local address
-final localAddress =
-    InternetAddress('192.168.100.118', type: InternetAddressType.IPv4);
+final localAddress = InternetAddress('192.168.100.118');
 
 // target ip address
-final remoteAddress =
-    InternetAddress('192.168.100.102', type: InternetAddressType.IPv4);
-
-// launchpad
-//final remoteMac = <int>[0x94, 0xFB, 0xA7, 0x51, 0x00, 0x8C];
+final remoteAddress = InternetAddress('192.168.100.102');
 
 // 94-FB-A7-51-00-3B
-final remoteMac = <int>[0x94, 0xFB, 0xA7, 0x51, 0x00, 0x3B];
+const remoteMac = '94-fb-a7-51-00-3b';
 
 // 94-FB-A7-51-00-8C
-//final remoteMac = <int>[0x94, 0xFB, 0xA7, 0x51, 0x00, 0x8C];
+//const remoteMac = '94-fb-a7-51-00-8c';
 
 // firmware path
 const path = 'assets/sfp9-r2-1.5.1.bin';
@@ -46,13 +44,39 @@ void main() async {
     // Target is expected to be in App mode and ready to accept the magic
     // packet. No response is expected, but the device must restart itself
     // in bootloader mode
-    await MagicPacket.send(
+    //
+    // To see device in bootloader mode use wireshark with filter: 'bootp'
+    //
+    // Test pass when bootp request arrived and verified from the device selected
+
+    // target mac address to run the test on
+    const targetMac = '08-00-28-5a-8f-a1';
+
+    // get available devices
+    final devices = await Discovery.discover(localAddress);
+
+    // find device
+    final device =
+        devices.entries.firstWhere((element) => element.value.mac == targetMac);
+
+    // target address
+    final targetAddress = InternetAddress(device.key);
+
+    // send magic packet to the target
+    await MagicPacket.send(localAddress, targetAddress, logLevel: Level.debug);
+
+    // device in bootloader mode sends information about itself, that is verified
+    final result = await BootpServer.waitForBootpPacket(
       localAddress,
-      InternetAddress('192.168.100.105'),
-      logLevel: Level.debug,
+      targetAddress,
+      targetMac,
     );
 
-    // todo: check remoteAddress for bootloader mode to pass the test
+    // test pass when bootp request arrived and verified
+    expect(result, true);
+
+    //
+    print('Power cycle the $targetAddress plug to return in App mode');
   });
 
   test('Bootloader mode', () async {

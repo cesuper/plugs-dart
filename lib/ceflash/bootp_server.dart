@@ -30,10 +30,14 @@ class BootpServer {
   /// Returns true when the packet is valid, otherwise false returned.
   /// Param [deviceMac] is the device hardware address where the packet
   /// expected to arrive from.
-  static bool _isValidRequest(BootpPacket request, List<int> targetMac) {
+  static bool _isValidRequest(BootpPacket request, String targetMac) {
+    // convert targetMac string to array of digits
+    final mac =
+        targetMac.split('-').map((e) => int.parse(e, radix: 16)).toList();
+
     // get client mac address from packet
     var packetMac = request.clientHardwareAddress.sublist(0, 6);
-    var isClientValid = const ListEquality().equals(targetMac, packetMac);
+    var isClientValid = const ListEquality().equals(mac, packetMac);
 
     // check if server name from client request is tiva or stellaris
     var nameBytes = request.serverName.takeWhile((value) => value != 0);
@@ -55,13 +59,14 @@ class BootpServer {
   /// target.
   /// [localAddress] host address, where the bootp server is running
   /// [remoteAddress] ip address assigned to the target for the duration of the update
-  /// [remoteMac] target mac address from where the bootp request packet expected
+  /// [remoteMac] target mac address from where the bootp request packet expected. mac address
+  /// expect to be in hypen-hexadecimal notation format
   /// [timeout] time to wait for bootp request
   static Future<bool> waitForBootpPacket(
     InternetAddress localAddress,
     InternetAddress remoteAddress,
-    List<int> remoteMac,
-    Duration timeout, {
+    String remoteMac, {
+    Duration timeout = const Duration(seconds: 5),
     int serverPort = BootpServer.serverPort,
     int clientPort = BootpServer.clientPort,
     Level logLevel = Level.error,
