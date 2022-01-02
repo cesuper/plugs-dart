@@ -35,7 +35,6 @@ class CeFlash {
     return true;
   }
 
-  ///
   /// [localAddress] local interface address selected for operation
   /// [remoteAddress] target ip address to be flashed - if the target is online, or
   /// the target temporary ip address to be used during the update

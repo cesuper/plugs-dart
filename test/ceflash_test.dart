@@ -143,4 +143,6 @@ void main() async {
     //
     print(result);
   });
+
+  test('Safe Update', () async {});
 }
