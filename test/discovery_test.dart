@@ -12,21 +12,14 @@ final localAddress = InternetAddress(
 void main() async {
   test('discovery', () async {
     //
-    final result = await Discovery.discover(localAddress, legacy: false);
+    final result = await Discovery.discover(localAddress);
 
     for (var entry in result.entries) {
       //
       final info = entry.value;
 
       //
-      print(entry.key + '-' + info.toString());
-
-      // print(info.family +
-      //     info.model +
-      //     '-r' +
-      //     info.rev.toString() +
-      //     '-' +
-      //     info.sn.toString());
+      print(entry.key + ' - ' + info.toString());
     }
   });
 }

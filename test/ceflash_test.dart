@@ -3,7 +3,6 @@
 import 'dart:io';
 
 import 'package:logger/logger.dart';
-import 'package:plugs/ceflash/bootp_server.dart';
 import 'package:plugs/ceflash/ceflash.dart';
 import 'package:plugs/ceflash/magic_packet.dart';
 import 'package:test/scaffolding.dart';
@@ -14,7 +13,7 @@ final localAddress =
 
 // target ip address
 final remoteAddress =
-    InternetAddress('192.168.100.101', type: InternetAddressType.IPv4);
+    InternetAddress('192.168.100.102', type: InternetAddressType.IPv4);
 
 // launchpad
 //final remoteMac = <int>[0x94, 0xFB, 0xA7, 0x51, 0x00, 0x8C];
@@ -26,7 +25,7 @@ final remoteMac = <int>[0x94, 0xFB, 0xA7, 0x51, 0x00, 0x3B];
 //final remoteMac = <int>[0x94, 0xFB, 0xA7, 0x51, 0x00, 0x8C];
 
 // firmware path
-const path = 'assets/sfp9-r2-1.4.1.bin';
+const path = 'assets/sfp9-r2-1.5.1.bin';
 
 const bootpRequestTimeout = Duration(seconds: 25);
 const tftpRequestTimmeout = Duration(seconds: 10);

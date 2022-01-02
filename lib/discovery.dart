@@ -6,13 +6,18 @@ import 'package:plugs/plugs/plug/info.dart';
 /// Class for discovering devices within a subnet.
 /// Host sends [size]-byte UDP-based discovery request to the direct broadcast
 /// address specified by [localAddress] to the port based on [legacy] mode, then
-/// [timeout] is waited to get responses from all plugs available.
+/// [timeout] is waited to get responses from all available plugs.
 ///
 /// For request, a fixed-size UDP frame is sent with leading [requestCodeDiscovery] byte.
 /// Plugs checks the [requestCodeDiscovery] and responds with their device information
 /// in order to construct [Info].
 ///
-/// Use [legacy] flag
+/// Set [legacy] flag to expect response from devices with ucq protocol where
+/// the device properties are placed into the udp frame as index-based format.
+///
+/// With non-legacy mode, the [remotePort] port is used and the response for
+/// the discovery requests is in json format.
+///
 class Discovery {
   // size of the discovery response in bytes
   static const size = 128;
@@ -30,7 +35,7 @@ class Discovery {
   static Future<Map<String, Info>> discover(
     InternetAddress localAddress, {
     Duration timeout = const Duration(seconds: 1),
-    bool legacy = false,
+    bool legacy = true,
   }) async {
     // empty result
     final result = <String, Info>{};
@@ -96,8 +101,9 @@ class Discovery {
     return result;
   }
 
-  /// Answering the discovery request by sending 128-byte length UDP response with (little-endian)
-  /// encoding.
+  /// Answering the discovery request by sending 128-byte length UDP response with (little-endian) encoding.
+  /// Extracting valid revision value from legacy response is the most needed in order to select the
+  /// supported firmware for this device.
   static Info _fromLegacy(Datagram dg) {
     /// The structure of the response is the following:
     ///
@@ -127,8 +133,8 @@ class Discovery {
     /// 18      0x00    msb
     /// --------------
     /// 19      0x05  Revision major value as uint8_t
-    /// 20      0x00  Revision minor value with value of 0x00
-    /// 21      0x00  Revision fix value with value of 0x00
+    /// 20      0x00  Revision minor value with value of 0x00 or equals to [19]
+    /// 21      0x00  Revision fix value with value of 0x00 or equals to [19]
     /// --------------
     /// 22      0x53  'S', ASCII encoded char, the first char of serial
     /// 23      0x4d  'M', ASCII encoded char, the sencond char of serial
@@ -180,18 +186,26 @@ class Discovery {
     // get sn
     final sn = int.parse(name.split('-').last);
 
-    // get rev based on serial number
-    final rev = _getRevFromSn(family, sn);
+    // get rev major, minor and fix and check their values
+    final revMajor = dg.data.buffer.asByteData().getUint8(19);
+    final revMinor = dg.data.buffer.asByteData().getUint8(20);
+    final revFix = dg.data.buffer.asByteData().getUint8(21);
+
+    // get rev based on rev values first then serial number
+    final rev = [revMinor, revFix].every((e) => revMajor == e)
+        ? revMajor
+        : _getRevFromSn(family, sn);
 
     // reconstruct the serial
     final serial = family + model + '-' + 'r$rev' + '-' + sn.toString();
 
     // return info
-    return Info(code, serial, mac, fw, '');
+    return Info(code, serial, mac, fw);
   }
 
   /// TODO: provide table content
   static int _getRevFromSn(String family, int sn) {
+    print('IMPLEMENT SN-BASED REV number detection for: $family');
     return 5;
   }
 }

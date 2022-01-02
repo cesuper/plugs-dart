@@ -14,14 +14,14 @@ class Info {
   final String fw;
 
   // plug firmware build value '${YYYY}-${MM}-${DD}T${hh}:${mm}:${ss}"
-  final String build;
+  //final String build;
 
   Info(
     this.code,
     this.serial,
     String mac,
     this.fw,
-    this.build,
+    //this.build,
   ) : mac = mac.toLowerCase();
 
   Map<String, dynamic> toMap() {
@@ -30,7 +30,7 @@ class Info {
       'serial': serial,
       'mac': mac,
       'fw': fw,
-      'build': build,
+      //'build': build,
     };
   }
 
@@ -40,7 +40,7 @@ class Info {
       map['serial'] ?? '',
       map['mac'] ?? '',
       map['fw'] ?? '',
-      map['build'] ?? '',
+      //map['build'] ?? '',
     );
   }
 
@@ -72,6 +72,6 @@ class Info {
 
   @override
   String toString() {
-    return 'Info(code: $code, serial: $serial, mac: $mac, fw: $fw, build: $build)';
+    return 'Info(code: $code, serial: $serial, mac: $mac, fw: $fw)';
   }
 }
