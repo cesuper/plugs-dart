@@ -174,8 +174,9 @@ class Discovery {
     // get family: the first 3 chars
     final family = name.substring(0, 3);
 
-    // get model: from the 3rd index until '-' char
-    final model = name.substring(3, name.indexOf('-'));
+    // model is not exists in discovery response, but using code it can be obtained
+    //final model = name.substring(3, name.indexOf('-'));
+    final model = _getModelFromCode(code);
 
     // get sn
     final sn = int.parse(name.split('-').last);
@@ -201,5 +202,25 @@ class Discovery {
   static int _getRevFromSn(String family, int sn) {
     print('IMPLEMENT SN-BASED REV number detection for: $family');
     return 5;
+  }
+
+  ///
+  static String _getModelFromCode(int code) {
+    switch (code) {
+      case 1:
+        return '8'; // smp8
+      case 4:
+        return '412'; // scp412
+      case 5:
+        return '32'; // smp32
+      case 6:
+        return 't'; // supt
+      case 9:
+        return '9'; // sfp9
+      case 11:
+        return 'ds'; // supds
+      default:
+        return '';
+    }
   }
 }
