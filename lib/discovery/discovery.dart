@@ -1,5 +1,6 @@
 import 'dart:io';
 
+import 'package:plugs/discovery/discovery_result.dart';
 import 'package:plugs/plugs/plug/info.dart';
 
 /// Class for discovering devices within a subnet.
@@ -31,12 +32,12 @@ class Discovery {
   static const int requestCodeDiscovery = 0xc9;
 
   /// Starts a new discovery and returns the result.
-  static Future<Map<String, Info>> discover(
+  static Future<List<DiscoveryResult>> discover(
     InternetAddress localAddress, {
     Duration timeout = const Duration(seconds: 1),
   }) async {
     // empty result
-    final result = <String, Info>{};
+    final result = <DiscoveryResult>[];
 
     //
     await RawDatagramSocket.bind(localAddress, 0).then((socket) async {
@@ -53,7 +54,7 @@ class Discovery {
             // check if dg available
             if (dg != null) {
               // add new map entry
-              result[dg.address.address] = _fromLegacy(dg);
+              result.add(DiscoveryResult(dg.address.address, _fromLegacy(dg)));
 
               // Use code below to extract Info from udp frame
               // get the string content from the datagram

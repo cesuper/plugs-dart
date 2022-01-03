@@ -6,7 +6,7 @@ import 'package:logger/logger.dart';
 import 'package:plugs/ceflash/bootp_server.dart';
 import 'package:plugs/ceflash/ceflash.dart';
 import 'package:plugs/ceflash/magic_packet.dart';
-import 'package:plugs/discovery.dart';
+import 'package:plugs/discovery/discovery.dart';
 import 'package:test/expect.dart';
 import 'package:test/scaffolding.dart';
 
@@ -44,10 +44,10 @@ void main() async {
 
     // find device
     final device =
-        devices.entries.firstWhere((element) => element.value.mac == targetMac);
+        devices.firstWhere((element) => element.info.mac == targetMac);
 
     // target address
-    final targetAddress = InternetAddress(device.key);
+    final targetAddress = InternetAddress(device.address);
 
     // send magic packet to the target
     await MagicPacket.send(localAddress, targetAddress, logLevel: Level.debug);
@@ -104,11 +104,10 @@ void main() async {
     var devices = await Discovery.discover(localAddress);
 
     // find device
-    var device =
-        devices.entries.firstWhere((element) => element.value.mac == targetMac);
+    var device = devices.firstWhere((element) => element.info.mac == targetMac);
 
     // get the address of the target
-    final targetAddress = InternetAddress(device.key);
+    final targetAddress = InternetAddress(device.address);
 
     // flash
     var result = await CeFlash.unsafeFlash(
@@ -128,11 +127,10 @@ void main() async {
     devices = await Discovery.discover(localAddress);
 
     // find device again
-    device =
-        devices.entries.firstWhere((element) => element.value.mac == targetMac);
+    device = devices.firstWhere((element) => element.info.mac == targetMac);
 
     // match mac
-    expect(targetMac, device.value.mac);
+    expect(targetMac, device.info.mac);
 
     // TODO: match the firmware version
 

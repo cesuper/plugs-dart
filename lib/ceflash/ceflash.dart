@@ -4,7 +4,7 @@ import 'dart:typed_data';
 
 import 'package:logger/logger.dart';
 
-import 'package:plugs/discovery.dart';
+import 'package:plugs/discovery/discovery.dart';
 
 import 'bootp_server.dart';
 import 'magic_packet.dart';

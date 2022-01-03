@@ -1,7 +1,7 @@
 // ignore_for_file: avoid_print
 
 import 'dart:io';
-import 'package:plugs/discovery.dart';
+import 'package:plugs/discovery/discovery.dart';
 import 'package:plugs/listener.dart';
 
 import 'package:test/scaffolding.dart';
@@ -18,12 +18,12 @@ void main() async {
 
   test('listen test', () async {
     // fire discovered event for all devices found
-    for (var address in result.keys) {
-      print('$address - PLUG_DISCOVERED');
+    for (var device in result) {
+      print('$device - PLUG_DISCOVERED');
     }
 
     // create listener for all devices discovered
-    final listeners = result.keys.map((e) => Listener(e));
+    final listeners = result.map((e) => Listener(e.address));
 
     // start listening
     for (var listener in listeners) {
