@@ -67,15 +67,15 @@ class CeFlash {
     final devices = await Discovery.discover(localAddress);
 
     // if device not found, return false
-    if (devices.entries.any((e) => e.value.mac == mac) == false) {
+    if (devices.any((e) => e.info.mac == mac) == false) {
       throw CeFlashException('Device with $mac mac address not found');
     }
 
     // obtain Info instance from the plug, and verify the firmware support
-    final device = devices.entries.firstWhere((e) => e.value.mac == mac);
+    final device = devices.firstWhere((e) => e.info.mac == mac);
 
     // check if firmware is supported by the hardware
-    if (device.value.isFirmwareSupported(filename)) {
+    if (device.info.isFirmwareSupported(filename)) {
       throw CeFlashException('Firmware $filename not supported');
     }
 
@@ -83,7 +83,7 @@ class CeFlash {
     final firmware = file.readAsBytesSync();
 
     // device ip address
-    final address = InternetAddress(device.key);
+    final address = InternetAddress(device.address);
 
     // return the result of the update
     final result = await unsafeFlash(localAddress, address, mac, firmware);
