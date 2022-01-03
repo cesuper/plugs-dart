@@ -46,4 +46,20 @@ void main() async {
       listener.close();
     }
   }, timeout: const Timeout(timeout));
+
+  test('with stream', () async {
+    //
+    final result = await Discovery.discover(localAddress);
+
+    // create and connect listener
+    final listener = Listener(result.first.address).connect(localAddress);
+
+    final sub = listener.listen((event) {
+      print(event);
+    });
+
+    //await sub.cancel();
+
+    await Future.delayed(const Duration(seconds: 40));
+  });
 }
