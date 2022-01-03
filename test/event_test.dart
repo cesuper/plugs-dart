@@ -18,8 +18,8 @@ void main() async {
 
   test('listen test', () async {
     // fire discovered event for all devices found
-    for (var device in result) {
-      print('$device - PLUG_DISCOVERED');
+    for (var address in result) {
+      print('$address - PLUG_DISCOVERED');
     }
 
     // create listener for all devices discovered
@@ -46,20 +46,4 @@ void main() async {
       listener.close();
     }
   }, timeout: const Timeout(timeout));
-
-  test('with stream', () async {
-    //
-    final result = await Discovery.discover(localAddress);
-
-    // create and connect listener
-    final listener = Listener(result.first.address).connect(localAddress);
-
-    final sub = listener.listen((event) {
-      print(event);
-    });
-
-    //await sub.cancel();
-
-    await Future.delayed(const Duration(seconds: 40));
-  });
 }

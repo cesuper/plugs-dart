@@ -1,4 +1,3 @@
-import 'dart:async';
 import 'dart:io';
 
 //
@@ -13,12 +12,7 @@ typedef ConnectionErrorCallback = void Function(String address, dynamic error);
 //
 typedef PlugEventCallback = void Function(String address, int code);
 
-// TODO: make this singleton for each plug
 class Listener {
-  ///
-  /// static
-  ///
-
   // Ping event is used to get life-signal from plugs. These events
   // are not handled by the api, but the loss if the ping event results
   // device disconnect event. Plug sends ping events in 1 sec period.
@@ -89,24 +83,16 @@ class Listener {
   // remote tcp port from where events originated
   static const eventPort = 6069;
 
-  ///
-  /// fields
-  ///
-
   //
   final String address;
 
   //
   Socket? _socket;
 
-  // streamController
-  final StreamController<String> controller = StreamController<String>();
-
-  //
   Listener(this.address);
 
   ///
-  Stream<String> connect(
+  void connect(
     InternetAddress localAddress, {
     ListenerConnectionStateChangedCallback? onConnected,
     ListenerConnectionStateChangedCallback? onDisconnected,
@@ -114,7 +100,7 @@ class Listener {
     ConnectionErrorCallback? onError,
     Duration timeout = const Duration(seconds: 2),
     int port = 0,
-  }) {
+  }) async {
     Socket.connect(
       InternetAddress(address, type: InternetAddressType.IPv4),
       eventPort,
@@ -123,9 +109,6 @@ class Listener {
     ).then((socket) {
       // fire connected event
       onConnected?.call(address);
-
-      //
-      controller.add('Connected');
 
       // set as local variable
       _socket = socket;
@@ -150,7 +133,6 @@ class Listener {
                 // ignore ping event
                 break;
               default:
-                controller.add(getName(code));
                 // call event
                 onEvent?.call(address, code);
             }
@@ -169,14 +151,9 @@ class Listener {
         onDone: () {
           // create disconnected
           onDisconnected?.call(address);
-
-          controller.add('disconnected');
         },
       );
     });
-
-    //
-    return controller.stream;
   }
 
   ///
