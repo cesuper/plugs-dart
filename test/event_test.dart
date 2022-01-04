@@ -30,6 +30,7 @@ void main() async {
       //
       listener.connect(
         localAddress,
+        onDisconnected: (address) => print('disconnected'),
         onEvent: (address, code) =>
             print('$address - ${Listener.getName(code)}'),
       );
