@@ -49,7 +49,6 @@ class AinApi {
     //
     var response =
         await get(Uri.http(address, isBuffered ? apiAinBuffer : apiAin));
-    //.timeout(timeout);
 
     return AinApi._tSnapshotFromJson(response.body);
   }
@@ -58,8 +57,7 @@ class AinApi {
   static Future<T> getSettings<T extends AinSettings>(
       String address, Duration timeout) async {
     //
-    var response =
-        await get(Uri.http(address, apiAinSettings)).timeout(timeout);
+    var response = await get(Uri.http(address, apiAinSettings));
 
     switch (T) {
       case SfpSettings:
@@ -80,7 +78,7 @@ class AinApi {
       Uri.http(address, apiAinSettings),
       headers: {'Content-Type': 'application/json'},
       body: settings.toJson(),
-    ).timeout(timeout);
+    );
 
     return r.statusCode;
   }
@@ -89,7 +87,7 @@ class AinApi {
   static Future<List<T>> getSensors<T extends AinSensorParam>(
       String address, Duration timeout) async {
     //
-    var response = await get(Uri.http(address, apiAinSensors)).timeout(timeout);
+    var response = await get(Uri.http(address, apiAinSensors));
 
     var jSensors = jsonDecode(response.body) as List;
     return List<T>.from(jSensors.map((e) {
@@ -116,7 +114,7 @@ class AinApi {
       Uri.http(address, apiAinSensors),
       headers: {'Content-Type': 'application/json'},
       body: jsonEncode(sensors.map((e) => e.toMap()).toList()),
-    ).timeout(timeout);
+    );
 
     return r.statusCode;
   }
