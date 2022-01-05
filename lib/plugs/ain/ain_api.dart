@@ -48,8 +48,8 @@ class AinApi {
   }) async {
     //
     var response =
-        await get(Uri.http(address, isBuffered ? apiAinBuffer : apiAin))
-            .timeout(timeout);
+        await get(Uri.http(address, isBuffered ? apiAinBuffer : apiAin));
+    //.timeout(timeout);
 
     return AinApi._tSnapshotFromJson(response.body);
   }

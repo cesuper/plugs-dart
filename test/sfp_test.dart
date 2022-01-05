@@ -23,7 +23,9 @@ void main() async {
     } catch (e) {
       print(e);
     }
-  });
+
+    await Future.delayed(const Duration(seconds: 38));
+  }, timeout: const Timeout(Duration(seconds: 39)));
 
   // test('Read Content', () async {
   //   // get first address
