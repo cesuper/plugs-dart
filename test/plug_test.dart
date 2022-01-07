@@ -4,7 +4,7 @@ import 'package:plugs/plugs/plug/plug.dart';
 import 'package:test/test.dart';
 
 void main() async {
-  var plug = Plug('192.168.100.101');
+  var plug = Plug('192.168.100.102');
 
   test('Info', () async {
     // here we expect only response

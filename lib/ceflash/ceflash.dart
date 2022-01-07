@@ -75,7 +75,7 @@ class CeFlash {
     final device = devices.firstWhere((e) => e.info.mac == mac);
 
     // check if firmware is supported by the hardware
-    if (device.info.isFirmwareSupported(filename)) {
+    if (device.info.isFirmwareSupported(filename) == false) {
       throw CeFlashException('Firmware $filename not supported');
     }
 

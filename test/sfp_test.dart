@@ -5,7 +5,7 @@ import 'package:plugs/plugs/sfp/sfp_const.dart';
 import 'package:test/test.dart';
 
 void main() async {
-  var plug = Sfp('192.168.100.101:80');
+  var plug = Sfp('192.168.100.102:80');
 
   test('Read Sensors', () async {
     var sensors = await plug.sensors;

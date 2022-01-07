@@ -13,12 +13,17 @@ class Info {
   // plug firmware version with format: '$major.$minor.$fix'
   final String fw;
 
+  // plug firmware build value. This value is automatically generated when
+  // the firmware is compiled
+  final String build;
+
   Info(
     this.code,
     this.serial,
-    String mac,
+    this.mac,
     this.fw,
-  ) : mac = mac.toLowerCase();
+    this.build,
+  );
 
   Map<String, dynamic> toMap() {
     return {
@@ -26,6 +31,7 @@ class Info {
       'serial': serial,
       'mac': mac,
       'fw': fw,
+      'build': build,
     };
   }
 
@@ -35,6 +41,7 @@ class Info {
       map['serial'] ?? '',
       map['mac'] ?? '',
       map['fw'] ?? '',
+      map['build'] ?? '',
     );
   }
 

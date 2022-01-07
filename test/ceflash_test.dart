@@ -14,7 +14,7 @@ import 'package:test/scaffolding.dart';
 final localAddress = InternetAddress('192.168.100.118');
 
 // firmware path
-const path = 'assets/sfp9-r2-1.7.1.bin';
+const path = 'assets/sfp9-r2-1.9.1.bin';
 
 void main() async {
   final file = File(Directory.current.path + '/' + path);
@@ -75,7 +75,7 @@ void main() async {
     const targetMac = '94-fb-a7-51-00-8c';
 
     // ip address to assign to the target for the duration of flashing
-    const targetAddress = '192.168.100.109';
+    const targetAddress = '192.168.100.102';
 
     //
     var result = await CeFlash.unsafeFlash(

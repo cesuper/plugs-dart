@@ -195,8 +195,9 @@ class Discovery {
     // reconstruct the serial
     final serial = family + model + '-' + 'r$rev' + '-' + sn.toString();
 
-    // return info
-    return Info(code, serial, mac, fw);
+    // return info, without build value. UDP based discovery does not
+    // provide info about the firmware build value
+    return Info(code, serial, mac, fw, '');
   }
 
   /// TODO: provide table content

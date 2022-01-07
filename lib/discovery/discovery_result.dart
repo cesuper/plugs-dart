@@ -29,4 +29,7 @@ class DiscoveryResult {
 
   factory DiscoveryResult.fromJson(String source) =>
       DiscoveryResult.fromMap(json.decode(source));
+
+  @override
+  String toString() => 'DiscoveryResult(address: $address, info: $info)';
 }

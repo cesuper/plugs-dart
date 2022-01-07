@@ -16,7 +16,7 @@ void main() async {
 
     for (var device in result) {
       //
-      print(device.address);
+      print(device);
     }
   });
 }
