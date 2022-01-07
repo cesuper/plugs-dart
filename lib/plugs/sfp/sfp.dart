@@ -12,7 +12,7 @@ class Sfp extends Plug implements Ain {
   final int _noAin;
 
   //
-  static const String model = 'sfp';
+  static const String family = 'sfp';
 
   Sfp(String address, {int noAin = 9})
       : _noAin = noAin,

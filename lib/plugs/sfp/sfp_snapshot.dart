@@ -8,13 +8,12 @@ class SfpSnapshot extends AinSnapshot {
   List<SfpSensorData> sensors;
 
   ///
-  SfpSnapshot(int ts, String plug, this.sensors) : super(ts, plug);
+  SfpSnapshot(int ts, this.sensors) : super(ts);
 
   ///
   factory SfpSnapshot.fromMap(Map<String, dynamic> map) {
     return SfpSnapshot(
       map['ts'],
-      map['plug'],
       List<SfpSensorData>.from(
           map['sensors'].map((x) => SfpSensorData.fromMap(x))),
     );
@@ -26,6 +25,6 @@ class SfpSnapshot extends AinSnapshot {
 
   @override
   String toString() {
-    return 'SfpSnapshot(ts: $ts, plug:$plug, sensors: $sensors)';
+    return 'SfpSnapshot(ts: $ts, sensors: $sensors)';
   }
 }

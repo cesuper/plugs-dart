@@ -5,12 +5,14 @@ class ScpAinSensorData extends AinSensorData {
   final List<num> value;
 
   ///
-  ScpAinSensorData(int status, String code, String name, this.value)
-      : super(status, code, name);
+  ScpAinSensorData(
+      String plug, int status, String code, String name, this.value)
+      : super(plug, status, code, name);
 
   ///
   factory ScpAinSensorData.fromMap(Map<String, dynamic> map) {
     return ScpAinSensorData(
+      map['plug'],
       map['status'],
       map['serial'],
       map['name'],

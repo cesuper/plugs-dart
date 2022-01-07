@@ -18,6 +18,7 @@ class SfpSensorData extends AinSensorData {
 
   ///
   SfpSensorData(
+    String plug,
     int status,
     String serial,
     String name,
@@ -26,11 +27,12 @@ class SfpSensorData extends AinSensorData {
     this.v,
     this.t,
     this.p,
-  ) : super(status, serial, name);
+  ) : super(plug, status, serial, name);
 
   ///
   factory SfpSensorData.fromMap(Map<String, dynamic> map) {
     return SfpSensorData(
+      map['plug'],
       map['status'],
       map['serial'],
       map['name'],
