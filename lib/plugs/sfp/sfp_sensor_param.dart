@@ -29,5 +29,5 @@ class SfpSensorParam extends AinSensorParam {
 
   @override
   String toString() =>
-      'SfpSensorParam(serial: $serial, name: $name, group:$group, dir:$dir)';
+      'SfpSensorParam(serial: $serial, name: $name, group: $group, dir: $dir)';
 }

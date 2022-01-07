@@ -1,31 +1,34 @@
 // ignore_for_file: avoid_print
 
+import 'package:logger/logger.dart';
 import 'package:plugs/plugs/sfp/sfp.dart';
 import 'package:plugs/plugs/sfp/sfp_const.dart';
 import 'package:test/test.dart';
 
+final logger = Logger(printer: PrettyPrinter(methodCount: 0));
+
 void main() async {
   var plug = Sfp('192.168.100.102:80');
 
-  test('Read Sensors', () async {
-    var sensors = await plug.sensors;
-    print(sensors);
-  });
-
-  test('Write Sensors', () async {
-    await plug.setSensors(flwSensors);
-  });
-
   test('Snapshot', () async {
-    try {
-      var snapshot = await plug.snapshot;
-      print(snapshot);
-    } catch (e) {
-      print(e);
-    }
+    //
+    final snapshot = await plug.snapshot;
 
-    await Future.delayed(const Duration(seconds: 38));
-  }, timeout: const Timeout(Duration(seconds: 39)));
+    logger.i(snapshot.ts);
+    logger.i(snapshot.sensors);
+  });
+
+  test('Get Sensors', () async {
+    logger.i(await plug.sensors);
+  });
+
+  test('Get Settings', () async {
+    logger.i(await plug.settings);
+  });
+
+  test('Set Sensors', () async {
+    await plug.setSensors(flwSensors);
+  }, skip: true);
 
   // test('Read Content', () async {
   //   // get first address

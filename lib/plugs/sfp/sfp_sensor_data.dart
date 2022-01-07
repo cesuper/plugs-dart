@@ -46,6 +46,6 @@ class SfpSensorData extends AinSensorData {
 
   @override
   String toString() {
-    return 'SfpSensorData(group: $group, dir: $dir, v: $v, t: $t, p: $p)';
+    return 'SfpSensorData(plug: $plug, serial: $serial, name: $name, group: $group, dir: $dir, p: $p, t: $t, v: $v)';
   }
 }

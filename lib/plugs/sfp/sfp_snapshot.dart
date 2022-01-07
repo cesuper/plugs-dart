@@ -22,9 +22,4 @@ class SfpSnapshot extends AinSnapshot {
   ///
   factory SfpSnapshot.fromJson(String source) =>
       SfpSnapshot.fromMap(json.decode(source));
-
-  @override
-  String toString() {
-    return 'SfpSnapshot(ts: $ts, sensors: $sensors)';
-  }
 }
