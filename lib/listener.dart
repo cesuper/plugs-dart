@@ -17,60 +17,60 @@ class Listener {
   // are not handled by the api, but the loss if the ping event results
   // device disconnect event. Plug sends ping events in 1 sec period.
   // this event is ignored by the API by default
-  static const ping = 255;
+  static const eventPing = 255;
 
   // request for fw update detected
-  static const update = 11;
+  static const eventUpdate = 11;
 
   /// Socket
 
   // plug removed from socket
-  static const socketRemoved = 20;
+  static const eventSocketRemoved = 20;
 
   // plug process socket content
-  static const socketConnecting = 21;
+  static const eventSocketConnecting = 21;
 
   // plug removed from socket
-  static const socketConnected = 22;
+  static const eventSocketConnected = 22;
 
   // plug performed write event to socket
-  static const socketH43Changed = 23;
+  static const eventH43Changed = 23;
 
   /// Dio
 
   // state of the field pin changed
-  static const fieldChanged = 40;
+  static const eventFieldChanged = 40;
 
   // state of the input pin changed
   // todo: add pin index, and new value for event data
-  static const inputChanged = 41;
+  static const eventInputChanged = 41;
 
   // state of the output pin changed
   // todo: add pin index, and new value for event data
-  static const outputChanged = 42;
+  static const eventOutputChanged = 42;
 
   /// Ain
 
   //
-  static const samplingStarted = 60;
+  static const eventSamplingStarted = 60;
 
   //
-  static const samplingFinished = 61;
+  static const eventSamplingFinished = 61;
 
   /// decode event to String
   static String getName(int code) {
     switch (code) {
-      case ping:
+      case eventPing:
         return 'PLUG_PING';
-      case update:
+      case eventUpdate:
         return 'PLUG_UPDATE';
-      case socketRemoved:
+      case eventSocketRemoved:
         return 'SOCKET_REMOVED';
-      case socketConnecting:
+      case eventSocketConnecting:
         return 'SOCKET_CONNECTING';
-      case socketConnected:
+      case eventSocketConnected:
         return 'SOCKET_CONNECTED';
-      case socketH43Changed:
+      case eventH43Changed:
         return 'SOCKET_H43_CHANGED';
       default:
         return 'UNDEFINED';
@@ -129,7 +129,7 @@ class Listener {
 
             // handle events
             switch (code) {
-              case ping:
+              case eventPing:
                 // ignore ping event
                 break;
               default:
