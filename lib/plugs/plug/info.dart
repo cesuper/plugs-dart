@@ -45,15 +45,12 @@ class Info {
     );
   }
 
-  /// Returns true when the firmware specified by [filename] is supported by the
-  /// device
-  bool isFirmwareSupported(String filename) {
-    // construct filename format based on device properties
-    final format = '$family$model-r$rev';
+  // Returns filename prefix based on device properties
+  String get filenamePrefix => '$family$model-r$rev';
 
-    //
-    return filename.startsWith(format) && filename.endsWith('.bin');
-  }
+  /// Returns true when the firmware specified by [filename] is supported by the device
+  bool isFirmwareSupported(String filename) =>
+      filename.startsWith(filenamePrefix) && filename.endsWith('.bin');
 
   /// Returns true when the firmware specified by [filename] matches with the
   /// firmware on the device
