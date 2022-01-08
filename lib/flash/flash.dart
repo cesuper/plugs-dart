@@ -7,6 +7,7 @@ import 'package:logger/logger.dart';
 import 'package:plugs/discovery/discovery.dart';
 
 import 'bootp_server.dart';
+import 'flash_exception.dart';
 import 'magic_packet.dart';
 import 'tftp_data_server.dart';
 import 'tftp_server.dart';
@@ -39,7 +40,7 @@ class Flash {
   }
 
   /// Performs safe firmware update on plug specified by [mac] address or
-  /// throws [CeFlashException] on failure with reason.
+  /// throws [FlashException] on failure with reason.
   ///
   /// [localAddress] interface address from where the update initiated
   /// [mac] plug mac address in colon-hexadecimal notation
@@ -56,11 +57,11 @@ class Flash {
     final filename = file.uri.pathSegments.last;
 
     // Check if the provided file is found
-    if (file.existsSync() == false) throw CeFlashException('File not found');
+    if (file.existsSync() == false) throw FlashException('File not found');
 
     // check filename format
     if (isValidFirmware(filename) == false) {
-      throw CeFlashException('Invalid firmware file');
+      throw FlashException('Invalid firmware file');
     }
 
     // run discovery to verify the presence of the device referred
@@ -68,7 +69,7 @@ class Flash {
 
     // if device not found, return false
     if (devices.any((e) => e.info.mac == mac) == false) {
-      throw CeFlashException('Device with $mac mac address not found');
+      throw FlashException('Device with $mac mac address not found');
     }
 
     // obtain Info instance from the plug, and verify the firmware support
@@ -76,7 +77,7 @@ class Flash {
 
     // check if firmware is supported by the hardware
     if (device.info.isFirmwareSupported(filename) == false) {
-      throw CeFlashException('Firmware $filename not supported');
+      throw FlashException('Firmware $filename not supported');
     }
 
     // read the firmware
@@ -88,9 +89,8 @@ class Flash {
     // return the result of the update
     final result = await unsafeFlash(localAddress, address, mac, firmware);
 
-    // TODO rethrow exception from update
     if (result == false) {
-      throw CeFlashException('Ceflash internal error');
+      throw FlashException('Flash failed');
     }
   }
 
@@ -162,14 +162,4 @@ class Flash {
 
     return false;
   }
-}
-
-class CeFlashException implements Exception {
-  //
-  final String cause;
-
-  CeFlashException(this.cause);
-
-  @override
-  String toString() => 'CeFlashException(cause: $cause)';
 }
