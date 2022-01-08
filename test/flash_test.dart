@@ -3,9 +3,9 @@
 import 'dart:io';
 
 import 'package:logger/logger.dart';
-import 'package:plugs/ceflash/bootp_server.dart';
-import 'package:plugs/ceflash/flash.dart';
-import 'package:plugs/ceflash/magic_packet.dart';
+import 'package:plugs/flash/bootp_server.dart';
+import 'package:plugs/flash/flash.dart';
+import 'package:plugs/flash/magic_packet.dart';
 import 'package:plugs/discovery/discovery.dart';
 import 'package:test/expect.dart';
 import 'package:test/scaffolding.dart';
