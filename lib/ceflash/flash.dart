@@ -11,7 +11,7 @@ import 'magic_packet.dart';
 import 'tftp_data_server.dart';
 import 'tftp_server.dart';
 
-class CeFlash {
+class Flash {
   /// Function returns true when the provided [filename] has valid format
   static bool isValidFirmware(String filename) {
     /// Filename has valid format when the device and firmware version can be

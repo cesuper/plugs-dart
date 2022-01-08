@@ -4,7 +4,7 @@ import 'dart:io';
 
 import 'package:logger/logger.dart';
 import 'package:plugs/ceflash/bootp_server.dart';
-import 'package:plugs/ceflash/ceflash.dart';
+import 'package:plugs/ceflash/flash.dart';
 import 'package:plugs/ceflash/magic_packet.dart';
 import 'package:plugs/discovery/discovery.dart';
 import 'package:test/expect.dart';
@@ -23,7 +23,7 @@ void main() async {
 
   test('file check', () {
     //
-    final result = CeFlash.isValidFirmware(filename);
+    final result = Flash.isValidFirmware(filename);
     print(result);
   });
 
@@ -78,7 +78,7 @@ void main() async {
     const targetAddress = '192.168.100.102';
 
     //
-    var result = await CeFlash.unsafeFlash(
+    var result = await Flash.unsafeFlash(
       localAddress,
       InternetAddress(targetAddress),
       targetMac,
@@ -110,7 +110,7 @@ void main() async {
     final targetAddress = InternetAddress(device.address);
 
     // flash
-    var result = await CeFlash.unsafeFlash(
+    var result = await Flash.unsafeFlash(
       localAddress,
       targetAddress,
       targetMac,
@@ -143,6 +143,6 @@ void main() async {
     const mac = '94-fb-a7-51-00-3b';
 
     //
-    await CeFlash.flash(localAddress, mac, path);
+    await Flash.flash(localAddress, mac, path);
   });
 }
