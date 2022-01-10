@@ -10,7 +10,12 @@ class SfpSnapshot extends AinSnapshot {
   ///
   SfpSnapshot(int ts, this.sensors) : super(ts);
 
-  ///
+  Map<String, dynamic> toMap() {
+    return {
+      'sensors': sensors.map((x) => x.toMap()).toList(),
+    };
+  }
+
   factory SfpSnapshot.fromMap(Map<String, dynamic> map) {
     return SfpSnapshot(
       map['ts'],
@@ -19,7 +24,8 @@ class SfpSnapshot extends AinSnapshot {
     );
   }
 
-  ///
+  String toJson() => json.encode(toMap());
+
   factory SfpSnapshot.fromJson(String source) =>
       SfpSnapshot.fromMap(json.decode(source));
 }

@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 import '../ain/ain_sensor_data.dart';
 
 class SfpSensorData extends AinSensorData {
@@ -29,6 +31,25 @@ class SfpSensorData extends AinSensorData {
     this.p,
   ) : super(plug, status, serial, name);
 
+  @override
+  String toString() {
+    return 'SfpSensorData(plug: $plug, serial: $serial, name: $name, group: $group, dir: $dir, p: $p, t: $t, v: $v)';
+  }
+
+  Map<String, dynamic> toMap() {
+    return {
+      'plug': plug,
+      'status': status,
+      'serial': serial,
+      'name': name,
+      'group': group,
+      'dir': dir,
+      'v': v,
+      't': t,
+      'p': p,
+    };
+  }
+
   ///
   factory SfpSensorData.fromMap(Map<String, dynamic> map) {
     return SfpSensorData(
@@ -44,8 +65,8 @@ class SfpSensorData extends AinSensorData {
     );
   }
 
-  @override
-  String toString() {
-    return 'SfpSensorData(plug: $plug, serial: $serial, name: $name, group: $group, dir: $dir, p: $p, t: $t, v: $v)';
-  }
+  String toJson() => json.encode(toMap());
+
+  factory SfpSensorData.fromJson(String source) =>
+      SfpSensorData.fromMap(json.decode(source));
 }
