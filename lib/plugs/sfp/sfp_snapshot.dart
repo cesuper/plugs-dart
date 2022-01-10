@@ -12,6 +12,7 @@ class SfpSnapshot extends AinSnapshot {
 
   Map<String, dynamic> toMap() {
     return {
+      'ts': ts,
       'sensors': sensors.map((x) => x.toMap()).toList(),
     };
   }
