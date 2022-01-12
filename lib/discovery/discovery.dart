@@ -1,7 +1,10 @@
 import 'dart:io';
 
 import 'package:plugs/discovery/discovery_result.dart';
+import 'package:plugs/plugs/code.dart';
 import 'package:plugs/plugs/plug/info.dart';
+
+import 'legacy_serials.dart';
 
 /// Class for discovering devices within a subnet.
 /// Host sends [size]-byte UDP-based discovery request to the direct broadcast
@@ -54,7 +57,8 @@ class Discovery {
             // check if dg available
             if (dg != null) {
               // add new map entry
-              result.add(DiscoveryResult(dg.address.address, _fromLegacy(dg)));
+              result
+                  .add(DiscoveryResult(dg.address.address, _fromResponse(dg)));
 
               // Use code below to extract Info from udp frame
               // get the string content from the datagram
@@ -96,10 +100,37 @@ class Discovery {
     return result;
   }
 
-  /// Answering the discovery request by sending 128-byte length UDP response with (little-endian) encoding.
-  /// Extracting valid revision value from legacy response is the most needed in order to select the
-  /// supported firmware for this device.
-  static Info _fromLegacy(Datagram dg) {
+  /// Returns the Info instance from discovery response.
+  /// The response is 128-byte length UDP frame with (little-endian) encoding.
+  ///
+  /// Goal:
+  /// Extracting valid revision value from legacy response is the most needed in
+  /// order to select the supported firmware for this device.
+  ///
+  /// Intro:
+  /// Early devices doesn't have well defined serial format, therfore extracting
+  /// family, model, rev, sn is not trivial. These devices revision number reflects
+  /// to the hardware changes instead of firmware compatibility, so the rev value
+  /// has different meaning compared to the new devices.
+  /// To overcome this issue we need to detect legacy devices from new releases
+  /// and use a different method to reconstruct the revision number. The family,
+  /// model fields can be reconstructed from the code as well.
+  ///
+  /// Detecting legacy devices:
+  /// Legacy devices can be identified by checking the response.revision fields.
+  /// When the rev.major, rev.minor, rev.fix values are not equals to each other
+  /// then the device considered as legacy, otherwise the device is a new release
+  ///
+  /// Obtaining revision value:
+  /// For new releases the revision number equals to any of the response frame
+  /// rev field, because thery are all the same.
+  /// For legacy products, when the rev value doesn't provide valid information
+  /// we need to use the sn field to estimate the valid revision value. For each
+  /// family, each model (code) a serial number value is checked to get the real
+  /// rev. value.
+  ///
+
+  static Info _fromResponse(Datagram dg) {
     /// The structure of the response is the following:
     ///
     /// index | value | desc
@@ -172,27 +203,27 @@ class Discovery {
             dg.data.buffer.asUint8List(22, 15).takeWhile((value) => value != 0))
         .toLowerCase();
 
-    // get family: the first 3 chars
-    final family = name.substring(0, 3);
+    // get family from code
+    final family = Code.familyMap[code] ?? Code.unknownFamilyName;
 
-    // get sn
+    // get model from code
+    final model = Code.modelMap[code] ?? '';
+
+    // get sn, always the last segment of the serial both legacy and new releases
     final sn = int.parse(name.split('-').last);
-
-    // model is not exists in discovery response, but using code it can be obtained
-    // final model = name.substring(3, name.indexOf('-'));
-    final model = _getModelFromCode(code, sn);
 
     // get rev major, minor and fix and check their values
     final revMajor = dg.data.buffer.asByteData().getUint8(19);
     final revMinor = dg.data.buffer.asByteData().getUint8(20);
     final revFix = dg.data.buffer.asByteData().getUint8(21);
 
-    // get rev based on rev values first then serial number
-    final rev = [revMinor, revFix].every((e) => revMajor == e)
-        ? revMajor
-        : _getRevFromSn(family, sn);
+    // check if device is leacy or not
+    final isLegacy = _isLegacy(revMajor, revMinor, revFix);
 
-    // reconstruct the serial
+    // get rev based on legacy flag
+    final rev = isLegacy ? Legacy.getRevision(code, sn) : revMajor;
+
+    // reconstruct the serial number
     final serial = family + model + '-' + 'r$rev' + '-' + sn.toString();
 
     // return info, without build value. UDP based discovery does not
@@ -200,29 +231,7 @@ class Discovery {
     return Info(code, serial, mac, fw, '');
   }
 
-  /// TODO: provide table content
-  static int _getRevFromSn(String family, int sn) {
-    print('IMPLEMENT SN-BASED REV number detection for: $family');
-    return 5;
-  }
-
-  ///
-  static String _getModelFromCode(int code, int sn) {
-    switch (code) {
-      case 1:
-        return '8'; // smp8
-      case 4:
-        return '412'; // scp412
-      case 5:
-        return '32'; // smp32
-      case 6:
-        return 't'; // supt
-      case 9:
-        return '9'; // sfp9
-      case 11:
-        return 'ds'; // supds
-      default:
-        return '';
-    }
-  }
+  /// Function returns ture when device is considered as legacy based rev values
+  static bool _isLegacy(int revMajor, int revMinor, int revFix) =>
+      ![revMinor, revFix].every((element) => element == revMajor);
 }

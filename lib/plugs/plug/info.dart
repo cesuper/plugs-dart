@@ -1,7 +1,7 @@
 import 'dart:convert';
 
 class Info {
-  // plug device code
+  // plug device code that identifies the family and model with a single number
   final int code;
 
   // plug serial with format: '${family}${model}-r${rev}-${sn}'
