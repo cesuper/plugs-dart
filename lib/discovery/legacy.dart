@@ -14,7 +14,6 @@ final _map = <int, List<RevRange>>{
     RevRange(3, 315, 999),
     RevRange(2, 18, 314),
   ],
-  // TODO: verfiy
   Code.scp442: <RevRange>[
     RevRange(1, 1000, max),
   ],

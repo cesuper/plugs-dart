@@ -132,8 +132,6 @@ void main() async {
     // match mac
     expect(targetMac, device.info.mac);
 
-    // TODO: match the firmware version
-
     //
     print(result);
   });
