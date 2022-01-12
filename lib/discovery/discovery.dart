@@ -4,7 +4,7 @@ import 'package:plugs/discovery/discovery_result.dart';
 import 'package:plugs/plugs/code.dart';
 import 'package:plugs/plugs/plug/info.dart';
 
-import 'legacy_serials.dart';
+import 'legacy.dart';
 
 /// Class for discovering devices within a subnet.
 /// Host sends [size]-byte UDP-based discovery request to the direct broadcast
