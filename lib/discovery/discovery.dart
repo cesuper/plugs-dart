@@ -198,7 +198,7 @@ class Discovery {
     // code
     final code = dg.data.buffer.asByteData().getUint8(2);
 
-    // get name in format 'smp8-00422'
+    // get name in format 'smp8-00422' or 'smp8-R5-00422'
     final name = String.fromCharCodes(
             dg.data.buffer.asUint8List(22, 15).takeWhile((value) => value != 0))
         .toLowerCase();

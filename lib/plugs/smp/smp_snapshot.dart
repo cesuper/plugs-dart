@@ -14,7 +14,7 @@ class SmpSnapshot extends AinSnapshot {
     return SmpSnapshot(
       map['ts'],
       List<SmpSensorData>.from(
-          map['sensors'].map((x) => SmpSensorData.fromMap(x))),
+          map['sensors']._map((x) => SmpSensorData.fromMap(x))),
     );
   }
 

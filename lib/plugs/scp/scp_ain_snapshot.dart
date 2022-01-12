@@ -14,7 +14,7 @@ class ScpAinSnapshot extends AinSnapshot {
     return ScpAinSnapshot(
       map['ts'],
       List<ScpAinSensorData>.from(
-          map['sensors'].map((x) => ScpAinSensorData.fromMap(x))),
+          map['sensors']._map((x) => ScpAinSensorData.fromMap(x))),
     );
   }
 

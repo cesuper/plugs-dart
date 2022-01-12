@@ -19,7 +19,7 @@ class RevRange {
 
 final max = double.maxFinite.toInt();
 
-class LegacyProduction {
+class Legacy {
   /// Function returns revision number based on device code
   /// and serial number or 0 if not found
   static int getRevision(int code, int sn) {
