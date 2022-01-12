@@ -175,12 +175,12 @@ class Discovery {
     // get family: the first 3 chars
     final family = name.substring(0, 3);
 
-    // model is not exists in discovery response, but using code it can be obtained
-    //final model = name.substring(3, name.indexOf('-'));
-    final model = _getModelFromCode(code);
-
     // get sn
     final sn = int.parse(name.split('-').last);
+
+    // model is not exists in discovery response, but using code it can be obtained
+    // final model = name.substring(3, name.indexOf('-'));
+    final model = _getModelFromCode(code, sn);
 
     // get rev major, minor and fix and check their values
     final revMajor = dg.data.buffer.asByteData().getUint8(19);
@@ -207,7 +207,7 @@ class Discovery {
   }
 
   ///
-  static String _getModelFromCode(int code) {
+  static String _getModelFromCode(int code, int sn) {
     switch (code) {
       case 1:
         return '8'; // smp8
