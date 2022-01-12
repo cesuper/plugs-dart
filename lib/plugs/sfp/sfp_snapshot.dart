@@ -21,7 +21,7 @@ class SfpSnapshot extends AinSnapshot {
     return SfpSnapshot(
       map['ts'],
       List<SfpSensorData>.from(
-          map['sensors']._map((x) => SfpSensorData.fromMap(x))),
+          map['sensors'].map((x) => SfpSensorData.fromMap(x))),
     );
   }
 

@@ -8,7 +8,7 @@ import 'package:test/test.dart';
 final logger = Logger(printer: PrettyPrinter(methodCount: 0));
 
 void main() async {
-  var plug = Sfp('192.168.100.102:80');
+  var plug = Sfp('192.168.100.108');
 
   test('Snapshot', () async {
     //
