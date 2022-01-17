@@ -57,8 +57,19 @@ class Discovery {
             // check if dg available
             if (dg != null) {
               // add new map entry
-              result
-                  .add(DiscoveryResult(dg.address.address, _fromResponse(dg)));
+
+              // create info from response frame
+              final info = _fromResponse(dg);
+
+              // add address to info and create result
+              result.add(DiscoveryResult(
+                dg.address.address,
+                info.code,
+                info.serial,
+                info.mac,
+                info.fw,
+                info.build,
+              ));
 
               // Use code below to extract Info from udp frame
               // get the string content from the datagram

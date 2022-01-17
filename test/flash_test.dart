@@ -43,8 +43,7 @@ void main() async {
     final devices = await Discovery.discover(localAddress);
 
     // find device
-    final device =
-        devices.firstWhere((element) => element.info.mac == targetMac);
+    final device = devices.firstWhere((element) => element.mac == targetMac);
 
     // target address
     final targetAddress = InternetAddress(device.address);
@@ -104,7 +103,7 @@ void main() async {
     var devices = await Discovery.discover(localAddress);
 
     // find device
-    var device = devices.firstWhere((element) => element.info.mac == targetMac);
+    var device = devices.firstWhere((element) => element.mac == targetMac);
 
     // get the address of the target
     final targetAddress = InternetAddress(device.address);
@@ -127,10 +126,10 @@ void main() async {
     devices = await Discovery.discover(localAddress);
 
     // find device again
-    device = devices.firstWhere((element) => element.info.mac == targetMac);
+    device = devices.firstWhere((element) => element.mac == targetMac);
 
     // match mac
-    expect(targetMac, device.info.mac);
+    expect(targetMac, device.mac);
 
     //
     print(result);

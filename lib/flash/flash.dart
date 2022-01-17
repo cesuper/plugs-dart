@@ -68,15 +68,15 @@ class Flash {
     final devices = await Discovery.discover(localAddress);
 
     // if device not found, return false
-    if (devices.any((e) => e.info.mac == mac) == false) {
+    if (devices.any((e) => e.mac == mac) == false) {
       throw FlashException('Device with $mac mac address not found');
     }
 
     // obtain Info instance from the plug, and verify the firmware support
-    final device = devices.firstWhere((e) => e.info.mac == mac);
+    final device = devices.firstWhere((e) => e.mac == mac);
 
     // check if firmware is supported by the hardware
-    if (device.info.isFirmwareSupported(filename) == false) {
+    if (device.isFirmwareSupported(filename) == false) {
       throw FlashException('Firmware $filename not supported');
     }
 
