@@ -4,21 +4,22 @@ import 'package:plugs/plugs/plug/plug.dart';
 import 'package:test/scaffolding.dart';
 
 void main() async {
-  var plug = Plug('192.168.100.105:80');
+  var plug = Plug('192.168.100.101');
   var socket = plug.socket;
 
   test('addresses', () async {
     print(await socket.addresses());
   });
 
-  test('Read all devices', () async {
-    // get all addresses and filter for 43 devices
-    var addresses = await socket.addresses()
-      ..where((element) => element.startsWith('43'));
+  test('Memory', () async {
+    final memory = await socket.getMemory();
 
-    for (var address in addresses) {
-      var h43 = await socket.readH43(address);
-      print(h43);
-    }
+    print(memory);
+    print(memory.isConnected);
+  });
+
+  test('Read Socket Memory', () async {
+    final content = await socket.readMemory();
+    print(content);
   });
 }
