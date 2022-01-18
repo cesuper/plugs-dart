@@ -15,8 +15,14 @@ class Socket {
   /// or empty array when not found
   Future<List<String>> addresses() async {
     var uri = Uri.http(_address, '/api/socket.cgi');
-    var r = await http.get(uri);
-    return List<String>.from(jsonDecode(r.body));
+    var response = await http.get(uri);
+
+    //
+    if (response.statusCode >= HttpStatus.badRequest) {
+      throw ApiException(response.statusCode, response.body);
+    }
+
+    return List<String>.from(jsonDecode(response.body));
   }
 
   /// Return socket memory state
