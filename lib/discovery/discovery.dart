@@ -1,6 +1,6 @@
 import 'dart:io';
 
-import 'package:plugs/discovery/discovery_result.dart';
+import 'package:plugs/discovery/device_info.dart';
 import 'package:plugs/plugs/code.dart';
 import 'package:plugs/plugs/plug/info.dart';
 
@@ -35,12 +35,12 @@ class Discovery {
   static const int requestCodeDiscovery = 0xc9;
 
   /// Starts a new discovery and returns the result.
-  static Future<List<DiscoveryResult>> discover(
+  static Future<List<DeviceInfo>> discover(
     InternetAddress localAddress, {
     Duration timeout = const Duration(seconds: 1),
   }) async {
     // empty result
-    final result = <DiscoveryResult>[];
+    final result = <DeviceInfo>[];
 
     //
     await RawDatagramSocket.bind(localAddress, 0).then((socket) async {
@@ -62,7 +62,7 @@ class Discovery {
               final info = _fromResponse(dg);
 
               // add address to info and create result
-              result.add(DiscoveryResult(
+              result.add(DeviceInfo(
                 dg.address.address,
                 info.code,
                 info.serial,
