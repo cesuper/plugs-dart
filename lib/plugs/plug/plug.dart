@@ -1,6 +1,6 @@
 import 'dart:convert';
 import 'package:http/http.dart' as http;
-import 'package:plugs/socket/socket.dart';
+import 'package:plugs/socket/socket_api.dart';
 import 'diagnostic.dart';
 import 'info.dart';
 
@@ -12,13 +12,13 @@ class Plug {
   final String address;
 
   //
-  final Socket socket;
+  final SocketApi socket;
 
   //
   Plug(
     this.address, {
     this.timeout = const Duration(seconds: 2),
-  }) : socket = Socket(address);
+  }) : socket = SocketApi(address);
 
   ///
   Future<Info> info() async {

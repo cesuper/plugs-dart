@@ -16,9 +16,9 @@ class Memory {
   final Header header;
 
   // content
-  dynamic jContent;
+  dynamic content;
 
-  Memory(this.address, this.total, this.free, this.header, {this.jContent});
+  Memory(this.address, this.total, this.free, this.header, {this.content});
 
   Map<String, dynamic> toMap() {
     return {
@@ -26,7 +26,7 @@ class Memory {
       'total': total,
       'free': free,
       'header': header.toMap(),
-      'jContent': jContent,
+      'content': content,
     };
   }
 
@@ -36,11 +36,16 @@ class Memory {
       map['total']?.toInt() ?? 0,
       map['free']?.toInt() ?? 0,
       Header.fromMap(map['header']),
-      jContent: map['jContent'],
+      content: map['content'],
     );
   }
 
   String toJson() => json.encode(toMap());
 
   factory Memory.fromJson(String source) => Memory.fromMap(json.decode(source));
+
+  @override
+  String toString() {
+    return 'Memory(address: $address, total: $total, free: $free, header: $header, content: $content)';
+  }
 }

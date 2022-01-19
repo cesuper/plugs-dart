@@ -1,54 +1,34 @@
-// ignore_for_file: file_names
 import 'dart:convert';
-import 'package:http/http.dart' as http;
-import 'package:plugs/api_exception.dart';
-import 'package:universal_io/io.dart';
+
+import 'package:plugs/socket/memory.dart';
 
 class Socket {
-  // network address
-  final String _address;
+  //
+  final List<String> addresses;
 
-  Socket(String address) : _address = address;
+  //
+  Memory? memory;
 
-  /// Returns all connected 1Wire device addresses
-  /// or empty array when not found
-  Future<List<String>> getSocket() async {
-    var uri = Uri.http(_address, '/api/socket.cgi');
-    var response = await http.get(uri);
+  Socket(this.addresses, {this.memory});
 
-    //
-    if (response.statusCode >= HttpStatus.badRequest) {
-      throw ApiException(response.statusCode, response.body);
-    }
-
-    return List<String>.from(jsonDecode(response.body));
+  Map<String, dynamic> toMap() {
+    return {
+      'addresses': addresses,
+      'memory': memory?.toMap(),
+    };
   }
 
-  ///
-  Future<String> readMemory() async {
-    final uri = Uri.http(_address, '/api/socket/memory.cgi');
-    final response = await http.get(uri);
-
-    //
-    if (response.statusCode >= HttpStatus.badRequest) {
-      throw ApiException(response.statusCode, response.body);
-    }
-
-    return response.body;
-  }
-
-  ///
-  Future<void> writeMemory(Object content) async {
-    var uri = Uri.http(_address, '/api/socket/memory.cgi');
-    var response = await http.post(
-      uri,
-      headers: {'Content-Type': 'application/json'},
-      body: jsonEncode(content),
+  factory Socket.fromMap(Map<String, dynamic> map) {
+    return Socket(
+      List<String>.from(map['addresses']),
+      memory: map['memory'] != null ? Memory.fromMap(map['memory']) : null,
     );
-
-    //
-    if (response.statusCode >= HttpStatus.badRequest) {
-      throw ApiException(response.statusCode, response.body);
-    }
   }
+
+  String toJson() => json.encode(toMap());
+
+  factory Socket.fromJson(String source) => Socket.fromMap(json.decode(source));
+
+  @override
+  String toString() => 'Socket(addresses: $addresses, memory: $memory)';
 }
