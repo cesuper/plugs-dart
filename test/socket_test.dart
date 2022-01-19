@@ -7,15 +7,8 @@ void main() async {
   var plug = Plug('192.168.100.101');
   var socket = plug.socket;
 
-  test('addresses', () async {
-    print(await socket.addresses());
-  });
-
-  test('Memory', () async {
-    final memory = await socket.getMemory();
-
-    print(memory);
-    print(memory.isConnected);
+  test('Socket', () async {
+    print(await socket.getSocket());
   });
 
   test('Read Socket Memory', () async {

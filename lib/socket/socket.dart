@@ -2,7 +2,6 @@
 import 'dart:convert';
 import 'package:http/http.dart' as http;
 import 'package:plugs/api_exception.dart';
-import 'package:plugs/socket/memory.dart';
 import 'package:universal_io/io.dart';
 
 class Socket {
@@ -13,7 +12,7 @@ class Socket {
 
   /// Returns all connected 1Wire device addresses
   /// or empty array when not found
-  Future<List<String>> addresses() async {
+  Future<List<String>> getSocket() async {
     var uri = Uri.http(_address, '/api/socket.cgi');
     var response = await http.get(uri);
 
@@ -23,19 +22,6 @@ class Socket {
     }
 
     return List<String>.from(jsonDecode(response.body));
-  }
-
-  /// Return socket memory state
-  Future<Memory> getMemory() async {
-    final uri = Uri.http(_address, '/api/socket/memory/info.cgi');
-    final response = await http.get(uri);
-
-    //
-    if (response.statusCode >= HttpStatus.badRequest) {
-      throw ApiException(response.statusCode, response.body);
-    }
-
-    return Memory.fromJson(response.body);
   }
 
   ///
