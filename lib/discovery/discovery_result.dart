@@ -11,12 +11,21 @@ class DiscoveryResult {
 
   final String fw;
 
+  final String family;
+
+  final String model;
+
+  final int rev;
+
   DiscoveryResult(
     this.address,
     this.code,
     this.serial,
     this.mac,
     this.fw,
+    this.family,
+    this.model,
+    this.rev,
   );
 
   Map<String, dynamic> toMap() {
@@ -26,6 +35,9 @@ class DiscoveryResult {
       'serial': serial,
       'mac': mac,
       'fw': fw,
+      'family': family,
+      'model': model,
+      'rev': rev,
     };
   }
 
@@ -36,6 +48,9 @@ class DiscoveryResult {
       map['serial'] ?? '',
       map['mac'] ?? '',
       map['fw'] ?? '',
+      map['family'] ?? '',
+      map['model'] ?? '',
+      map['rev'] ?? 0,
     );
   }
 

@@ -228,7 +228,8 @@ class Discovery {
 
     // return info, without build value. UDP based discovery does not
     // provide info about the firmware build value
-    return DiscoveryResult(dg.address.address, code, serial, mac, fw);
+    return DiscoveryResult(
+        dg.address.address, code, serial, mac, fw, family, model, rev);
   }
 
   /// Function returns ture when device is considered as legacy based rev values
