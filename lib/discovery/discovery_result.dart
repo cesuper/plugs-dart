@@ -2,11 +2,11 @@ import 'dart:convert';
 
 import 'package:plugs/model/info.dart';
 
-class DeviceInfo extends Info {
+class DiscoveryResult extends Info {
   ///
   final String address;
 
-  DeviceInfo(
+  DiscoveryResult(
     this.address,
     int code,
     String serial,
@@ -22,8 +22,8 @@ class DeviceInfo extends Info {
     }..addAll(super.toMap());
   }
 
-  factory DeviceInfo.fromMap(Map<String, dynamic> map) {
-    return DeviceInfo(
+  factory DiscoveryResult.fromMap(Map<String, dynamic> map) {
+    return DiscoveryResult(
       map['address'] ?? '',
       map['code']?.toInt() ?? 0,
       map['serial'] ?? '',
@@ -36,8 +36,8 @@ class DeviceInfo extends Info {
   @override
   String toJson() => json.encode(toMap());
 
-  factory DeviceInfo.fromJson(String source) =>
-      DeviceInfo.fromMap(json.decode(source));
+  factory DiscoveryResult.fromJson(String source) =>
+      DiscoveryResult.fromMap(json.decode(source));
 
   @override
   String toString() => 'DeviceInfo(address: $address, ${super.toString()})';

@@ -1,14 +1,17 @@
+// ignore_for_file: avoid_print
+
 import 'package:plugs/api.dart';
 import 'package:test/test.dart';
 
 void main() async {
+  //
   var client = PlugClient('http://192.168.100.101');
 
-  test('PlugApi', () async {
+  test('Device', () async {
     //
     final deviceApi = client.getDeviceApi();
 
-    print(await deviceApi.getEeprom());
+    print(await deviceApi.getDevice());
   });
 
   // test('Diagnostic', () async {

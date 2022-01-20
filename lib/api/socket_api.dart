@@ -1,19 +1,17 @@
 part of plugs;
 
-class DeviceApi {
+class SocketApi {
   //
   final ApiClient apiClient;
 
   //
-  DeviceApi(this.apiClient);
+  SocketApi(this.apiClient);
 
-  // TODO: POST RESTART
-
-  // TODO: POST EEPROM
+  // TODO: POST MEMORY
 
   //
-  Future<Device> getDevice() async {
-    const path = r'/info.cgi';
+  Future<String> readMemory() async {
+    const path = r'/memory.cgi';
     final queryParams = <QueryParam>[];
     const body = null;
     final headerParams = <String, String>{};
@@ -49,16 +47,16 @@ class DeviceApi {
       return await deserializeAsync(
         DeserializationMessage(
           json: await _decodeBodyBytes(response),
-          targetType: (Device).toString(),
+          targetType: 'String',
         ),
-      ) as Device;
+      ) as String;
     }
     throw ApiException(response.statusCode, await _decodeBodyBytes(response));
   }
 
   //
-  Future<String> getEeprom() async {
-    const path = r'/plug/eeprom.cgi';
+  Future<String> writeMemory() async {
+    const path = r'/memory.cgi';
     final queryParams = <QueryParam>[];
     const body = null;
     final headerParams = <String, String>{};
@@ -73,7 +71,7 @@ class DeviceApi {
     //
     final response = await apiClient.invokeAPI(
       path,
-      'GET',
+      'POST',
       queryParams,
       body,
       headerParams,

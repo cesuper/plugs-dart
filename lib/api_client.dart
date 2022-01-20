@@ -136,9 +136,10 @@ class ApiClient {
           return valueString == 'true' || valueString == '1';
         case 'double':
           return value is double ? value : double.parse('$value');
-
         case 'List<String>':
           return List<String>.from(value);
+        case 'Device':
+          return Device.fromMap(value);
       }
     } catch (error, trace) {
       throw ApiException.withInner(HttpStatus.internalServerError,

@@ -3,6 +3,7 @@ library plugs;
 /// Imports
 import 'dart:async';
 import 'dart:convert';
+import 'package:plugs/model/device.dart';
 import 'package:universal_io/io.dart';
 import 'package:http/http.dart';
 
@@ -16,3 +17,4 @@ part 'client/plug_client.dart';
 
 // api
 part 'api/device_api.dart';
+part 'api/socket_api.dart';
