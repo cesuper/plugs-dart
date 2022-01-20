@@ -37,12 +37,14 @@ class Code {
   // sup plug with 1wire interface
   static const supds = 11;
 
-  //
-  static const unknownFamilyName = 'unknown';
+  ///
+  static String getFamily(int code) => _familyMap[code] ?? 'unknown';
 
   ///
-  static final familyMap = <int, String>{
-    unknown: unknownFamilyName,
+  static String getModel(int code) => _modelMap[code] ?? '';
+
+  ///
+  static final _familyMap = <int, String>{
     smp8: 'smp',
     smc: 'smc',
     dio: 'dio',
@@ -57,8 +59,7 @@ class Code {
   };
 
   ///
-  static final modelMap = <int, String>{
-    unknown: '',
+  static final _modelMap = <int, String>{
     smp8: '8',
     smc: '',
     dio: '',

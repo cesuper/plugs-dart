@@ -11,7 +11,7 @@ class DeviceApi {
 
   // TODO: POST EEPROM
 
-  //
+  ///
   Future<Device> getDevice() async {
     const path = r'/info.cgi';
     final queryParams = <QueryParam>[];
@@ -56,7 +56,7 @@ class DeviceApi {
     throw ApiException(response.statusCode, await _decodeBodyBytes(response));
   }
 
-  //
+  ///
   Future<String> getEeprom() async {
     const path = r'/plug/eeprom.cgi';
     final queryParams = <QueryParam>[];

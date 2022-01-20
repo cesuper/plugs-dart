@@ -204,10 +204,10 @@ class Discovery {
         .toLowerCase();
 
     // get family from code
-    final family = Code.familyMap[code] ?? Code.unknownFamilyName;
+    final family = Code.getFamily(code);
 
     // get model from code
-    final model = Code.modelMap[code] ?? '';
+    final model = Code.getModel(code);
 
     // get sn, always the last segment of the serial both legacy and new releases
     final sn = int.parse(name.split('-').last);
