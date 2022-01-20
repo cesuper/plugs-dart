@@ -2,7 +2,7 @@ import 'dart:convert';
 import 'package:http/http.dart' as http;
 import 'package:plugs/socket/socket_api.dart';
 
-import '../../model/info.dart';
+import '../../model/plug_info.dart';
 
 class Plug {
   // timeout for http calls
@@ -21,10 +21,10 @@ class Plug {
   }) : socket = SocketApi(address);
 
   ///
-  Future<Info> info() async {
+  Future<PlugInfo> info() async {
     var uri = Uri.http(address, '/api/plug.cgi');
     var r = await http.get(uri).timeout(timeout);
-    return Info.fromJson(r.body);
+    return PlugInfo.fromJson(r.body);
   }
 
   /// Restarts the plug

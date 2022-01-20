@@ -1,6 +1,6 @@
 import 'dart:convert';
 
-class Info {
+class PlugInfo {
   // plug device code that identifies the family and model with a single number
   final int code;
 
@@ -35,7 +35,7 @@ class Info {
   //
   final int epiFree;
 
-  Info(
+  PlugInfo(
     this.code,
     this.serial,
     this.mac,
@@ -65,8 +65,8 @@ class Info {
     };
   }
 
-  factory Info.fromMap(Map<String, dynamic> map) {
-    return Info(
+  factory PlugInfo.fromMap(Map<String, dynamic> map) {
+    return PlugInfo(
       map['code']?.toInt() ?? 0,
       map['serial'] ?? '',
       map['mac'] ?? '',
@@ -84,10 +84,11 @@ class Info {
   //
   String toJson() => json.encode(toMap());
 
-  factory Info.fromJson(String source) => Info.fromMap(json.decode(source));
+  factory PlugInfo.fromJson(String source) =>
+      PlugInfo.fromMap(json.decode(source));
 
   @override
   String toString() {
-    return 'Info(code: $code, serial: $serial, mac: $mac, fw: $fw)';
+    return 'PlugInfo(code: $code, serial: $serial, mac: $mac, fw: $fw)';
   }
 }

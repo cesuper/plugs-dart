@@ -2,7 +2,7 @@ import 'dart:io';
 
 import 'package:plugs/api.dart';
 import 'package:plugs/discovery/discovery_result.dart';
-import 'package:plugs/model/info.dart';
+import 'package:plugs/model/plug_info.dart';
 
 import 'legacy.dart';
 
@@ -13,7 +13,7 @@ import 'legacy.dart';
 ///
 /// For request, a fixed-size UDP frame is sent with leading [requestCodeDiscovery] byte.
 /// Plugs checks the [requestCodeDiscovery] and responds with their device information
-/// in order to construct [Info].
+/// in order to construct [PlugInfo].
 ///
 /// Set [legacy] flag to expect response from devices with ucq protocol where
 /// the device properties are placed into the udp frame as index-based format.
