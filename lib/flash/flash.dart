@@ -75,10 +75,11 @@ class Flash {
     // obtain Info instance from the plug, and verify the firmware support
     final device = devices.firstWhere((e) => e.mac == mac);
 
-    // check if firmware is supported by the hardware
-    if (device.isFirmwareSupported(filename) == false) {
-      throw FlashException('Firmware $filename not supported');
-    }
+    throw UnimplementedError('Implement firmware support check');
+    // // check if firmware is supported by the hardware
+    // if (device.isFirmwareSupported(filename) == false) {
+    //   throw FlashException('Firmware $filename not supported');
+    // }
 
     // read the firmware
     final firmware = file.readAsBytesSync();

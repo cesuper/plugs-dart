@@ -15,6 +15,9 @@ part 'api_helper.dart';
 // clients
 part 'client/plug_client.dart';
 
+// utils
+part 'utils/code.dart';
+
 // api
 part 'api/device_api.dart';
 part 'api/socket_api.dart';

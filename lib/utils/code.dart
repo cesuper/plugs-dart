@@ -1,3 +1,5 @@
+part of plugs;
+
 class Code {
   // invalid device code aka. undefined device
   static const unknown = 0;

@@ -138,7 +138,7 @@ class ApiClient {
           return value is double ? value : double.parse('$value');
         case 'List<String>':
           return List<String>.from(value);
-        case 'Device':
+        case 'DeviceInfo':
           return DeviceInfo.fromMap(value);
       }
     } catch (error, trace) {

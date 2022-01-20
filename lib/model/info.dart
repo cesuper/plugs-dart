@@ -17,12 +17,36 @@ class Info {
   // the firmware is compiled
   final String build;
 
+  //
+  final int uptime;
+
+  //
+  final num temp;
+
+  //
+  final int sysTotal;
+
+  //
+  final int sysFree;
+
+  //
+  final int epiTotal;
+
+  //
+  final int epiFree;
+
   Info(
     this.code,
     this.serial,
     this.mac,
     this.fw,
     this.build,
+    this.uptime,
+    this.temp,
+    this.sysTotal,
+    this.sysFree,
+    this.epiTotal,
+    this.epiFree,
   );
 
   Map<String, dynamic> toMap() {
@@ -32,6 +56,12 @@ class Info {
       'mac': mac,
       'fw': fw,
       'build': build,
+      'uptime': uptime,
+      'temp': temp,
+      'sysTotal': sysTotal,
+      'sysFree': sysFree,
+      'epiTotal': epiTotal,
+      'epiFree': epiFree,
     };
   }
 
@@ -42,46 +72,14 @@ class Info {
       map['mac'] ?? '',
       map['fw'] ?? '',
       map['build'] ?? '',
+      map['uptime'] ?? 0,
+      map['temp'] ?? 0,
+      map['sysTotal'] ?? 0,
+      map['sysFree'] ?? 0,
+      map['epiTotal'] ?? 0,
+      map['epiFree'] ?? 0,
     );
   }
-
-  // Returns filename prefix based on device properties
-  String get filenamePrefix => '$family$model-r$rev';
-
-  /// Returns true when the firmware specified by [filename] is supported by the device
-  bool isFirmwareSupported(String filename) =>
-      filename.startsWith(filenamePrefix) && filename.endsWith('.bin');
-
-  /// Returns true when the firmware specified by [filename] matches with the
-  /// firmware on the device
-  bool isFirmwareMatch(String filename) {
-    // construct format
-    final format = '$major.$minor.$fix.bin';
-
-    //
-    return isFirmwareSupported(filename) && filename.endsWith(format);
-  }
-
-  // device family like: sfp, smp, etc
-  String get family => serial.substring(0, 3);
-
-  // device model like: 9,32
-  String get model => serial.substring(3, serial.indexOf('-'));
-
-  // device revision like: 1, 2,
-  int get rev => int.parse(serial.split('-')[1].substring(1));
-
-  // device serial number like: 123
-  int get sn => int.parse(serial.split('-').last);
-
-  // fw major version
-  int get major => int.parse(fw.split('.').first);
-
-  // fw minor version
-  int get minor => int.parse(fw.split('.')[1]);
-
-  // fw fix version
-  int get fix => int.parse(fw.split('.').last);
 
   //
   String toJson() => json.encode(toMap());

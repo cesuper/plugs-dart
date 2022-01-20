@@ -1,5 +1,5 @@
 import 'package:collection/collection.dart';
-import 'package:plugs/plugs/code.dart';
+import 'package:plugs/utils/code.dart';
 
 // map of code - List<RevRange>, where one code may have multiple revisions
 final _map = <int, List<RevRange>>{

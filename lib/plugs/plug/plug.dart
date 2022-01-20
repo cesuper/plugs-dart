@@ -1,7 +1,7 @@
 import 'dart:convert';
 import 'package:http/http.dart' as http;
 import 'package:plugs/socket/socket_api.dart';
-import '../../model/diagnostic.dart';
+
 import '../../model/info.dart';
 
 class Plug {
@@ -25,13 +25,6 @@ class Plug {
     var uri = Uri.http(address, '/api/plug.cgi');
     var r = await http.get(uri).timeout(timeout);
     return Info.fromJson(r.body);
-  }
-
-  ///
-  Future<Diagnostic> diagnostic() async {
-    var uri = Uri.http(address, '/api/plug/diagnostic.cgi');
-    var r = await http.get(uri);
-    return Diagnostic.fromJson(r.body);
   }
 
   /// Restarts the plug

@@ -1,25 +1,32 @@
 import 'dart:convert';
 
-import 'package:plugs/model/info.dart';
-
-class DiscoveryResult extends Info {
-  ///
+class DiscoveryResult {
   final String address;
+
+  final int code;
+
+  final String serial;
+
+  final String mac;
+
+  final String fw;
 
   DiscoveryResult(
     this.address,
-    int code,
-    String serial,
-    String mac,
-    String fw,
-    String build,
-  ) : super(code, serial, mac, fw, build);
+    this.code,
+    this.serial,
+    this.mac,
+    this.fw,
+  );
 
-  @override
   Map<String, dynamic> toMap() {
     return {
       'address': address,
-    }..addAll(super.toMap());
+      'code': code,
+      'serial': serial,
+      'mac': mac,
+      'fw': fw,
+    };
   }
 
   factory DiscoveryResult.fromMap(Map<String, dynamic> map) {
@@ -29,16 +36,16 @@ class DiscoveryResult extends Info {
       map['serial'] ?? '',
       map['mac'] ?? '',
       map['fw'] ?? '',
-      map['build'] ?? '',
     );
   }
 
-  @override
   String toJson() => json.encode(toMap());
 
   factory DiscoveryResult.fromJson(String source) =>
       DiscoveryResult.fromMap(json.decode(source));
 
   @override
-  String toString() => 'DeviceInfo(address: $address, ${super.toString()})';
+  String toString() {
+    return 'DiscoveryResult(address: $address, code: $code, serial: $serial, mac: $mac, fw: $fw)';
+  }
 }

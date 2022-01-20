@@ -1,7 +1,7 @@
 import 'dart:io';
 
 import 'package:plugs/discovery/discovery_result.dart';
-import 'package:plugs/plugs/code.dart';
+import 'package:plugs/utils/code.dart';
 import 'package:plugs/model/info.dart';
 
 import 'legacy.dart';
@@ -58,18 +58,8 @@ class Discovery {
             if (dg != null) {
               // add new map entry
 
-              // create info from response frame
-              final info = _fromResponse(dg);
-
               // add address to info and create result
-              result.add(DiscoveryResult(
-                dg.address.address,
-                info.code,
-                info.serial,
-                info.mac,
-                info.fw,
-                info.build,
-              ));
+              result.add(_fromResponse(dg));
 
               // Use code below to extract Info from udp frame
               // get the string content from the datagram
@@ -141,7 +131,7 @@ class Discovery {
   /// rev. value.
   ///
 
-  static Info _fromResponse(Datagram dg) {
+  static DiscoveryResult _fromResponse(Datagram dg) {
     /// The structure of the response is the following:
     ///
     /// index | value | desc
@@ -239,7 +229,7 @@ class Discovery {
 
     // return info, without build value. UDP based discovery does not
     // provide info about the firmware build value
-    return Info(code, serial, mac, fw, '');
+    return DiscoveryResult(dg.address.address, code, serial, mac, fw);
   }
 
   /// Function returns ture when device is considered as legacy based rev values
