@@ -1,15 +1,13 @@
-import 'dart:convert';
+part of plugs;
 
-import 'package:plugs/socket/memory.dart';
-
-class SocketInfo {
+class Socket {
   //
   final List<String> addresses;
 
   //
   Memory? memory;
 
-  SocketInfo(this.addresses, {this.memory});
+  Socket(this.addresses, {this.memory});
 
   Map<String, dynamic> toMap() {
     return {
@@ -18,8 +16,8 @@ class SocketInfo {
     };
   }
 
-  factory SocketInfo.fromMap(Map<String, dynamic> map) {
-    return SocketInfo(
+  factory Socket.fromMap(Map<String, dynamic> map) {
+    return Socket(
       List<String>.from(map['addresses']),
       memory: map['memory'] != null ? Memory.fromMap(map['memory']) : null,
     );
@@ -27,8 +25,7 @@ class SocketInfo {
 
   String toJson() => json.encode(toMap());
 
-  factory SocketInfo.fromJson(String source) =>
-      SocketInfo.fromMap(json.decode(source));
+  factory Socket.fromJson(String source) => Socket.fromMap(json.decode(source));
 
   @override
   String toString() => 'Socket(addresses: $addresses, memory: $memory)';

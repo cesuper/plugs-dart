@@ -1,4 +1,4 @@
-import 'dart:convert';
+part of plugs;
 
 class Plug {
   // plug device code that identifies the family and model with a single number
