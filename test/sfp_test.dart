@@ -1,3 +1,20 @@
+// ignore_for_file: avoid_print
+
+import 'package:plugs/api.dart';
+import 'package:test/test.dart';
+
+void main() async {
+  //
+  var client = PlugClient('http://192.168.100.101');
+
+  test('Device', () async {
+    //
+    final sfpApi = client.getSfpApi();
+    final settings = await sfpApi.getSettings();
+
+    print(settings);
+  });
+}
 // // ignore_for_file: avoid_print
 
 // import 'package:logger/logger.dart';

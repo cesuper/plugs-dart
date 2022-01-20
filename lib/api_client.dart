@@ -140,6 +140,8 @@ class ApiClient {
           return List<String>.from(value);
         case 'Device':
           return Device.fromMap(value);
+        case 'SfpSettings':
+          return SfpSettings.fromMap(value);
       }
     } catch (error, trace) {
       throw ApiException.withInner(HttpStatus.internalServerError,

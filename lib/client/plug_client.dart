@@ -44,6 +44,8 @@ class PlugClient {
 
   DeviceApi getDeviceApi() => DeviceApi(getApiClient(basePath: '/api'));
 
+  SfpApi getSfpApi() => SfpApi(getApiClient(basePath: '/api'));
+
   ///
   //SysApi getSysApi() => SysApi(getApiClient(basePath: '/api/sys'));
 
