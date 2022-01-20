@@ -11,7 +11,7 @@ void main() async {
     //
     final deviceApi = client.getDeviceApi();
 
-    print(await deviceApi.getDevice());
+    print(await deviceApi.getDeviceInfo());
   });
 
   // test('Diagnostic', () async {
