@@ -12,7 +12,7 @@ class DeviceApi {
   // TODO: POST EEPROM
 
   //
-  Future<Device> getDeviceInfo() async {
+  Future<Device> getDevice() async {
     const path = r'/info.cgi';
     final queryParams = <QueryParam>[];
     const body = null;

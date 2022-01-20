@@ -10,9 +10,9 @@ void main() async {
   test('Device', () async {
     //
     final deviceApi = client.getDeviceApi();
-    final deviceInfo = await deviceApi.getDeviceInfo();
+    final device = await deviceApi.getDevice();
 
-    print(deviceInfo);
+    print(device);
   });
 
   // test('Diagnostic', () async {

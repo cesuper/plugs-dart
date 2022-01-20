@@ -18,6 +18,18 @@ class Plug {
   final String build;
 
   //
+  final String family;
+
+  //
+  final String model;
+
+  //
+  final int rev;
+
+  //
+  final int sn;
+
+  //
   final int uptime;
 
   //
@@ -41,6 +53,10 @@ class Plug {
     this.mac,
     this.fw,
     this.build,
+    this.family,
+    this.model,
+    this.rev,
+    this.sn,
     this.uptime,
     this.temp,
     this.sysTotal,
@@ -56,6 +72,10 @@ class Plug {
       'mac': mac,
       'fw': fw,
       'build': build,
+      'family': family,
+      'model': model,
+      'rev': rev,
+      'sn': sn,
       'uptime': uptime,
       'temp': temp,
       'sysTotal': sysTotal,
@@ -72,6 +92,10 @@ class Plug {
       map['mac'] ?? '',
       map['fw'] ?? '',
       map['build'] ?? '',
+      map['family'] ?? '',
+      map['model'] ?? '',
+      map['rev'] ?? 0,
+      map['sn'] ?? 0,
       map['uptime'] ?? 0,
       map['temp'] ?? 0,
       map['sysTotal'] ?? 0,
@@ -88,6 +112,6 @@ class Plug {
 
   @override
   String toString() {
-    return 'Plug(code: $code, serial: $serial, mac: $mac, fw: $fw)';
+    return 'Plug(code: $code, serial: $serial, mac: $mac, fw: $fw, build: $build, family: $family, model: $model, rev: $rev, sn: $sn, uptime: $uptime, temp: $temp, sysTotal: $sysTotal, sysFree: $sysFree, epiTotal: $epiTotal, epiFree: $epiFree)';
   }
 }
