@@ -1,8 +1,8 @@
 import 'dart:convert';
 import 'package:http/http.dart' as http;
 import 'package:plugs/socket/socket_api.dart';
-import 'diagnostic.dart';
-import 'info.dart';
+import '../../model/diagnostic.dart';
+import '../../model/info.dart';
 
 class Plug {
   // timeout for http calls

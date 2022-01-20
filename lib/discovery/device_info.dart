@@ -1,6 +1,6 @@
 import 'dart:convert';
 
-import 'package:plugs/plugs/plug/info.dart';
+import 'package:plugs/model/info.dart';
 
 class DeviceInfo extends Info {
   ///

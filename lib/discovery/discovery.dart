@@ -2,7 +2,7 @@ import 'dart:io';
 
 import 'package:plugs/discovery/device_info.dart';
 import 'package:plugs/plugs/code.dart';
-import 'package:plugs/plugs/plug/info.dart';
+import 'package:plugs/model/info.dart';
 
 import 'legacy.dart';
 
