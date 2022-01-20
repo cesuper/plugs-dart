@@ -6,7 +6,10 @@ class SfpApi {
 
   SfpApi(this.apiClient);
 
-  //
+  ///
+  Future<void> setSettings(SfpSettings settings) async {}
+
+  ///
   Future<SfpSettings> getSettings() async {
     const path = r'/ain/settings.cgi';
     final queryParams = <QueryParam>[];
