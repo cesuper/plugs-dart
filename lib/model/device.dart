@@ -1,16 +1,16 @@
 import 'dart:convert';
 
-import 'package:plugs/model/plug_info.dart';
+import 'package:plugs/model/plug.dart';
 import 'package:plugs/model/socket_info.dart';
 
-class DeviceInfo {
+class Device {
   //
-  final PlugInfo plug;
+  final Plug plug;
 
   //
   final SocketInfo socket;
 
-  DeviceInfo(this.plug, this.socket);
+  Device(this.plug, this.socket);
 
   Map<String, dynamic> toMap() {
     return {
@@ -19,8 +19,8 @@ class DeviceInfo {
     };
   }
 
-  factory DeviceInfo.fromMap(Map<String, dynamic> map) {
-    return DeviceInfo(
+  factory Device.fromMap(Map<String, dynamic> map) {
+    return Device(
       PlugInfo.fromMap(map['plug']),
       SocketInfo.fromMap(map['socket']),
     );
@@ -28,8 +28,7 @@ class DeviceInfo {
 
   String toJson() => json.encode(toMap());
 
-  factory DeviceInfo.fromJson(String source) =>
-      DeviceInfo.fromMap(json.decode(source));
+  factory Device.fromJson(String source) => Device.fromMap(json.decode(source));
 
   @override
   String toString() => 'Device(plug: $plug, socket: $socket)';

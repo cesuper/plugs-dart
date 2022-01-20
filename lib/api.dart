@@ -3,7 +3,7 @@ library plugs;
 /// Imports
 import 'dart:async';
 import 'dart:convert';
-import 'package:plugs/model/device_info.dart';
+import 'package:plugs/model/device.dart';
 import 'package:universal_io/io.dart';
 import 'package:http/http.dart';
 

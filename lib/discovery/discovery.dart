@@ -2,7 +2,7 @@ import 'dart:io';
 
 import 'package:plugs/api.dart';
 import 'package:plugs/discovery/discovery_result.dart';
-import 'package:plugs/model/plug_info.dart';
+import 'package:plugs/model/plug.dart';
 
 import 'legacy.dart';
 

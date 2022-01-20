@@ -139,7 +139,7 @@ class ApiClient {
         case 'List<String>':
           return List<String>.from(value);
         case 'DeviceInfo':
-          return DeviceInfo.fromMap(value);
+          return Device.fromMap(value);
       }
     } catch (error, trace) {
       throw ApiException.withInner(HttpStatus.internalServerError,

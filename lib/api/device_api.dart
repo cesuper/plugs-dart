@@ -12,7 +12,7 @@ class DeviceApi {
   // TODO: POST EEPROM
 
   //
-  Future<DeviceInfo> getInfo() async {
+  Future<Device> getDeviceInfo() async {
     const path = r'/info.cgi';
     final queryParams = <QueryParam>[];
     const body = null;
@@ -49,9 +49,9 @@ class DeviceApi {
       return await deserializeAsync(
         DeserializationMessage(
           json: await _decodeBodyBytes(response),
-          targetType: (DeviceInfo).toString(),
+          targetType: (Device).toString(),
         ),
-      ) as DeviceInfo;
+      ) as Device;
     }
     throw ApiException(response.statusCode, await _decodeBodyBytes(response));
   }

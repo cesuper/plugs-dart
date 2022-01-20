@@ -10,7 +10,7 @@ void main() async {
   test('Device', () async {
     //
     final deviceApi = client.getDeviceApi();
-    final deviceInfo = await deviceApi.getInfo();
+    final deviceInfo = await deviceApi.getDeviceInfo();
 
     print(deviceInfo);
   });
