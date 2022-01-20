@@ -1,7 +1,5 @@
-import 'dart:io';
-
+import 'package:universal_io/io.dart';
 import 'package:plugs/api.dart';
-import 'package:plugs/discovery/discovery_result.dart';
 
 import 'legacy.dart';
 

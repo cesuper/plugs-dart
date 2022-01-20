@@ -21,6 +21,7 @@ part 'api/sfp_api.dart';
 
 // models
 part 'model/device.dart';
+part 'model/discovery_result.dart';
 part 'model/header.dart';
 part 'model/memory.dart';
 part 'model/plug.dart';

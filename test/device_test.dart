@@ -5,7 +5,7 @@ import 'package:test/test.dart';
 
 void main() async {
   //
-  var client = PlugClient('192.168.100.101');
+  var client = PlugClient('http://192.168.100.101');
 
   test('Device', () async {
     //
