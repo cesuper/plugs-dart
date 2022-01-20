@@ -142,6 +142,8 @@ class ApiClient {
           return Device.fromMap(value);
         case 'SfpSettings':
           return SfpSettings.fromMap(value);
+        case 'SfpSnapshot':
+          return SfpSnapshot.fromMap(value);
       }
     } catch (error, trace) {
       throw ApiException.withInner(HttpStatus.internalServerError,

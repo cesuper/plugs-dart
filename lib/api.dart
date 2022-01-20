@@ -27,8 +27,10 @@ part 'model/plug.dart';
 part 'model/socket.dart';
 
 // models/sfp
+part 'model/sfp/sfp_sensor_data.dart';
 part 'model/sfp/sfp_sensor_param.dart';
 part 'model/sfp/sfp_settings.dart';
+part 'model/sfp/sfp_snapshot.dart';
 
 // utils
 part 'utils/code.dart';
