@@ -1,7 +1,7 @@
 // ignore_for_file: file_names
 import 'dart:convert';
 import 'package:http/http.dart' as http;
-import 'package:plugs/socket/socket.dart';
+import 'package:plugs/model/socket_info.dart';
 
 class SocketApi {
   // network address
@@ -11,11 +11,11 @@ class SocketApi {
 
   /// Returns all connected 1Wire device addresses
   /// or empty array when not found
-  Future<Socket> getSocket() async {
+  Future<SocketInfo> getSocket() async {
     var uri = Uri.http(_address, '/api/socket.cgi');
     var response = await http.get(uri);
 
-    return Socket.fromJson(response.body);
+    return SocketInfo.fromJson(response.body);
   }
 
   ///

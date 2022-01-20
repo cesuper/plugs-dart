@@ -1,14 +1,14 @@
 import 'dart:convert';
 
 import 'package:plugs/model/plug_info.dart';
-import 'package:plugs/socket/socket.dart';
+import 'package:plugs/model/socket_info.dart';
 
 class DeviceInfo {
   //
   final PlugInfo plug;
 
   //
-  final Socket socket;
+  final SocketInfo socket;
 
   DeviceInfo(this.plug, this.socket);
 
@@ -22,7 +22,7 @@ class DeviceInfo {
   factory DeviceInfo.fromMap(Map<String, dynamic> map) {
     return DeviceInfo(
       PlugInfo.fromMap(map['plug']),
-      Socket.fromMap(map['socket']),
+      SocketInfo.fromMap(map['socket']),
     );
   }
 
