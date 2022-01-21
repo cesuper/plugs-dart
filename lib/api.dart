@@ -15,7 +15,7 @@ part 'api_helper.dart';
 part 'client/plug_client.dart';
 
 // api
-part 'api/device_api.dart';
+part 'api/plug_api.dart';
 part 'api/socket_api.dart';
 part 'api/sfp_api.dart';
 
@@ -24,7 +24,7 @@ part 'model/device.dart';
 part 'model/discovery_result.dart';
 part 'model/header.dart';
 part 'model/memory.dart';
-part 'model/plug.dart';
+part 'model/info.dart';
 part 'model/socket.dart';
 
 // models/sfp

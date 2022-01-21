@@ -42,7 +42,7 @@ class PlugClient {
     return api;
   }
 
-  DeviceApi getDeviceApi() => DeviceApi(getApiClient(basePath: '/api'));
+  PlugApi getDeviceApi() => PlugApi(getApiClient(basePath: '/api'));
 
   SfpApi getSfpApi() => SfpApi(getApiClient(basePath: '/api'));
 

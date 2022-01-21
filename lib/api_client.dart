@@ -138,8 +138,8 @@ class ApiClient {
           return value is double ? value : double.parse('$value');
         case 'List<String>':
           return List<String>.from(value);
-        case 'Device':
-          return Device.fromMap(value);
+        case 'Info':
+          return Info.fromMap(value);
         case 'SfpSettings':
           return SfpSettings.fromMap(value);
         case 'SfpSnapshot':

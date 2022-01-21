@@ -2,7 +2,7 @@ part of plugs;
 
 class Device {
   //
-  final Plug plug;
+  final Info plug;
 
   //
   final Socket socket;
@@ -18,7 +18,7 @@ class Device {
 
   factory Device.fromMap(Map<String, dynamic> map) {
     return Device(
-      Plug.fromMap(map['plug']),
+      Info.fromMap(map['plug']),
       Socket.fromMap(map['socket']),
     );
   }

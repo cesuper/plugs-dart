@@ -1,19 +1,19 @@
 part of plugs;
 
-class DeviceApi {
+class PlugApi {
   //
   final ApiClient apiClient;
 
   //
-  DeviceApi(this.apiClient);
+  PlugApi(this.apiClient);
 
   // TODO: POST RESTART
 
   // TODO: POST EEPROM
 
   ///
-  Future<Device> getDevice() async {
-    const path = r'/info.cgi';
+  Future<Info> getInfo() async {
+    const path = r'/plug.cgi';
     final queryParams = <QueryParam>[];
     const body = null;
     final headerParams = <String, String>{};
@@ -49,9 +49,9 @@ class DeviceApi {
       return await deserializeAsync(
         DeserializationMessage(
           json: await _decodeBodyBytes(response),
-          targetType: (Device).toString(),
+          targetType: (Info).toString(),
         ),
-      ) as Device;
+      ) as Info;
     }
     throw ApiException(response.statusCode, await _decodeBodyBytes(response));
   }

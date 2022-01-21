@@ -1,6 +1,6 @@
 part of plugs;
 
-class Plug {
+class Info {
   // plug device code that identifies the family and model with a single number
   final int code;
 
@@ -47,23 +47,26 @@ class Plug {
   //
   final int epiFree;
 
-  Plug(
-    this.code,
-    this.serial,
-    this.mac,
-    this.fw,
-    this.build,
-    this.family,
-    this.model,
-    this.rev,
-    this.sn,
-    this.uptime,
-    this.temp,
-    this.sysTotal,
-    this.sysFree,
-    this.epiTotal,
-    this.epiFree,
-  );
+  //
+  final Socket socket;
+
+  Info(
+      this.code,
+      this.serial,
+      this.mac,
+      this.fw,
+      this.build,
+      this.family,
+      this.model,
+      this.rev,
+      this.sn,
+      this.uptime,
+      this.temp,
+      this.sysTotal,
+      this.sysFree,
+      this.epiTotal,
+      this.epiFree,
+      this.socket);
 
   Map<String, dynamic> toMap() {
     return {
@@ -82,11 +85,12 @@ class Plug {
       'sysFree': sysFree,
       'epiTotal': epiTotal,
       'epiFree': epiFree,
+      'socket': socket.toMap(),
     };
   }
 
-  factory Plug.fromMap(Map<String, dynamic> map) {
-    return Plug(
+  factory Info.fromMap(Map<String, dynamic> map) {
+    return Info(
       map['code']?.toInt() ?? 0,
       map['serial'] ?? '',
       map['mac'] ?? '',
@@ -94,24 +98,24 @@ class Plug {
       map['build'] ?? '',
       map['family'] ?? '',
       map['model'] ?? '',
-      map['rev'] ?? 0,
-      map['sn'] ?? 0,
-      map['uptime'] ?? 0,
+      map['rev']?.toInt() ?? 0,
+      map['sn']?.toInt() ?? 0,
+      map['uptime']?.toInt() ?? 0,
       map['temp'] ?? 0,
-      map['sysTotal'] ?? 0,
-      map['sysFree'] ?? 0,
-      map['epiTotal'] ?? 0,
-      map['epiFree'] ?? 0,
+      map['sysTotal']?.toInt() ?? 0,
+      map['sysFree']?.toInt() ?? 0,
+      map['epiTotal']?.toInt() ?? 0,
+      map['epiFree']?.toInt() ?? 0,
+      Socket.fromMap(map['socket']),
     );
   }
 
-  //
   String toJson() => json.encode(toMap());
 
-  factory Plug.fromJson(String source) => Plug.fromMap(json.decode(source));
+  factory Info.fromJson(String source) => Info.fromMap(json.decode(source));
 
   @override
   String toString() {
-    return 'Plug(code: $code, serial: $serial, mac: $mac, fw: $fw, build: $build, family: $family, model: $model, rev: $rev, sn: $sn, uptime: $uptime, temp: $temp, sysTotal: $sysTotal, sysFree: $sysFree, epiTotal: $epiTotal, epiFree: $epiFree)';
+    return 'Info(code: $code, serial: $serial, mac: $mac, fw: $fw, build: $build, family: $family, model: $model, rev: $rev, sn: $sn, uptime: $uptime, temp: $temp, sysTotal: $sysTotal, sysFree: $sysFree, epiTotal: $epiTotal, epiFree: $epiFree, socket: $socket)';
   }
 }

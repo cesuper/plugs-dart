@@ -14,9 +14,9 @@ class Memory {
   final Header header;
 
   // content
-  dynamic content;
+  final dynamic content;
 
-  Memory(this.address, this.total, this.free, this.header, {this.content});
+  Memory(this.address, this.total, this.free, this.header, this.content);
 
   Map<String, dynamic> toMap() {
     return {
@@ -34,7 +34,7 @@ class Memory {
       map['total']?.toInt() ?? 0,
       map['free']?.toInt() ?? 0,
       Header.fromMap(map['header']),
-      content: map['content'],
+      map['content'] ?? null,
     );
   }
 
