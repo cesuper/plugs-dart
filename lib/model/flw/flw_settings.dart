@@ -28,5 +28,5 @@ class FlwSettings {
       FlwSettings.fromMap(json.decode(source));
 
   @override
-  String toString() => 'SfpSettings(delay: $delay, sensors: $sensors)';
+  String toString() => 'FlwSettings(delay: $delay, sensors: $sensors)';
 }
