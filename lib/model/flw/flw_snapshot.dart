@@ -1,12 +1,12 @@
 part of plugs;
 
-class SfpSnapshot {
+class FlwSnapshot {
   // timestamp of the snapshot, when data is created
   final int ts;
   //
-  final List<SfpSensorData> sensors;
+  final List<FlwSensorData> sensors;
 
-  SfpSnapshot(this.ts, this.sensors);
+  FlwSnapshot(this.ts, this.sensors);
 
   Map<String, dynamic> toMap() {
     return {
@@ -15,18 +15,18 @@ class SfpSnapshot {
     };
   }
 
-  factory SfpSnapshot.fromMap(Map<String, dynamic> map) {
-    return SfpSnapshot(
+  factory FlwSnapshot.fromMap(Map<String, dynamic> map) {
+    return FlwSnapshot(
       map['ts']?.toInt() ?? 0,
-      List<SfpSensorData>.from(
-          map['sensors']?.map((x) => SfpSensorData.fromMap(x))),
+      List<FlwSensorData>.from(
+          map['sensors']?.map((x) => FlwSensorData.fromMap(x))),
     );
   }
 
   String toJson() => json.encode(toMap());
 
-  factory SfpSnapshot.fromJson(String source) =>
-      SfpSnapshot.fromMap(json.decode(source));
+  factory FlwSnapshot.fromJson(String source) =>
+      FlwSnapshot.fromMap(json.decode(source));
 
   @override
   String toString() => 'SfpSnapshot(ts: $ts, sensors: $sensors)';

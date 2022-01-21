@@ -140,10 +140,10 @@ class ApiClient {
           return List<String>.from(value);
         case 'Info':
           return Info.fromMap(value);
-        case 'SfpSettings':
-          return SfpSettings.fromMap(value);
-        case 'SfpSnapshot':
-          return SfpSnapshot.fromMap(value);
+        case 'FlwSettings':
+          return FlwSettings.fromMap(value);
+        case 'FlwSnapshot':
+          return FlwSnapshot.fromMap(value);
       }
     } catch (error, trace) {
       throw ApiException.withInner(HttpStatus.internalServerError,

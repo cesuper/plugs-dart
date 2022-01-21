@@ -1,19 +1,19 @@
 part of plugs;
 
-class SfpApi {
+class FlwApi {
   //
   final ApiClient apiClient;
 
-  SfpApi(this.apiClient);
+  FlwApi(this.apiClient);
 
   ///
-  Future<void> setSettings(SfpSettings settings) async {
+  Future<void> setSettings(FlwSettings settings) async {
     throw UnimplementedError();
   }
 
   ///
-  Future<SfpSettings> getSettings() async {
-    const path = r'/ain/settings.cgi';
+  Future<FlwSettings> getSettings() async {
+    const path = r'/flw/settings.cgi';
     final queryParams = <QueryParam>[];
     const body = null;
     final headerParams = <String, String>{};
@@ -49,16 +49,16 @@ class SfpApi {
       return await deserializeAsync(
         DeserializationMessage(
           json: await _decodeBodyBytes(response),
-          targetType: (SfpSettings).toString(),
+          targetType: (FlwSettings).toString(),
         ),
-      ) as SfpSettings;
+      ) as FlwSettings;
     }
     throw ApiException(response.statusCode, await _decodeBodyBytes(response));
   }
 
   ///
-  Future<SfpSnapshot> getSnapshot() async {
-    const path = r'/ain.cgi';
+  Future<FlwSnapshot> getSnapshot() async {
+    const path = r'/flw.cgi';
     final queryParams = <QueryParam>[];
     const body = null;
     final headerParams = <String, String>{};
@@ -94,9 +94,9 @@ class SfpApi {
       return await deserializeAsync(
         DeserializationMessage(
           json: await _decodeBodyBytes(response),
-          targetType: (SfpSnapshot).toString(),
+          targetType: (FlwSnapshot).toString(),
         ),
-      ) as SfpSnapshot;
+      ) as FlwSnapshot;
     }
     throw ApiException(response.statusCode, await _decodeBodyBytes(response));
   }

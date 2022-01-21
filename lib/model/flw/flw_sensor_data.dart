@@ -1,6 +1,6 @@
 part of plugs;
 
-class SfpSensorData {
+class FlwSensorData {
   /// plug serial number from where the adata is originated
   final String plug;
 
@@ -20,25 +20,25 @@ class SfpSensorData {
   final String dir;
 
   /// Flowrate value in l/min
-  final num v;
+  final num flowrate;
 
   /// Temperature value in Celsius
-  final num t;
+  final num temperature;
 
   /// Pressure value in Bar
-  final num p;
+  final num pressure;
 
   ///
-  SfpSensorData(
+  FlwSensorData(
     this.plug,
     this.status,
     this.serial,
     this.name,
     this.group,
     this.dir,
-    this.v,
-    this.t,
-    this.p,
+    this.flowrate,
+    this.temperature,
+    this.pressure,
   );
 
   Map<String, dynamic> toMap() {
@@ -49,33 +49,33 @@ class SfpSensorData {
       'name': name,
       'group': group,
       'dir': dir,
-      'v': v,
-      't': t,
-      'p': p,
+      'flowrate': flowrate,
+      'temperature': temperature,
+      'pressure': pressure,
     };
   }
 
-  factory SfpSensorData.fromMap(Map<String, dynamic> map) {
-    return SfpSensorData(
+  factory FlwSensorData.fromMap(Map<String, dynamic> map) {
+    return FlwSensorData(
       map['plug'] ?? '',
       map['status']?.toInt() ?? 0,
       map['serial'] ?? '',
       map['name'] ?? '',
       map['group'] ?? '',
       map['dir'] ?? '',
-      map['v'] ?? 0,
-      map['t'] ?? 0,
-      map['p'] ?? 0,
+      map['flowrate'] ?? 0,
+      map['temperature'] ?? 0,
+      map['pressure'] ?? 0,
     );
   }
 
   String toJson() => json.encode(toMap());
 
-  factory SfpSensorData.fromJson(String source) =>
-      SfpSensorData.fromMap(json.decode(source));
+  factory FlwSensorData.fromJson(String source) =>
+      FlwSensorData.fromMap(json.decode(source));
 
   @override
   String toString() {
-    return 'SfpSensorData(plug: $plug, status: $status, serial: $serial, name: $name, group: $group, dir: $dir, v: $v, t: $t, p: $p)';
+    return 'SfpSensorData(plug: $plug, status: $status, serial: $serial, name: $name, group: $group, dir: $dir, flowrate: $flowrate, temperature: $temperature, pressure: $pressure)';
   }
 }

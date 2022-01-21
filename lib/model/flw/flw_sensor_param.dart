@@ -1,6 +1,6 @@
 part of plugs;
 
-class SfpSensorParam {
+class FlwSensorParam {
   final String serial;
 
   final String name;
@@ -9,7 +9,7 @@ class SfpSensorParam {
 
   final String dir;
 
-  SfpSensorParam(this.serial, this.name, this.group, this.dir);
+  FlwSensorParam(this.serial, this.name, this.group, this.dir);
 
   Map<String, dynamic> toMap() {
     return {
@@ -20,8 +20,8 @@ class SfpSensorParam {
     };
   }
 
-  factory SfpSensorParam.fromMap(Map<String, dynamic> map) {
-    return SfpSensorParam(
+  factory FlwSensorParam.fromMap(Map<String, dynamic> map) {
+    return FlwSensorParam(
       map['serial'] ?? '',
       map['name'] ?? '',
       map['group'] ?? '',
@@ -31,8 +31,8 @@ class SfpSensorParam {
 
   String toJson() => json.encode(toMap());
 
-  factory SfpSensorParam.fromJson(String source) =>
-      SfpSensorParam.fromMap(json.decode(source));
+  factory FlwSensorParam.fromJson(String source) =>
+      FlwSensorParam.fromMap(json.decode(source));
 
   @override
   String toString() {
