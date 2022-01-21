@@ -6,15 +6,15 @@ import 'package:test/test.dart';
 void main() async {
   //
   var client = PlugClient('http://192.168.100.101');
-  final sfpApi = client.getSfpApi();
+  final flwApi = client.getFlwApi();
 
   test('Settings', () async {
-    final settings = await sfpApi.getSettings();
+    final settings = await flwApi.getSettings();
     print(settings);
   });
 
   test('Snapshot', () async {
-    final snapshot = await sfpApi.getSnapshot();
+    final snapshot = await flwApi.getSnapshot();
     print(snapshot);
   });
 }
