@@ -8,11 +8,11 @@ void main() async {
   final client = PlugClient('http://192.168.100.101');
   final plugApi = client.getPlugApi();
 
-  test('Info', () async {
-    final info = await plugApi.getInfo();
-    print(info);
+  test('Plug', () async {
+    final plug = await plugApi.getPlug();
+    print(plug);
 
-    final socket = info.socket;
+    final socket = plug.socket;
     print(socket.memory?.content);
   });
 

@@ -1,6 +1,6 @@
 part of plugs;
 
-class Info {
+class Plug {
   // plug device code that identifies the family and model with a single number
   final int code;
 
@@ -50,7 +50,7 @@ class Info {
   //
   final Socket socket;
 
-  Info(
+  Plug(
       this.code,
       this.serial,
       this.mac,
@@ -89,8 +89,8 @@ class Info {
     };
   }
 
-  factory Info.fromMap(Map<String, dynamic> map) {
-    return Info(
+  factory Plug.fromMap(Map<String, dynamic> map) {
+    return Plug(
       map['code']?.toInt() ?? 0,
       map['serial'] ?? '',
       map['mac'] ?? '',
@@ -112,10 +112,10 @@ class Info {
 
   String toJson() => json.encode(toMap());
 
-  factory Info.fromJson(String source) => Info.fromMap(json.decode(source));
+  factory Plug.fromJson(String source) => Plug.fromMap(json.decode(source));
 
   @override
   String toString() {
-    return 'Info(code: $code, serial: $serial, mac: $mac, fw: $fw, build: $build, family: $family, model: $model, rev: $rev, sn: $sn, uptime: $uptime, temp: $temp, sysTotal: $sysTotal, sysFree: $sysFree, epiTotal: $epiTotal, epiFree: $epiFree, socket: $socket)';
+    return 'Plug(code: $code, serial: $serial, mac: $mac, fw: $fw, build: $build, family: $family, model: $model, rev: $rev, sn: $sn, uptime: $uptime, temp: $temp, sysTotal: $sysTotal, sysFree: $sysFree, epiTotal: $epiTotal, epiFree: $epiFree, socket: $socket)';
   }
 }

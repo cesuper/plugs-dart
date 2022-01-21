@@ -22,14 +22,13 @@ part 'api/flw_api.dart';
 // models
 part 'model/discovery_result.dart';
 part 'model/memory.dart';
-part 'model/info.dart';
+part 'model/plug.dart';
 part 'model/socket.dart';
 
 // models/sfp
 part 'model/flw/flw_sensor_data.dart';
 part 'model/flw/flw_sensor_param.dart';
-part 'model/flw/flw_settings.dart';
-part 'model/flw/flw_snapshot.dart';
+part 'model/flw/flw.dart';
 
 // utils
 part 'utils/code.dart';

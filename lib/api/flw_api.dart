@@ -57,7 +57,7 @@ class FlwApi {
   }
 
   ///
-  Future<FlwSnapshot> getSnapshot() async {
+  Future<Flw> getFlw() async {
     const path = r'/flw.cgi';
     final queryParams = <QueryParam>[];
     const body = null;
@@ -94,9 +94,9 @@ class FlwApi {
       return await deserializeAsync(
         DeserializationMessage(
           json: await _decodeBodyBytes(response),
-          targetType: (FlwSnapshot).toString(),
+          targetType: (Flw).toString(),
         ),
-      ) as FlwSnapshot;
+      ) as Flw;
     }
     throw ApiException(response.statusCode, await _decodeBodyBytes(response));
   }

@@ -14,7 +14,7 @@ void main() async {
   });
 
   test('Snapshot', () async {
-    final snapshot = await flwApi.getSnapshot();
-    print(snapshot);
+    final flw = await flwApi.getFlw();
+    print(flw);
   });
 }
