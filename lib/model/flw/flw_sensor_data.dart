@@ -76,6 +76,6 @@ class FlwSensorData {
 
   @override
   String toString() {
-    return 'SfpSensorData(plug: $plug, status: $status, serial: $serial, name: $name, group: $group, dir: $dir, flowrate: $flowrate, temperature: $temperature, pressure: $pressure)';
+    return 'FlwSensorData(plug: $plug, status: $status, serial: $serial, name: $name, group: $group, dir: $dir, flowrate: $flowrate, temperature: $temperature, pressure: $pressure)';
   }
 }

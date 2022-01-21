@@ -36,6 +36,6 @@ class FlwSensorParam {
 
   @override
   String toString() {
-    return 'SfpSensorParam(serial: $serial, name: $name, group: $group, dir: $dir)';
+    return 'FlwSensorParam(serial: $serial, name: $name, group: $group, dir: $dir)';
   }
 }

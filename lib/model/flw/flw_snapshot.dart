@@ -29,5 +29,5 @@ class FlwSnapshot {
       FlwSnapshot.fromMap(json.decode(source));
 
   @override
-  String toString() => 'SfpSnapshot(ts: $ts, sensors: $sensors)';
+  String toString() => 'FlwSnapshot(ts: $ts, sensors: $sensors)';
 }
