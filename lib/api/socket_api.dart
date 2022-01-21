@@ -10,7 +10,7 @@ class SocketApi {
   // TODO: POST MEMORY
 
   //
-  Future<String> readMemory() async {
+  Future<dynamic> readMemory() async {
     const path = r'/memory.cgi';
     final queryParams = <QueryParam>[];
     const body = null;
@@ -40,28 +40,17 @@ class SocketApi {
       throw ApiException(response.statusCode, await _decodeBodyBytes(response));
     }
 
-    // When a remote server returns no body with a status of 204, we shall not decode it.
-    // At the time of writing this, `dart:convert` will throw an "Unexpected end of input"
-    // FormatException when trying to decode an empty string.
-    if (response.statusCode != HttpStatus.noContent) {
-      return await deserializeAsync(
-        DeserializationMessage(
-          json: await _decodeBodyBytes(response),
-          targetType: 'String',
-        ),
-      ) as String;
-    }
-    throw ApiException(response.statusCode, await _decodeBodyBytes(response));
+    return jsonDecode(response.body);
   }
 
   //
-  Future<String> writeMemory() async {
+  Future<Response> _writeMemoryWithHttpInfo(Object? content) async {
     const path = r'/memory.cgi';
     final queryParams = <QueryParam>[];
-    const body = null;
+    final body = content;
     final headerParams = <String, String>{};
     final formParams = <String, String>{};
-    final contentTypes = <String>[];
+    const contentTypes = <String>['application/json'];
     const authNames = <String>[
       'BasicAuthentication',
       'QuerystringAuthentication',
@@ -69,7 +58,7 @@ class SocketApi {
     ];
 
     //
-    final response = await apiClient.invokeAPI(
+    return await apiClient.invokeAPI(
       path,
       'POST',
       queryParams,
@@ -79,23 +68,14 @@ class SocketApi {
       contentTypes.isEmpty ? null : contentTypes[0],
       authNames,
     );
+  }
 
-    //
+  ///
+  Future<void> writeMemory(Object? content) async {
+    final response = await _writeMemoryWithHttpInfo(content);
+
     if (response.statusCode >= HttpStatus.badRequest) {
       throw ApiException(response.statusCode, await _decodeBodyBytes(response));
     }
-
-    // When a remote server returns no body with a status of 204, we shall not decode it.
-    // At the time of writing this, `dart:convert` will throw an "Unexpected end of input"
-    // FormatException when trying to decode an empty string.
-    if (response.statusCode != HttpStatus.noContent) {
-      return await deserializeAsync(
-        DeserializationMessage(
-          json: await _decodeBodyBytes(response),
-          targetType: 'String',
-        ),
-      ) as String;
-    }
-    throw ApiException(response.statusCode, await _decodeBodyBytes(response));
   }
 }

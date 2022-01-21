@@ -44,6 +44,8 @@ class PlugClient {
 
   PlugApi getPlugApi() => PlugApi(getApiClient(basePath: '/api'));
 
+  SocketApi getSocketApi() => SocketApi(getApiClient(basePath: '/api/socket'));
+
   SfpApi getSfpApi() => SfpApi(getApiClient(basePath: '/api'));
 
   ///
