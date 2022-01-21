@@ -7,10 +7,6 @@ class PlugApi {
   //
   PlugApi(this.apiClient);
 
-  // TODO: POST RESTART
-
-  // TODO: POST EEPROM
-
   ///
   Future<Info> getInfo() async {
     const path = r'/plug.cgi';
@@ -57,13 +53,13 @@ class PlugApi {
   }
 
   ///
-  Future<String> getEeprom() async {
-    const path = r'/plug/eeprom.cgi';
+  Future<Response> _restartWithHttpInfo(bool bootloader) async {
+    const path = r'/plug/restart.cgi';
     final queryParams = <QueryParam>[];
-    const body = null;
+    final body = bootloader ? {'bootloader': true} : {};
     final headerParams = <String, String>{};
     final formParams = <String, String>{};
-    final contentTypes = <String>[];
+    const contentTypes = <String>['application/json'];
     const authNames = <String>[
       'BasicAuthentication',
       'QuerystringAuthentication',
@@ -71,9 +67,9 @@ class PlugApi {
     ];
 
     //
-    final response = await apiClient.invokeAPI(
+    return await apiClient.invokeAPI(
       path,
-      'GET',
+      'POST',
       queryParams,
       body,
       headerParams,
@@ -81,23 +77,14 @@ class PlugApi {
       contentTypes.isEmpty ? null : contentTypes[0],
       authNames,
     );
+  }
 
-    //
+  ///
+  Future<void> restart({bool bootloader = false}) async {
+    final response = await _restartWithHttpInfo(bootloader);
+
     if (response.statusCode >= HttpStatus.badRequest) {
       throw ApiException(response.statusCode, await _decodeBodyBytes(response));
     }
-
-    // When a remote server returns no body with a status of 204, we shall not decode it.
-    // At the time of writing this, `dart:convert` will throw an "Unexpected end of input"
-    // FormatException when trying to decode an empty string.
-    if (response.statusCode != HttpStatus.noContent) {
-      return await deserializeAsync(
-        DeserializationMessage(
-          json: await _decodeBodyBytes(response),
-          targetType: 'String',
-        ),
-      ) as String;
-    }
-    throw ApiException(response.statusCode, await _decodeBodyBytes(response));
   }
 }

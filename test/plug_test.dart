@@ -5,28 +5,27 @@ import 'package:test/test.dart';
 
 void main() async {
   //
-  var client = PlugClient('http://192.168.100.101');
+  final client = PlugClient('http://192.168.100.101');
+  final plugApi = client.getPlugApi();
 
-  test('Device', () async {
-    //
-    final deviceApi = client.getDeviceApi();
-    final info = await deviceApi.getInfo();
+  test('Info', () async {
+    final info = await plugApi.getInfo();
     print(info);
 
     final socket = info.socket;
     print(socket.memory?.content);
   });
 
+  test('Reboot', () async {
+    await plugApi.restart(bootloader: false);
+  });
+
+  test('Bootloader', () async {
+    await plugApi.restart(bootloader: true);
+  });
+
   // test('Diagnostic', () async {
   //   // here we expect only response
   //   print(await plug.diagnostic());
-  // });
-
-  // test('Restart', () async {
-  //   expect(await plug.restart(), 200);
-  // });
-
-  // test('Bootloader', () async {
-  //   expect(await plug.restart(bootloader: true), 200);
   // });
 }
