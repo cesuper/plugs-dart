@@ -1,6 +1,9 @@
 part of plugs;
 
 class Plug {
+  // plug ipv4 address
+  final String address;
+
   // plug device code that identifies the family and model with a single number
   final int code;
 
@@ -51,6 +54,7 @@ class Plug {
   final Socket socket;
 
   Plug(
+      this.address,
       this.code,
       this.serial,
       this.mac,
@@ -70,6 +74,7 @@ class Plug {
 
   Map<String, dynamic> toMap() {
     return {
+      'address': address,
       'code': code,
       'serial': serial,
       'mac': mac,
@@ -91,6 +96,7 @@ class Plug {
 
   factory Plug.fromMap(Map<String, dynamic> map) {
     return Plug(
+      map['address'] ?? '',
       map['code']?.toInt() ?? 0,
       map['serial'] ?? '',
       map['mac'] ?? '',
@@ -116,6 +122,6 @@ class Plug {
 
   @override
   String toString() {
-    return 'Plug(code: $code, serial: $serial, mac: $mac, fw: $fw, build: $build, family: $family, model: $model, rev: $rev, sn: $sn, uptime: $uptime, temp: $temp, sysTotal: $sysTotal, sysFree: $sysFree, epiTotal: $epiTotal, epiFree: $epiFree, socket: $socket)';
+    return 'Plug(address: $address, code: $code, serial: $serial, mac: $mac, fw: $fw, build: $build, family: $family, model: $model, rev: $rev, sn: $sn, uptime: $uptime, temp: $temp, sysTotal: $sysTotal, sysFree: $sysFree, epiTotal: $epiTotal, epiFree: $epiFree, socket: $socket)';
   }
 }

@@ -18,11 +18,11 @@ void main() async {
 
   test('Reboot', () async {
     await plugApi.restart(bootloader: false);
-  });
+  }, skip: true);
 
   test('Bootloader', () async {
     await plugApi.restart(bootloader: true);
-  });
+  }, skip: true);
 
   // test('Diagnostic', () async {
   //   // here we expect only response
