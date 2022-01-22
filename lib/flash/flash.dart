@@ -39,6 +39,23 @@ class Flash {
     return true;
   }
 
+  ///
+  static bool isFirmwareSupported(String serial, String filename) {
+    //
+    String family = serial.substring(0, 3);
+
+    // device model like: 9,32
+    String model = serial.substring(3, serial.indexOf('-'));
+
+    // device revision like: 1, 2,
+    int rev = int.parse(serial.split('-')[1].substring(1));
+
+    // Returns filename prefix based on device properties
+    String filenamePrefix = '$family$model-r$rev';
+
+    return filename.startsWith(filenamePrefix) && filename.endsWith('.bin');
+  }
+
   /// Performs safe firmware update on plug specified by [mac] address or
   /// throws [FlashException] on failure with reason.
   ///
@@ -75,11 +92,10 @@ class Flash {
     // obtain Info instance from the plug, and verify the firmware support
     final device = devices.firstWhere((e) => e.mac == mac);
 
-    throw UnimplementedError('Implement firmware support check');
-    // // check if firmware is supported by the hardware
-    // if (device.isFirmwareSupported(filename) == false) {
-    //   throw FlashException('Firmware $filename not supported');
-    // }
+    // check if firmware is supported by the hardware
+    if (isFirmwareSupported(device.serial, filename) == false) {
+      throw FlashException('Firmware $filename not supported');
+    }
 
     // read the firmware
     final firmware = file.readAsBytesSync();
