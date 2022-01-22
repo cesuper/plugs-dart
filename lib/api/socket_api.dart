@@ -7,9 +7,7 @@ class SocketApi {
   //
   SocketApi(this.apiClient);
 
-  // TODO: POST MEMORY
-
-  //
+  ///
   Future<dynamic> readMemory() async {
     const path = r'/memory.cgi';
     final queryParams = <QueryParam>[];

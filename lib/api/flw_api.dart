@@ -51,7 +51,7 @@ class FlwApi {
     throw ApiException(response.statusCode, await _decodeBodyBytes(response));
   }
 
-  //
+  ///
   Future<Response> _writeMemoryWithHttpInfo(Flw flw) async {
     const path = r'/flw.cgi';
     final queryParams = <QueryParam>[];
@@ -78,6 +78,7 @@ class FlwApi {
     );
   }
 
+  ///
   Future<void> setFlw(Flw flw) async {
     final response = await _writeMemoryWithHttpInfo(flw);
 
