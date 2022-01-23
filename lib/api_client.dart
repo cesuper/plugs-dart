@@ -134,7 +134,7 @@ class ApiClient {
         case 'List<String>':
           return List<String>.from(value);
         case 'FlwPlugState':
-          return FlwPlugStateOld.fromMap(value);
+          return FlwPlugState.fromMap(value);
       }
     } catch (error, trace) {
       throw ApiException.withInner(HttpStatus.internalServerError,

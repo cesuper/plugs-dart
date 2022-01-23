@@ -21,6 +21,7 @@ part 'api/flw_plug_api.dart';
 
 // models
 part 'model/discovery_result.dart';
+part 'model/flw_plug_state.dart';
 part 'model/memory.dart';
 part 'model/plug.dart';
 part 'model/socket.dart';
