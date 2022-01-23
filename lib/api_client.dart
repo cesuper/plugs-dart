@@ -10,11 +10,6 @@ class ApiClient {
   ///
   var _client = Client();
 
-  /// Returns the current HTTP [Client] instance to use in this class.
-  ///
-  /// The return value is guaranteed to never be null.
-  Client get client => _client;
-
   /// Requests to use a new HTTP [Client] in this class.
   ///
   /// If the [newClient] is null, an [ArgumentError] is thrown.
@@ -138,10 +133,10 @@ class ApiClient {
           return value is double ? value : double.parse('$value');
         case 'List<String>':
           return List<String>.from(value);
-        case 'Plug':
-          return Plug.fromMap(value);
-        case 'Flw':
-          return Flw.fromMap(value);
+        case 'PlugState':
+          return PlugState.fromMap(value);
+        case 'FlwPlugState':
+          return FlwPlugState.fromMap(value);
       }
     } catch (error, trace) {
       throw ApiException.withInner(HttpStatus.internalServerError,

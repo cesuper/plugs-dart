@@ -9,10 +9,10 @@ void main() async {
   final plugApi = client.getPlugApi();
 
   test('Plug', () async {
-    final plug = await plugApi.getPlug();
-    print(plug);
+    final state = await plugApi.getState();
+    print(state);
 
-    final socket = plug.socket;
+    final socket = state.socket;
     print(socket.memory?.content);
   });
 

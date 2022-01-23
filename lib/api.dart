@@ -17,7 +17,7 @@ part 'client/plug_client.dart';
 // api
 part 'api/plug_api.dart';
 part 'api/socket_api.dart';
-part 'api/flw_api.dart';
+part 'api/flw_plug_api.dart';
 
 // models
 part 'model/discovery_result.dart';
@@ -27,8 +27,7 @@ part 'model/socket.dart';
 
 // models/sfp
 part 'model/flw/flw_sensor_data.dart';
-part 'model/flw/flw_sensor_param.dart';
-part 'model/flw/flw.dart';
+part 'model/flw/flw_plug_state.dart';
 
 // utils
 part 'utils/code.dart';

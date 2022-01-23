@@ -1,12 +1,12 @@
 part of plugs;
 
-class Flw {
+class FlwPlugState {
   //
   final int delay;
   //
   final List<FlwSensorData> sensors;
 
-  Flw(this.delay, this.sensors);
+  FlwPlugState(this.delay, this.sensors);
 
   Map<String, dynamic> toMap() {
     return {
@@ -15,8 +15,8 @@ class Flw {
     };
   }
 
-  factory Flw.fromMap(Map<String, dynamic> map) {
-    return Flw(
+  factory FlwPlugState.fromMap(Map<String, dynamic> map) {
+    return FlwPlugState(
       map['delay']?.toInt() ?? 0,
       List<FlwSensorData>.from(
           map['sensors']?.map((x) => FlwSensorData.fromMap(x))),
@@ -25,8 +25,9 @@ class Flw {
 
   String toJson() => json.encode(toMap());
 
-  factory Flw.fromJson(String source) => Flw.fromMap(json.decode(source));
+  factory FlwPlugState.fromJson(String source) =>
+      FlwPlugState.fromMap(json.decode(source));
 
   @override
-  String toString() => 'Flw(delay: $delay, sensors: $sensors)';
+  String toString() => 'FlwPlugState(delay: $delay, sensors: $sensors)';
 }

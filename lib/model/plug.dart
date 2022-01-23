@@ -1,6 +1,6 @@
 part of plugs;
 
-class Plug {
+class PlugState {
   // plug ipv4 address
   final String address;
 
@@ -53,7 +53,7 @@ class Plug {
   //
   final Socket socket;
 
-  Plug(
+  PlugState(
       this.address,
       this.code,
       this.serial,
@@ -94,8 +94,8 @@ class Plug {
     };
   }
 
-  factory Plug.fromMap(Map<String, dynamic> map) {
-    return Plug(
+  factory PlugState.fromMap(Map<String, dynamic> map) {
+    return PlugState(
       map['address'] ?? '',
       map['code']?.toInt() ?? 0,
       map['serial'] ?? '',
@@ -118,7 +118,8 @@ class Plug {
 
   String toJson() => json.encode(toMap());
 
-  factory Plug.fromJson(String source) => Plug.fromMap(json.decode(source));
+  factory PlugState.fromJson(String source) =>
+      PlugState.fromMap(json.decode(source));
 
   @override
   String toString() {

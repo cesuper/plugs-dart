@@ -46,7 +46,7 @@ class PlugClient {
 
   SocketApi getSocketApi() => SocketApi(getApiClient(basePath: '/api/socket'));
 
-  FlwApi getFlwApi() => FlwApi(getApiClient(basePath: '/api'));
+  FlwPlugApi getFlwPlugApi() => FlwPlugApi(getApiClient(basePath: '/api'));
 
   ///
   //SysApi getSysApi() => SysApi(getApiClient(basePath: '/api/sys'));

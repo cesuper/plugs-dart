@@ -34,7 +34,7 @@ class Memory {
       map['total']?.toInt() ?? 0,
       map['free']?.toInt() ?? 0,
       Header.fromMap(map['header']),
-      map['content'] ?? null,
+      map['content'],
     );
   }
 

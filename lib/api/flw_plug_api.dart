@@ -1,13 +1,13 @@
 part of plugs;
 
-class FlwApi {
+class FlwPlugApi {
   //
   final ApiClient apiClient;
 
-  FlwApi(this.apiClient);
+  FlwPlugApi(this.apiClient);
 
   ///
-  Future<Flw> getFlw() async {
+  Future<FlwPlugState> getState() async {
     const path = r'/flw.cgi';
     final queryParams = <QueryParam>[];
     const body = null;
@@ -44,15 +44,15 @@ class FlwApi {
       return await deserializeAsync(
         DeserializationMessage(
           json: await _decodeBodyBytes(response),
-          targetType: (Flw).toString(),
+          targetType: (FlwPlugState).toString(),
         ),
-      ) as Flw;
+      ) as FlwPlugState;
     }
     throw ApiException(response.statusCode, await _decodeBodyBytes(response));
   }
 
   ///
-  Future<Response> _writeMemoryWithHttpInfo(Flw flw) async {
+  Future<Response> _writeMemoryWithHttpInfo(FlwPlugState flw) async {
     const path = r'/flw.cgi';
     final queryParams = <QueryParam>[];
     final body = flw.toMap();
@@ -79,7 +79,7 @@ class FlwApi {
   }
 
   ///
-  Future<void> setFlw(Flw flw) async {
+  Future<void> setState(FlwPlugState flw) async {
     final response = await _writeMemoryWithHttpInfo(flw);
 
     if (response.statusCode >= HttpStatus.badRequest) {
