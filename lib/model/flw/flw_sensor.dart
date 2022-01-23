@@ -1,6 +1,6 @@
 part of plugs;
 
-class FlwSensorData {
+class FlwSensor {
   /// plug serial number from where the adata is originated
   final String plug;
 
@@ -29,7 +29,7 @@ class FlwSensorData {
   final num pressure;
 
   ///
-  FlwSensorData(
+  FlwSensor(
     this.plug,
     this.status,
     this.serial,
@@ -55,8 +55,8 @@ class FlwSensorData {
     };
   }
 
-  factory FlwSensorData.fromMap(Map<String, dynamic> map) {
-    return FlwSensorData(
+  factory FlwSensor.fromMap(Map<String, dynamic> map) {
+    return FlwSensor(
       map['plug'] ?? '',
       map['status']?.toInt() ?? 0,
       map['serial'] ?? '',
@@ -71,11 +71,11 @@ class FlwSensorData {
 
   String toJson() => json.encode(toMap());
 
-  factory FlwSensorData.fromJson(String source) =>
-      FlwSensorData.fromMap(json.decode(source));
+  factory FlwSensor.fromJson(String source) =>
+      FlwSensor.fromMap(json.decode(source));
 
   @override
   String toString() {
-    return 'FlwSensorData(plug: $plug, status: $status, serial: $serial, name: $name, group: $group, dir: $dir, flowrate: $flowrate, temperature: $temperature, pressure: $pressure)';
+    return 'FlwSensor(plug: $plug, status: $status, serial: $serial, name: $name, group: $group, dir: $dir, flowrate: $flowrate, temperature: $temperature, pressure: $pressure)';
   }
 }
