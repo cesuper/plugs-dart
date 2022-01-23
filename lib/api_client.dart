@@ -133,10 +133,8 @@ class ApiClient {
           return value is double ? value : double.parse('$value');
         case 'List<String>':
           return List<String>.from(value);
-        case 'PlugState':
-          return PlugState.fromMap(value);
         case 'FlwPlugState':
-          return FlwPlugState.fromMap(value);
+          return FlwPlugStateOld.fromMap(value);
       }
     } catch (error, trace) {
       throw ApiException.withInner(HttpStatus.internalServerError,

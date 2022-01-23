@@ -46,19 +46,7 @@ class PlugClient {
 
   SocketApi getSocketApi() => SocketApi(getApiClient(basePath: '/api/socket'));
 
-  FlwPlugApi getFlwPlugApi() => FlwPlugApi(getApiClient(basePath: '/api'));
-
-  ///
-  //SysApi getSysApi() => SysApi(getApiClient(basePath: '/api/sys'));
-
-  ///
-  //AssetApi getAssetApi() => AssetApi(getApiClient(basePath: '/api/asset'));
-
-  ///
-  //PlugsApi getPlugsApi() => PlugsApi(getApiClient(basePath: '/api/plugs'));
-
-  ///
-  //FlwApi getFlwApi() => FlwApi(getApiClient(basePath: '/api'));
+  FlwPlugApi getFlwPlugApi() => FlwPlugApi(getApiClient(basePath: '/api/flw'));
 }
 
 /// Logging wrapper for http client.

@@ -18,7 +18,7 @@ void main() async {
     final state = await api.getState();
     print(state);
 
-    final newState = FlwPlugState(1500, state.sensors);
+    final newState = FlwPlugStateOld(1500, state.sensors);
     print(newState);
 
     // set new
