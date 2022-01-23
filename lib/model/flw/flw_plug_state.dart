@@ -4,7 +4,7 @@ class FlwPlugState {
   //
   final int delay;
   //
-  final List<FlwSensor> sensors;
+  final List<FlwSensorState> sensors;
 
   FlwPlugState(this.delay, this.sensors);
 
@@ -18,7 +18,8 @@ class FlwPlugState {
   factory FlwPlugState.fromMap(Map<String, dynamic> map) {
     return FlwPlugState(
       map['delay']?.toInt() ?? 0,
-      List<FlwSensor>.from(map['sensors']?.map((x) => FlwSensor.fromMap(x))),
+      List<FlwSensorState>.from(
+          map['sensors']?.map((x) => FlwSensorState.fromMap(x))),
     );
   }
 

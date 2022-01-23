@@ -26,7 +26,7 @@ part 'model/plug_state.dart';
 part 'model/socket.dart';
 
 // models/sfp
-part 'model/flw/flw_sensor.dart';
+part 'model/flw/flw_sensor_state.dart';
 part 'model/flw/flw_plug_state.dart';
 
 // utils
