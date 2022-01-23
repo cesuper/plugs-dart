@@ -5,8 +5,13 @@ import 'package:test/test.dart';
 
 void main() async {
   //
-  final client = PlugClient('http://192.168.100.101');
+  final client = PlugClient('http://192.168.100.100');
   final socketApi = client.getSocketApi();
+
+  test('Socket', () async {
+    final state = await socketApi.getState();
+    print(state);
+  });
 
   test('Read Memory', () async {
     final content = await socketApi.readMemory();

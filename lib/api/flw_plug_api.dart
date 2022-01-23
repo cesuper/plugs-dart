@@ -8,7 +8,7 @@ class FlwPlugApi {
 
   ///
   Future<FlwPlugState> getState() async {
-    const path = r'/plug.cgi';
+    const path = r'.cgi';
     final queryParams = <QueryParam>[];
     const body = null;
     final headerParams = <String, String>{};

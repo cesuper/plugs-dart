@@ -5,7 +5,7 @@ import 'package:test/test.dart';
 
 void main() async {
   //
-  final client = PlugClient('http://192.168.100.101');
+  final client = PlugClient('http://192.168.100.100');
   final plugApi = client.getPlugApi();
 
   test('Plug', () async {
