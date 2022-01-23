@@ -11,9 +11,6 @@ void main() async {
   test('Plug', () async {
     final state = await plugApi.getState();
     print(state);
-
-    final socket = state.socket;
-    print(socket.memory?.content);
   });
 
   test('Reboot', () async {

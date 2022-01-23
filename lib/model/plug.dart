@@ -50,27 +50,24 @@ class Plug {
   //
   final int epiFree;
 
-  //
-  final Socket socket;
-
   Plug(
-      this.address,
-      this.code,
-      this.serial,
-      this.mac,
-      this.fw,
-      this.build,
-      this.family,
-      this.model,
-      this.rev,
-      this.sn,
-      this.uptime,
-      this.temp,
-      this.sysTotal,
-      this.sysFree,
-      this.epiTotal,
-      this.epiFree,
-      this.socket);
+    this.address,
+    this.code,
+    this.serial,
+    this.mac,
+    this.fw,
+    this.build,
+    this.family,
+    this.model,
+    this.rev,
+    this.sn,
+    this.uptime,
+    this.temp,
+    this.sysTotal,
+    this.sysFree,
+    this.epiTotal,
+    this.epiFree,
+  );
 
   Map<String, dynamic> toMap() {
     return {
@@ -90,7 +87,6 @@ class Plug {
       'sysFree': sysFree,
       'epiTotal': epiTotal,
       'epiFree': epiFree,
-      'socket': socket.toMap(),
     };
   }
 
@@ -112,7 +108,6 @@ class Plug {
       map['sysFree']?.toInt() ?? 0,
       map['epiTotal']?.toInt() ?? 0,
       map['epiFree']?.toInt() ?? 0,
-      Socket.fromMap(map['socket']),
     );
   }
 
@@ -122,6 +117,6 @@ class Plug {
 
   @override
   String toString() {
-    return 'Plug(address: $address, code: $code, serial: $serial, mac: $mac, fw: $fw, build: $build, family: $family, model: $model, rev: $rev, sn: $sn, uptime: $uptime, temp: $temp, sysTotal: $sysTotal, sysFree: $sysFree, epiTotal: $epiTotal, epiFree: $epiFree, socket: $socket)';
+    return 'Plug(address: $address, code: $code, serial: $serial, mac: $mac, fw: $fw, build: $build, family: $family, model: $model, rev: $rev, sn: $sn, uptime: $uptime, temp: $temp, sysTotal: $sysTotal, sysFree: $sysFree, epiTotal: $epiTotal, epiFree: $epiFree)';
   }
 }

@@ -5,7 +5,7 @@ import 'package:test/test.dart';
 
 void main() async {
   //
-  var client = PlugClient('http://192.168.100.101');
+  var client = PlugClient('http://192.168.100.100');
   final api = client.getFlwPlugApi();
 
   test('Read', () async {
@@ -13,17 +13,17 @@ void main() async {
     print(state);
   });
 
-  test('Write', () async {
-    //
-    final state = await api.getState();
-    print(state);
+  // test('Write', () async {
+  //   //
+  //   final state = await api.getState();
+  //   print(state);
 
-    final newState = Flw(1500, state.sensors);
-    print(newState);
+  //   final newState = Flw(1500, state.sensors);
+  //   print(newState);
 
-    // set new
-    await api.setState(newState);
+  //   // set new
+  //   await api.setState(newState);
 
-    print(await api.getState());
-  });
+  //   print(await api.getState());
+  // });
 }

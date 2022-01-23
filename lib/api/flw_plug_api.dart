@@ -7,8 +7,8 @@ class FlwPlugApi {
   FlwPlugApi(this.apiClient);
 
   ///
-  Future<Flw> getState() async {
-    const path = r'/flw.cgi';
+  Future<FlwPlugState> getState() async {
+    const path = r'/plug.cgi';
     final queryParams = <QueryParam>[];
     const body = null;
     final headerParams = <String, String>{};
@@ -44,9 +44,9 @@ class FlwPlugApi {
       return await deserializeAsync(
         DeserializationMessage(
           json: await _decodeBodyBytes(response),
-          targetType: (Flw).toString(),
+          targetType: (FlwPlugState).toString(),
         ),
-      ) as Flw;
+      ) as FlwPlugState;
     }
     throw ApiException(response.statusCode, await _decodeBodyBytes(response));
   }
