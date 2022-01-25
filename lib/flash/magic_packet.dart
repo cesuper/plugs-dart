@@ -24,18 +24,19 @@ class MagicPacket {
     InternetAddress localAddress,
     InternetAddress remoteAddress, {
     Duration timeout = const Duration(seconds: 1),
+    Logger? logger,
     Level logLevel = Level.error,
   }) async {
     // create logger
-    final log = Logger(printer: PrettyPrinter(methodCount: 0), level: logLevel);
+    //final log = Logger(printer: PrettyPrinter(methodCount: 0), level: logLevel);
 
     //
-    log.d('Bindig socket for Magic Packet');
+    logger?.d('Bindig socket for Magic Packet');
 
     //
     await RawDatagramSocket.bind(localAddress, 0).then((socket) async {
       //
-      log.d('Sending Update request to $remoteAddress');
+      logger?.d('Sending Update request to $remoteAddress');
 
       // create request
       final request = List.generate(size, (index) => 0x00)
@@ -56,7 +57,7 @@ class MagicPacket {
 
             if (dg != null) {
               //
-              log.d('Response recieved: ' + String.fromCharCodes(dg.data));
+              logger?.d('Response recieved: ' + String.fromCharCodes(dg.data));
             }
           }
         });
@@ -64,7 +65,7 @@ class MagicPacket {
         //
       } catch (e) {
         // log error
-        log.e(e);
+        logger?.e(e);
       }
 
       // close the socket

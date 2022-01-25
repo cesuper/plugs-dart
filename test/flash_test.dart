@@ -14,7 +14,7 @@ import 'package:test/scaffolding.dart';
 final localAddress = InternetAddress('192.168.100.118');
 
 // firmware path
-const path = 'assets/sfp9-r2-1.12.1.bin';
+const path = 'assets/sfp9-r2-1.14.0.bin';
 
 void main() async {
   final file = File(Directory.current.path + '/' + path);
@@ -97,7 +97,7 @@ void main() async {
     // Test pass when device is available on the network after the flashing
 
     // target mac address to run the test on
-    const targetMac = '94-fb-a7-51-00-3b';
+    const targetMac = '94-fb-a7-51-00-8c';
 
     // get available devices
     var devices = await Discovery.discover(localAddress);
@@ -116,6 +116,7 @@ void main() async {
       firmware,
       magicPacket: true,
       timeout: const Duration(seconds: 5),
+      logger: Logger(printer: PrettyPrinter(methodCount: 0)),
       logLevel: Level.debug,
     );
 
@@ -139,7 +140,15 @@ void main() async {
     //
     const mac = '94-fb-a7-51-00-3b';
 
+    final logger = Logger(printer: PrettyPrinter(methodCount: 0));
+
     //
-    await Flash.flash(localAddress, mac, path);
+    await Flash.flash(
+      localAddress,
+      mac,
+      path,
+      logger: logger,
+      logLevel: Level.debug,
+    );
   });
 }

@@ -30,12 +30,13 @@ class TftpServer {
   static Future<bool> waitForTftpRrq(
     InternetAddress localAddress,
     Duration timeout, {
+    Logger? logger,
     Level logLevel = Level.error,
   }) async {
     //
-    final log = Logger(printer: PrettyPrinter(methodCount: 0), level: logLevel);
+    //final log = Logger(printer: PrettyPrinter(methodCount: 0), level: logLevel);
 
-    log.d('Starting TFTP server');
+    logger?.d('Starting TFTP server');
 
     // result flag
     bool isRequestArrived = false;
@@ -54,12 +55,12 @@ class TftpServer {
               // check for null
               if (dg != null) {
                 //
-                log.d('Verifying TFTP RRQ from ${dg.address}}: ${dg.port}');
+                logger?.d('Verifying TFTP RRQ from ${dg.address}}: ${dg.port}');
 
                 // check if tftp request is valid
                 if (_isValidTftpRrq(dg.data)) {
                   //
-                  log.d('Valid TFTP RRQ arrived');
+                  logger?.d('Valid TFTP RRQ arrived');
 
                   if (isRequestArrived == false) {
                     // set flag, to ignore multiple request
@@ -69,15 +70,15 @@ class TftpServer {
                     socket.close();
 
                     //
-                    log.i(
+                    logger?.i(
                         'TFTP RRQ operation completed: ${dg.address}}, port: ${dg.port}');
                   } else {
                     //
-                    log.d('Extra TFTP RRQ arrived');
+                    logger?.d('Extra TFTP RRQ arrived');
                   }
                 } else {
                   //
-                  log.e('Invalid TFTP RRQ');
+                  logger?.e('Invalid TFTP RRQ');
 
                   // close socket for invalid request
                   socket.close();
@@ -87,9 +88,9 @@ class TftpServer {
           });
         } on TimeoutException {
           //
-          log.d('TFTP RRQ request not arrived: $timeout');
+          logger?.d('TFTP RRQ request not arrived: $timeout');
         } catch (e) {
-          log.e(e);
+          logger?.e(e);
         } finally {
           // close socket
           socket.close();
@@ -97,7 +98,7 @@ class TftpServer {
       },
       onError: (e) {
         // log error, here we expect port in use
-        log.e('Socket bind failed: $e');
+        logger?.e('Socket bind failed: $e');
       },
     );
 

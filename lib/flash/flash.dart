@@ -65,8 +65,10 @@ class Flash {
   static Future<void> flash(
     InternetAddress localAddress,
     String mac,
-    String path,
-  ) async {
+    String path, {
+    Logger? logger,
+    Level logLevel = Level.debug,
+  }) async {
     //
     final file = File(path);
 
@@ -104,7 +106,8 @@ class Flash {
     final address = InternetAddress(device.address);
 
     // return the result of the update
-    final result = await unsafeFlash(localAddress, address, mac, firmware);
+    final result = await unsafeFlash(localAddress, address, mac, firmware,
+        logger: logger, logLevel: logLevel);
 
     if (result == false) {
       throw FlashException('Flash failed');
@@ -128,6 +131,7 @@ class Flash {
     Uint8List firmware, {
     bool magicPacket = true,
     Duration timeout = const Duration(seconds: 5),
+    Logger? logger,
     Level logLevel = Level.error,
   }) async {
     /// [bootpServerPort] is the port to bind on local machine where the bootp server
@@ -144,7 +148,12 @@ class Flash {
     if (magicPacket) {
       // Sends a magic packet and wait for response. Not all devices send response
       // for magic packet
-      await MagicPacket.send(localAddress, remoteAddress, logLevel: logLevel);
+      await MagicPacket.send(
+        localAddress,
+        remoteAddress,
+        logger: logger,
+        logLevel: logLevel,
+      );
     }
 
     // check if client has entered into bootloader mode by waiting for its
@@ -156,12 +165,14 @@ class Flash {
       serverPort: bootpServerPort,
       clientPort: bootpClientPort,
       timeout: timeout,
+      logger: logger,
       logLevel: logLevel,
     )) {
       // check if valid TFTP RRQ arrived
       if (await TftpServer.waitForTftpRrq(
         localAddress,
         timeout,
+        logger: logger,
         logLevel: logLevel,
       )) {
         // check if transfer completed
@@ -170,6 +181,7 @@ class Flash {
           remoteAddress,
           timeout,
           firmware,
+          logger: logger,
           logLevel: logLevel,
         )) {
           return true;

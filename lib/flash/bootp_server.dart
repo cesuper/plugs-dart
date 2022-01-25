@@ -69,12 +69,13 @@ class BootpServer {
     Duration timeout = const Duration(seconds: 5),
     int serverPort = BootpServer.serverPort,
     int clientPort = BootpServer.clientPort,
+    Logger? logger,
     Level logLevel = Level.error,
   }) async {
     //
-    final log = Logger(printer: PrettyPrinter(methodCount: 0), level: logLevel);
+    //final log = Logger(printer: PrettyPrinter(methodCount: 0), level: logLevel);
 
-    log.d('Starting BOOTP server');
+    logger?.d('Starting BOOTP server');
 
     // result flag
     bool isBootpResponseSent = false;
@@ -94,18 +95,19 @@ class BootpServer {
             // check for null
             if (dg != null) {
               //
-              log.d('Reading BOOTP packet from: ${dg.address}}: ${dg.port}');
+              logger
+                  ?.d('Reading BOOTP packet from: ${dg.address}}: ${dg.port}');
 
               // get bootp request
               var request = BootpPacket.fromBytes(dg.data);
 
               //
-              log.d('Verifying BOOTP packet');
+              logger?.d('Verifying BOOTP packet');
 
               //
               if (_isValidRequest(request, remoteMac)) {
                 //
-                log.d('Generating BOOTP response');
+                logger?.d('Generating BOOTP response');
 
                 // create reply from request
                 var reply =
@@ -118,10 +120,11 @@ class BootpServer {
                 );
 
                 //
-                log.d('Broadcast address for BOOTP reply: $destinationAddress');
+                logger?.d(
+                    'Broadcast address for BOOTP reply: $destinationAddress');
 
                 // Send the reply back to the client using broadcast
-                log.d('Sending BOOTP response');
+                logger?.d('Sending BOOTP response');
 
                 // send response back to target with extra info
                 socket.send(reply.datagram, destinationAddress, dg.port);
@@ -133,10 +136,10 @@ class BootpServer {
                 socket.close();
 
                 //
-                log.i('BOOTP operation completed');
+                logger?.i('BOOTP operation completed');
               } else {
                 //
-                log.e('Invalid BOOTP request, close');
+                logger?.e('Invalid BOOTP request, close');
 
                 // close socket for invalid requests
                 socket.close();
@@ -146,14 +149,14 @@ class BootpServer {
         });
       } on TimeoutException {
         //
-        log.d('BOOTP request not arrived: $timeout');
+        logger?.d('BOOTP request not arrived: $timeout');
       } catch (e) {
-        log.e(e);
+        logger?.e(e);
       } finally {
         // close socket
         socket.close();
         //
-        log.d('Stopping BOOTP server');
+        logger?.d('Stopping BOOTP server');
       }
     });
 

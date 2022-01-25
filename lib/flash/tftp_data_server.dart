@@ -3,7 +3,7 @@ import 'dart:typed_data';
 import 'package:logger/logger.dart';
 import 'tftp_server.dart';
 
-final log = Logger(printer: PrettyPrinter(methodCount: 0));
+//final log = Logger(printer: PrettyPrinter(methodCount: 0));
 
 /// Tftp data server is used to provide firmware chunks
 /// encapsulated into bootp data in multiple blocks
@@ -21,14 +21,15 @@ class TftpDataServer {
     Duration timeout,
     Uint8List file, {
     int localPort = 0,
+    Logger? logger,
     Level logLevel = Level.error,
   }) async {
     //
-    final log = Logger(
-        printer: PrettyPrinter(methodCount: 0, errorMethodCount: 5),
-        level: logLevel);
+    // final log = Logger(
+    //     printer: PrettyPrinter(methodCount: 0, errorMethodCount: 5),
+    //     level: logLevel);
 
-    log.d('Starting TFTP Data server');
+    logger?.d('Starting TFTP Data server');
 
     // result flag
     bool isSuccess = false;
@@ -40,11 +41,11 @@ class TftpDataServer {
           // set block number
           int blockNumber = 1;
 
-          log.d('Building TFTP Data packet (Block: $blockNumber)');
+          logger?.d('Building TFTP Data packet (Block: $blockNumber)');
           var packet = _createDataPacket(file, blockNumber);
 
           // send the first tftp data packet
-          log.d('Sending block: $blockNumber, size: ${packet.length}');
+          logger?.d('Sending block: $blockNumber, size: ${packet.length}');
           socket.send(packet, remoteAddress, targetPort);
 
           // expect more request from clients to fetch the rest of the file
@@ -56,7 +57,7 @@ class TftpDataServer {
               // check for null
               if (dg != null) {
                 //
-                log.d('Verify TFTP data packet for ACK');
+                logger?.d('Verify TFTP data packet for ACK');
 
                 // verify
                 if (_isBlockAccepted(
@@ -73,11 +74,12 @@ class TftpDataServer {
                     blockNumber++;
 
                     //
-                    log.d('Building TFTP Data packet (Block: $blockNumber)');
+                    logger
+                        ?.d('Building TFTP Data packet (Block: $blockNumber)');
                     packet = _createDataPacket(file, blockNumber);
 
                     // send the first tftp data packet
-                    log.d(
+                    logger?.d(
                         'Sending block: $blockNumber, size: ${packet.length}');
                     socket.send(packet, remoteAddress, targetPort);
                   }
@@ -86,11 +88,12 @@ class TftpDataServer {
                   // ignore: todo
                   // TODO: implement trials to limit the number of resend actions
                   //
-                  log.d('Rebuilding TFTP Data packet (Block: $blockNumber)');
+                  logger
+                      ?.d('Rebuilding TFTP Data packet (Block: $blockNumber)');
                   packet = _createDataPacket(file, blockNumber);
 
                   // send the first tftp data packet
-                  log.d(
+                  logger?.d(
                       'Resending block: $blockNumber, size: ${packet.length}');
                   socket.send(packet, remoteAddress, targetPort);
                 }
@@ -98,7 +101,7 @@ class TftpDataServer {
             }
           });
         } catch (e) {
-          log.e(e.toString());
+          logger?.e(e.toString());
         } finally {
           // close socket
           socket.close();
@@ -106,7 +109,7 @@ class TftpDataServer {
       },
       onError: (e) {
         // log error, here we expect port in use
-        log.e('Socket bind failed: $e');
+        logger?.e('Socket bind failed: $e');
       },
     );
 
