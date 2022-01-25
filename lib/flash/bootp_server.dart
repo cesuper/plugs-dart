@@ -80,8 +80,13 @@ class BootpServer {
     // result flag
     bool isBootpResponseSent = false;
 
+    // localAddress vs
+
     //
-    await RawDatagramSocket.bind(localAddress, serverPort).then((socket) async {
+    await RawDatagramSocket.bind(
+      InternetAddress.anyIPv4,
+      serverPort,
+    ).then((socket) async {
       // enable broadcast
       socket.broadcastEnabled = true;
 
