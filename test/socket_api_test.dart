@@ -52,7 +52,7 @@ void main() async {
   });
 
   test('Write Memory - 2', () async {
-    final map = {
+    final Map<String, dynamic> map = {
       "glossary": {
         "title": "example glossary",
         "GlossDiv": {
