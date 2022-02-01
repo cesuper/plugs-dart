@@ -7,7 +7,7 @@ class DioApi {
   DioApi(this.apiClient);
 
   ///
-  Future<DioState> getState() async {
+  Future<Scp442PlugState> getState() async {
     const path = '.cgi';
     final queryParams = <QueryParam>[];
     const body = null;
@@ -44,16 +44,19 @@ class DioApi {
       return await deserializeAsync(
         DeserializationMessage(
           json: await _decodeBodyBytes(response),
-          targetType: (DioState).toString(),
+          targetType: (Scp442PlugState).toString(),
         ),
-      ) as DioState;
+      ) as Scp442PlugState;
     }
     throw ApiException(response.statusCode, await _decodeBodyBytes(response));
   }
 
   ///
-  Future<void> startPin(int index, Duration timeout,
-      {Duration delay = const Duration(milliseconds: 0)}) async {
+  Future<void> startPin(
+    int index,
+    Duration timeout, {
+    Duration delay = const Duration(milliseconds: 0),
+  }) async {
     const path = '/do/start.cgi';
     final queryParams = <QueryParam>[];
     final body = {

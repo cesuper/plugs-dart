@@ -1,13 +1,13 @@
 part of plugs;
 
-class DioState {
+class Dio {
   final bool field;
 
   final List<bool> input;
 
   final List<bool> output;
 
-  DioState(this.field, this.input, this.output);
+  Dio(this.field, this.input, this.output);
 
   Map<String, dynamic> toMap() {
     return {
@@ -17,8 +17,8 @@ class DioState {
     };
   }
 
-  factory DioState.fromMap(Map<String, dynamic> map) {
-    return DioState(
+  factory Dio.fromMap(Map<String, dynamic> map) {
+    return Dio(
       map['field'] ?? false,
       List<bool>.from(map['input']),
       List<bool>.from(map['output']),
@@ -27,10 +27,8 @@ class DioState {
 
   String toJson() => json.encode(toMap());
 
-  factory DioState.fromJson(String source) =>
-      DioState.fromMap(json.decode(source));
+  factory Dio.fromJson(String source) => Dio.fromMap(json.decode(source));
 
   @override
-  String toString() =>
-      'DioState(field: $field, input: $input, output: $output)';
+  String toString() => 'Dio(field: $field, input: $input, output: $output)';
 }

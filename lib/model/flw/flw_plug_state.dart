@@ -1,14 +1,11 @@
 part of plugs;
 
-class FlwPlugState {
-  final Plug plug;
-
-  final Socket socket;
-
+class FlwPlugState extends PlugState {
   final Flw flw;
 
-  FlwPlugState(this.plug, this.socket, this.flw);
+  FlwPlugState(Plug plug, Socket socket, this.flw) : super(plug, socket);
 
+  @override
   Map<String, dynamic> toMap() {
     return {
       'plug': plug.toMap(),
@@ -25,6 +22,7 @@ class FlwPlugState {
     );
   }
 
+  @override
   String toJson() => json.encode(toMap());
 
   factory FlwPlugState.fromJson(String source) =>
