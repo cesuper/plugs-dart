@@ -133,10 +133,14 @@ class ApiClient {
           return value is double ? value : double.parse('$value');
         case 'List<String>':
           return List<String>.from(value);
+        case 'List<bool>':
+          return List<bool>.from(value);
         case 'Plug':
           return Plug.fromMap(value);
         case 'Socket':
           return Socket.fromMap(value);
+        case 'DioState':
+          return DioState.fromMap(value);
         case 'FlwPlugState':
           return FlwPlugState.fromMap(value);
       }

@@ -15,18 +15,24 @@ part 'api_helper.dart';
 part 'client/plug_client.dart';
 
 // api
+part 'api/dio_api.dart';
 part 'api/plug_api.dart';
 part 'api/socket_api.dart';
 part 'api/flw_plug_api.dart';
 
 // models
 part 'model/discovery_result.dart';
-part 'model/flw_plug_state.dart';
-part 'model/flw_sensor_state.dart';
-part 'model/flw.dart';
 part 'model/memory.dart';
 part 'model/plug.dart';
 part 'model/socket.dart';
+
+// models/dio
+part 'model/dio/dio_state.dart';
+
+// models/flw
+part 'model/flw/flw_plug_state.dart';
+part 'model/flw/flw_sensor_state.dart';
+part 'model/flw/flw.dart';
 
 // utils
 part 'utils/code.dart';

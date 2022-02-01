@@ -47,6 +47,8 @@ class PlugClient {
   SocketApi getSocketApi() => SocketApi(getApiClient(basePath: '/api/socket'));
 
   FlwPlugApi getFlwPlugApi() => FlwPlugApi(getApiClient(basePath: '/api/flw'));
+
+  DioApi getDioApi() => DioApi(getApiClient(basePath: '/api/dio'));
 }
 
 /// Logging wrapper for http client.

@@ -13,7 +13,11 @@ typedef ConnectionErrorCallback = void Function(String address, dynamic error);
 typedef PlugEventCallback = void Function(String address, int code);
 
 class Listener {
-  // Ping event is used to get life-signal from plugs. These events
+  ///
+  /// Plug
+  ///
+
+  /// Ping event is used to get life-signal from plugs. These events
   // are not handled by the api, but the loss if the ping event results
   // device disconnect event. Plug sends ping events in 1 sec period.
   // this event is ignored by the API by default
@@ -22,7 +26,9 @@ class Listener {
   // request for fw update detected
   static const eventUpdate = 11;
 
+  ///
   /// Socket
+  ///
 
   // plug removed from socket
   static const eventSocketRemoved = 20;
@@ -34,7 +40,7 @@ class Listener {
   static const eventSocketConnected = 22;
 
   // plug performed write event to socket
-  static const eventH43Changed = 23;
+  static const eventSocketContentChanged = 23;
 
   /// Dio
 
@@ -42,12 +48,28 @@ class Listener {
   static const eventFieldChanged = 40;
 
   // state of the input pin changed
-  // todo: add pin index, and new value for event data
+  // TODO: add pin index, and new value for event data
   static const eventInputChanged = 41;
 
   // state of the output pin changed
-  // todo: add pin index, and new value for event data
+  // TODO: add pin index, and new value for event data
   static const eventOutputChanged = 42;
+
+  // edge trigger condition met on input pin 0
+  // TODO:
+  static const eventInput0Triggered = 43;
+
+  // edge trigger condition met on input pin 1
+  //
+  static const eventInput1Triggered = 44;
+
+  // edge trigger condition met on input pin 2
+  //
+  static const eventInput2Triggered = 45;
+
+  // edge trigger condition met on input pin 3
+  //
+  static const eventInput3Triggered = 46;
 
   /// Ain
 
@@ -70,8 +92,22 @@ class Listener {
         return 'SOCKET_CONNECTING';
       case eventSocketConnected:
         return 'SOCKET_CONNECTED';
-      case eventH43Changed:
-        return 'SOCKET_H43_CHANGED';
+      case eventSocketContentChanged:
+        return 'SOCKET_CONTENT_CHANGED';
+      case eventFieldChanged:
+        return 'DIO_FIELD_CHANGED';
+      case eventInputChanged:
+        return 'DIO_INPUT_CHANGED';
+      case eventOutputChanged:
+        return 'DIO_OUTPUT_CHANGED';
+      case eventInput0Triggered:
+        return 'DIO_INPUT_0_TRIGGERED';
+      case eventInput1Triggered:
+        return 'DIO_INPUT_1_TRIGGERED';
+      case eventInput2Triggered:
+        return 'DIO_INPUT_2_TRIGGERED';
+      case eventInput3Triggered:
+        return 'DIO_INPUT_3_TRIGGERED';
       default:
         return 'UNDEFINED';
     }
