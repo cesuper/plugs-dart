@@ -20,9 +20,4 @@ void main() async {
   test('Bootloader', () async {
     await plugApi.restart(bootloader: true);
   }, skip: true);
-
-  // test('Diagnostic', () async {
-  //   // here we expect only response
-  //   print(await plug.diagnostic());
-  // });
 }
