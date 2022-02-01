@@ -6,7 +6,7 @@ import 'package:test/test.dart';
 void main() async {
   //
   final client = PlugClient('http://192.168.100.103');
-  final dioApi = client.getDioApi();
+  final dioApi = client.getScpApi();
 
   test('Inputs', () async {
     final state = await dioApi.getState();

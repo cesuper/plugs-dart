@@ -29,5 +29,5 @@ class ScpPlugState extends PlugState {
       ScpPlugState.fromMap(json.decode(source));
 
   @override
-  String toString() => 'ScpPlugState(dio: $dio)';
+  String toString() => 'ScpPlugState(plug: $plug, socket: $socket, dio: $dio)';
 }

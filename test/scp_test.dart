@@ -1,47 +1,33 @@
-// // ignore_for_file: avoid_print
+// ignore_for_file: avoid_print
 
-// import 'package:plugs/plugs/scp/scp_442.dart';
-// import 'package:plugs/plugs/scp/scp_const.dart';
-// import 'package:test/test.dart';
+import 'package:plugs/api.dart';
+import 'package:test/test.dart';
 
-// void main() async {
-//   //
-//   var plug = Scp442('192.168.100.109:80');
+void main() async {
+  //
+  final client = PlugClient('http://192.168.100.103');
+  final scpApi = client.getScpApi();
 
-//   test('field', () async {
-//     print(await plug.field);
-//   });
+  test('Inputs', () async {
+    final state = await scpApi.getState();
+    print(state);
+  });
 
-//   test('input', () async {
-//     var data = await plug.input;
-//     print(data);
-//   });
+  test('Start - Stop pin', () async {
+    const index = 0;
+    const delay = Duration(seconds: 1);
+    const timeout = Duration(seconds: 5);
 
-//   test('output', () async {
-//     var data = await plug.output;
-//     print(data);
-//   });
+    //
+    await scpApi.startPin(index, timeout, delay: delay);
 
-//   test('start pin', () async {
-//     await plug.startPin(0, 8000);
-//   });
+    //
+    await Future.delayed(const Duration(seconds: 2));
 
-//   test('stop pin', () async {
-//     await plug.startPin(0, 8000);
-//     await Future.delayed(const Duration(seconds: 2));
-//     await plug.stopPin(0);
-//   });
+    //
+    await scpApi.stopPin(index);
 
-//   test('ain sensor params', () async {
-//     // set
-
-//     await plug.setSensors(scpSensorParams);
-
-//     var sensors = await plug.sensors;
-//     print(sensors);
-//   });
-
-//   test('Settings', () async {
-//     print(await plug.settings);
-//   });
-// }
+    final state = await scpApi.getState();
+    print(state);
+  });
+}

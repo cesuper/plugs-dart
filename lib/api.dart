@@ -15,7 +15,7 @@ part 'api_helper.dart';
 part 'client/plug_client.dart';
 
 // api
-part 'api/dio_api.dart';
+part 'api/scp_api.dart';
 part 'api/plug_api.dart';
 part 'api/socket_api.dart';
 part 'api/flw_plug_api.dart';
