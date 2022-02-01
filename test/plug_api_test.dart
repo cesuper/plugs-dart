@@ -5,10 +5,10 @@ import 'package:test/test.dart';
 
 void main() async {
   //
-  final client = PlugClient('http://192.168.100.100');
+  final client = PlugClient('http://192.168.100.103');
   final plugApi = client.getPlugApi();
 
-  test('Plug', () async {
+  test('PlugState', () async {
     final state = await plugApi.getState();
     print(state);
   });

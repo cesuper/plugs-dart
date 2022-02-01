@@ -8,7 +8,7 @@ class PlugApi {
   PlugApi(this.apiClient);
 
   ///
-  Future<Plug> getState() async {
+  Future<PlugState> getState() async {
     const path = r'.cgi';
     final queryParams = <QueryParam>[];
     const body = null;
@@ -45,9 +45,9 @@ class PlugApi {
       return await deserializeAsync(
         DeserializationMessage(
           json: await _decodeBodyBytes(response),
-          targetType: (Plug).toString(),
+          targetType: (PlugState).toString(),
         ),
-      ) as Plug;
+      ) as PlugState;
     }
     throw ApiException(response.statusCode, await _decodeBodyBytes(response));
   }
