@@ -30,9 +30,15 @@ void main() async {
       //
       listener.connect(
         localAddress,
-        onDisconnected: (address) => print('disconnected'),
-        onEvent: (address, code, msg) => print(
-            '$address - ${Listener.getName(code)} - ${String.fromCharCodes(msg)}'),
+        onConnected: (address) => print('onConnected'),
+        onDisconnected: (address) => print('onDisconnected'),
+        onOwBusOpened: (address) => print('onOwBusOpened'),
+        onOwBusClosed: (address) => print('onOwBusClosed'),
+        onOwBusChanged: (address) => print('onOwBusChanged'),
+        onIoStateChanged: (address, io) =>
+            print('onIoStateChanged: ${io.toString()}'),
+        onInputPinTriggered: (address, pins) =>
+            print('onInputPinTriggered: $pins'),
       );
     }
 

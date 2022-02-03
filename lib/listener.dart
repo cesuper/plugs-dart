@@ -9,7 +9,6 @@ typedef OwBusChangedCb = void Function(String address);
 typedef IoStateChangedCb = void Function(String address, Dio io);
 typedef InputPinTriggeredCb = void Function(String address, List<bool> pins);
 
-typedef PlugEventCb = void Function(String address, int code, List<int>);
 typedef ConnectionErrorCb = void Function(String address, dynamic error);
 
 class Listener {
@@ -79,7 +78,6 @@ class Listener {
     OwBusChangedCb? onOwBusChanged,
     IoStateChangedCb? onIoStateChanged,
     InputPinTriggeredCb? onInputPinTriggered,
-    PlugEventCb? onEvent,
     ConnectionErrorCb? onError,
     Duration timeout = const Duration(seconds: 2),
     int port = 0,
@@ -136,8 +134,8 @@ class Listener {
                     address, ints.map((e) => e == 1).toList());
                 break;
               default:
-                print('Unhandled Event: $address - $code');
-              //onEvent?.call(address, code, msg);
+                print(
+                    '$address - ${Listener.getName(code)} - ${String.fromCharCodes(msg)}');
             }
 
             //
