@@ -12,6 +12,14 @@ typedef ConnectionErrorCallback = void Function(String address, dynamic error);
 //
 typedef PlugEventCallback = void Function(String address, int code, List<int>);
 
+//
+typedef IOStateChangedCallback = void Function(
+    String address, bool field, List<bool> input, List<bool> output);
+
+//
+typedef InputPinTriggeredCallback = void Function(
+    String address, List<bool> triggeredPins);
+
 class Listener {
   ///
   /// Plug
@@ -30,17 +38,16 @@ class Listener {
   /// Socket
   ///
 
-  // plug removed from socket
-  static const eventSocketRemoved = 20;
+  // fired when no 1-Wire device found
+  // no data
+  static const eventOwBusOpen = 20;
 
-  // plug process socket content
-  static const eventSocketConnecting = 21;
+  // fired when at least one 1-Wire device found
+  // no data
+  static const eventOwBusClosed = 21;
 
-  // plug removed from socket
-  static const eventSocketConnected = 22;
-
-  // plug performed write event to socket
-  static const eventSocketContentChanged = 23;
+  // fired when 1-wire bus element changed
+  static const eventOwBusChanged = 22;
 
   /// Dio
 
@@ -64,21 +71,19 @@ class Listener {
   static String getName(int code) {
     switch (code) {
       case eventPing:
-        return 'PLUG_PING';
+        return 'eventPing';
       case eventUpdate:
-        return 'PLUG_UPDATE';
-      case eventSocketRemoved:
-        return 'SOCKET_REMOVED';
-      case eventSocketConnecting:
-        return 'SOCKET_CONNECTING';
-      case eventSocketConnected:
-        return 'SOCKET_CONNECTED';
-      case eventSocketContentChanged:
-        return 'SOCKET_CONTENT_CHANGED';
+        return 'eventUpdate';
+      case eventOwBusOpen:
+        return 'eventOwBusOpen';
+      case eventOwBusClosed:
+        return 'eventOwBusClosed';
+      case eventOwBusChanged:
+        return 'eventOwBusChanged';
       case eventIoStateChanged:
-        return 'IO_STATE_CHANGED';
+        return 'eventIoStateChanged';
       case eventInputTriggered:
-        return 'IO_INPUT_TRIGGERED';
+        return 'eventInputTriggered';
       default:
         return 'UNDEFINED';
     }
