@@ -1,21 +1,13 @@
 import 'dart:convert';
-import 'dart:io';
+import 'package:universal_io/io.dart' as io;
 
-//
-//typedef PlugConnectionStateChangedCallback = void Function(String address);
+import 'api.dart';
+
 typedef ConnectionChangedCb = void Function(String address);
 typedef OwBusChangedCb = void Function(String address);
 
-typedef IoStateChangedCb = void Function(
-  String address,
-  bool field,
-  List<bool> input,
-  List<bool> output,
-);
-typedef InputPinTriggeredCb = void Function(
-  String address,
-  List<bool> triggeredPins,
-);
+typedef IoStateChangedCb = void Function(String address, Dio io);
+typedef InputPinTriggeredCb = void Function(String address, List<bool> pins);
 
 typedef PlugEventCb = void Function(String address, int code, List<int>);
 typedef ConnectionErrorCb = void Function(String address, dynamic error);
@@ -73,26 +65,27 @@ class Listener {
   final String address;
 
   //
-  Socket? _socket;
+  io.Socket? _socket;
 
   Listener(this.address);
 
   ///
   void connect(
-    InternetAddress localAddress, {
+    io.InternetAddress localAddress, {
     ConnectionChangedCb? onConnected,
     ConnectionChangedCb? onDisconnected,
     OwBusChangedCb? onOwBusOpened,
     OwBusChangedCb? onOwBusClosed,
     OwBusChangedCb? onOwBusChanged,
     IoStateChangedCb? onIoStateChanged,
+    InputPinTriggeredCb? onInputPinTriggered,
     PlugEventCb? onEvent,
     ConnectionErrorCb? onError,
     Duration timeout = const Duration(seconds: 2),
     int port = 0,
   }) async {
-    Socket.connect(
-      InternetAddress(address, type: InternetAddressType.IPv4),
+    io.Socket.connect(
+      io.InternetAddress(address, type: io.InternetAddressType.IPv4),
       eventPort,
       sourceAddress: localAddress,
       timeout: timeout,
@@ -134,16 +127,17 @@ class Listener {
                 break;
               case eventIoStateChanged:
                 final map = jsonDecode(String.fromCharCodes(msg));
-                onIoStateChanged?.call(
-                  address,
-                  map['field'] == 1,
-                  List<int>.from(map['in']).map((e) => e == 1).toList(),
-                  List<int>.from(map['out']).map((e) => e == 1).toList(),
-                );
+                onIoStateChanged?.call(address, Dio.fromMap(map));
+                break;
+              case eventInputTriggered:
+                final map = jsonDecode(String.fromCharCodes(msg));
+                final ints = List<int>.from(map);
+                onInputPinTriggered?.call(
+                    address, ints.map((e) => e == 1).toList());
                 break;
               default:
-                // call event
-                onEvent?.call(address, code, msg);
+                print('Unhandled Event: $address - $code');
+              //onEvent?.call(address, code, msg);
             }
 
             //
