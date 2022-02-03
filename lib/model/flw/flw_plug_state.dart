@@ -3,7 +3,7 @@ part of plugs;
 class FlwPlugState extends PlugState {
   final Flw flw;
 
-  FlwPlugState(Plug plug, Socket socket, this.flw) : super(plug, socket);
+  FlwPlugState(Plug plug, Sck socket, this.flw) : super(plug, socket);
 
   @override
   Map<String, dynamic> toMap() {
@@ -17,7 +17,7 @@ class FlwPlugState extends PlugState {
   factory FlwPlugState.fromMap(Map<String, dynamic> map) {
     return FlwPlugState(
       Plug.fromMap(map['plug']),
-      Socket.fromMap(map['socket']),
+      Sck.fromMap(map['socket']),
       Flw.fromMap(map['flw']),
     );
   }

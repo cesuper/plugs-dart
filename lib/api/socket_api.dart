@@ -8,7 +8,7 @@ class SocketApi {
   SocketApi(this.apiClient);
 
   ///
-  Future<Socket> getState() async {
+  Future<Sck> getState() async {
     const path = r'.cgi';
     final queryParams = <QueryParam>[];
     const body = null;
@@ -45,9 +45,9 @@ class SocketApi {
       return await deserializeAsync(
         DeserializationMessage(
           json: await _decodeBodyBytes(response),
-          targetType: (Socket).toString(),
+          targetType: (Sck).toString(),
         ),
-      ) as Socket;
+      ) as Sck;
     }
     throw ApiException(response.statusCode, await _decodeBodyBytes(response));
   }
