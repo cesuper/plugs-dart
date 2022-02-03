@@ -3,7 +3,7 @@ part of plugs;
 class AinScpPlugState extends ScpPlugState {
   final Ain ain;
 
-  AinScpPlugState(Plug plug, Sck socket, Dio dio, this.ain)
+  AinScpPlugState(Plug plug, Socket socket, Dio dio, this.ain)
       : super(plug, socket, dio);
 
   @override
@@ -19,7 +19,7 @@ class AinScpPlugState extends ScpPlugState {
   factory AinScpPlugState.fromMap(Map<String, dynamic> map) {
     return AinScpPlugState(
       Plug.fromMap(map['plug']),
-      Sck.fromMap(map['socket']),
+      Socket.fromMap(map['socket']),
       Dio.fromMap(map['dio']),
       Ain.fromMap(map['ain']),
     );

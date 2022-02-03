@@ -138,7 +138,7 @@ class ApiClient {
         case 'PlugState':
           return PlugState.fromMap(value);
         case 'Socket':
-          return Sck.fromMap(value);
+          return Socket.fromMap(value);
         case 'ScpPlugState':
           return ScpPlugState.fromMap(value);
         case 'AinScpPlugState':

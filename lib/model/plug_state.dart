@@ -5,7 +5,7 @@ class PlugState {
   final Plug plug;
 
   //
-  final Sck socket;
+  final Socket socket;
 
   PlugState(this.plug, this.socket);
 
@@ -19,7 +19,7 @@ class PlugState {
   factory PlugState.fromMap(Map<String, dynamic> map) {
     return PlugState(
       Plug.fromMap(map['plug']),
-      Sck.fromMap(map['socket']),
+      Socket.fromMap(map['socket']),
     );
   }
 
