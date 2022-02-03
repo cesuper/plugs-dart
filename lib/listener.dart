@@ -10,7 +10,7 @@ typedef PlugConnectedCallback = void Function(String address);
 typedef ConnectionErrorCallback = void Function(String address, dynamic error);
 
 //
-typedef PlugEventCallback = void Function(String address, int code);
+typedef PlugEventCallback = void Function(String address, int code, List<int>);
 
 class Listener {
   ///
@@ -44,32 +44,13 @@ class Listener {
 
   /// Dio
 
-  // state of the field pin changed
-  static const eventFieldChanged = 40;
+  // state of the dio (field, in, out) changed
+  // has data
+  static const eventIoStateChanged = 40;
 
-  // state of the input pin changed
-  // TODO: add pin index, and new value for event data
-  static const eventInputChanged = 41;
-
-  // state of the output pin changed
-  // TODO: add pin index, and new value for event data
-  static const eventOutputChanged = 42;
-
-  // edge trigger condition met on input pin 0
-  // TODO:
-  static const eventInput0Triggered = 43;
-
-  // edge trigger condition met on input pin 1
-  //
-  static const eventInput1Triggered = 44;
-
-  // edge trigger condition met on input pin 2
-  //
-  static const eventInput2Triggered = 45;
-
-  // edge trigger condition met on input pin 3
-  //
-  static const eventInput3Triggered = 46;
+  // fired when ANY edge condition is true
+  // has data
+  static const eventInputTriggered = 41;
 
   /// Ain
 
@@ -94,20 +75,10 @@ class Listener {
         return 'SOCKET_CONNECTED';
       case eventSocketContentChanged:
         return 'SOCKET_CONTENT_CHANGED';
-      case eventFieldChanged:
-        return 'DIO_FIELD_CHANGED';
-      case eventInputChanged:
-        return 'DIO_INPUT_CHANGED';
-      case eventOutputChanged:
-        return 'DIO_OUTPUT_CHANGED';
-      case eventInput0Triggered:
-        return 'DIO_INPUT_0_TRIGGERED';
-      case eventInput1Triggered:
-        return 'DIO_INPUT_1_TRIGGERED';
-      case eventInput2Triggered:
-        return 'DIO_INPUT_2_TRIGGERED';
-      case eventInput3Triggered:
-        return 'DIO_INPUT_3_TRIGGERED';
+      case eventIoStateChanged:
+        return 'IO_STATE_CHANGED';
+      case eventInputTriggered:
+        return 'IO_INPUT_TRIGGERED';
       default:
         return 'UNDEFINED';
     }
@@ -161,7 +132,8 @@ class Listener {
             var event = packet.skip(offset).take(packetSize);
 
             // get event from msg
-            int code = event.first;
+            final code = event.first;
+            final msg = event.skip(1).takeWhile((value) => value != 0).toList();
 
             // handle events
             switch (code) {
@@ -170,7 +142,7 @@ class Listener {
                 break;
               default:
                 // call event
-                onEvent?.call(address, code);
+                onEvent?.call(address, code, msg);
             }
 
             //
