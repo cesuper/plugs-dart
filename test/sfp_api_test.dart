@@ -5,10 +5,10 @@ import 'package:test/test.dart';
 
 void main() async {
   //
-  var client = PlugClient('http://192.168.100.100');
+  var client = PlugClient('http://192.168.100.104');
   final api = client.getFlwPlugApi();
 
-  test('Read', () async {
+  test('State', () async {
     final state = await api.getState();
     print(state);
   });
