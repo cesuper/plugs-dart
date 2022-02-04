@@ -2,8 +2,10 @@ part of plugs;
 
 class ScpPlugState extends PlugState {
   final Dio dio;
+  final Ain ain;
 
-  ScpPlugState(Plug plug, Socket socket, this.dio) : super(plug, socket);
+  ScpPlugState(Plug plug, Socket socket, this.dio, this.ain)
+      : super(plug, socket);
 
   @override
   Map<String, dynamic> toMap() {
@@ -11,6 +13,7 @@ class ScpPlugState extends PlugState {
       'plug': plug.toMap(),
       'socket': socket.toMap(),
       'dio': dio.toMap(),
+      'ain': ain.toMap(),
     };
   }
 
@@ -19,6 +22,7 @@ class ScpPlugState extends PlugState {
       Plug.fromMap(map['plug']),
       Socket.fromMap(map['socket']),
       Dio.fromMap(map['dio']),
+      Ain.fromMap(map['ain']),
     );
   }
 
@@ -29,5 +33,6 @@ class ScpPlugState extends PlugState {
       ScpPlugState.fromMap(json.decode(source));
 
   @override
-  String toString() => 'ScpPlugState(plug: $plug, socket: $socket, dio: $dio)';
+  String toString() =>
+      'ScpPlugState(plug: $plug, socket: $socket, dio: $dio, ain: $ain)';
 }

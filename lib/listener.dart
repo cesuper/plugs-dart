@@ -55,7 +55,7 @@ class Listener {
   static const eventSamplingFinished = 61;
 
   // size of the tcp packet
-  static const packetSize = 64;
+  static const packetSize = 128;
 
   // remote tcp port from where events originated
   static const eventPort = 6069;

@@ -20,4 +20,7 @@ class Ain {
   String toJson() => json.encode(toMap());
 
   factory Ain.fromJson(String source) => Ain.fromMap(json.decode(source));
+
+  @override
+  String toString() => 'Ain(value: $value)';
 }

@@ -1,13 +1,13 @@
 part of plugs;
 
-class FlwPlugApi {
+class SfpApi {
   //
   final ApiClient apiClient;
 
-  FlwPlugApi(this.apiClient);
+  SfpApi(this.apiClient);
 
   ///
-  Future<FlwPlugState> getState() async {
+  Future<SfpPlugState> getState() async {
     const path = r'.cgi';
     final queryParams = <QueryParam>[];
     const body = null;
@@ -44,9 +44,9 @@ class FlwPlugApi {
       return await deserializeAsync(
         DeserializationMessage(
           json: await _decodeBodyBytes(response),
-          targetType: (FlwPlugState).toString(),
+          targetType: (SfpPlugState).toString(),
         ),
-      ) as FlwPlugState;
+      ) as SfpPlugState;
     }
     throw ApiException(response.statusCode, await _decodeBodyBytes(response));
   }

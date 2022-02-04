@@ -5,7 +5,7 @@ import 'package:test/test.dart';
 
 void main() async {
   //
-  final client = PlugClient('http://192.168.100.103');
+  final client = PlugClient('http://192.168.100.100');
   final scpApi = client.getScpApi();
 
   test('Inputs', () async {

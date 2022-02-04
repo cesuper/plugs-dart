@@ -8,7 +8,7 @@ class SpcApi {
 
   ///
   Future<ScpPlugState> getState() async {
-    const path = '/dio.cgi';
+    const path = '/scp.cgi';
     final queryParams = <QueryParam>[];
     const body = null;
     final headerParams = <String, String>{};

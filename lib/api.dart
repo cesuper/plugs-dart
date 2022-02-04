@@ -18,7 +18,7 @@ part 'client/plug_client.dart';
 part 'api/scp_api.dart';
 part 'api/plug_api.dart';
 part 'api/socket_api.dart';
-part 'api/flw_plug_api.dart';
+part 'api/sfp_api.dart';
 
 // models
 part 'model/discovery_result.dart';
@@ -28,13 +28,12 @@ part 'model/plug.dart';
 part 'model/socket.dart';
 
 // models/scp
-part 'model/scp/ain_scp_plug_state.dart';
+part 'model/scp/scp_plug_state.dart';
 part 'model/scp/ain.dart';
 part 'model/scp/dio.dart';
-part 'model/scp/scp_plug_state.dart';
 
 // models/flw
-part 'model/flw/flw_plug_state.dart';
+part 'model/flw/sfp_plug_state.dart';
 part 'model/flw/flw_sensor_state.dart';
 part 'model/flw/flw.dart';
 

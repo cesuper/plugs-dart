@@ -135,16 +135,12 @@ class ApiClient {
           return List<String>.from(value);
         case 'List<bool>':
           return List<bool>.from(value);
-        case 'PlugState':
-          return PlugState.fromMap(value);
         case 'Socket':
           return Socket.fromMap(value);
         case 'ScpPlugState':
           return ScpPlugState.fromMap(value);
-        case 'AinScpPlugState':
-          return AinScpPlugState.fromMap(value);
-        case 'FlwPlugState':
-          return FlwPlugState.fromMap(value);
+        case 'SfpPlugState':
+          return SfpPlugState.fromMap(value);
       }
     } catch (error, trace) {
       throw ApiException.withInner(HttpStatus.internalServerError,
