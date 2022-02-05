@@ -4,10 +4,7 @@ import 'dart:io';
 import 'package:plugs/discovery/discovery.dart';
 import 'package:test/scaffolding.dart';
 
-final localAddress = InternetAddress(
-  '192.168.100.118',
-  type: InternetAddressType.IPv4,
-);
+final localAddress = InternetAddress('192.168.100.118');
 
 void main() async {
   test('discovery', () async {
