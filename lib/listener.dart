@@ -135,7 +135,7 @@ class Listener {
                 break;
               default:
                 print(
-                    '$address - ${Listener.getName(code)} - ${String.fromCharCodes(msg)}');
+                    '$address - ${Listener.eventName(code)} - ${String.fromCharCodes(msg)}');
             }
 
             //
@@ -163,22 +163,22 @@ class Listener {
   }
 
   /// decode event to String
-  static String getName(int code) {
+  static String eventName(int code) {
     switch (code) {
       case eventPlugPing:
-        return 'eventPlugPing';
+        return 'PLUG_PING';
       case eventPlugUpdate:
-        return 'eventPlugUpdate';
+        return 'PLUG_UPDATE';
       case eventOwBusOpen:
-        return 'eventOwBusOpen';
+        return 'OW_BUS_OPEN';
       case eventOwBusClosed:
-        return 'eventOwBusClosed';
+        return 'OW_BUS_CLOSE';
       case eventOwBusChanged:
-        return 'eventOwBusChanged';
+        return 'OW_BUS_CHANGED';
       case eventIoStateChanged:
-        return 'eventIoStateChanged';
+        return 'IO_CHANGED';
       case eventInputTriggered:
-        return 'eventInputTriggered';
+        return 'IO_TRIGGERED';
       default:
         return 'UNDEFINED';
     }
