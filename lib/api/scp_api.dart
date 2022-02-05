@@ -122,4 +122,7 @@ class SpcApi {
       throw ApiException(response.statusCode, await _decodeBodyBytes(response));
     }
   }
+
+  /// TODO: Ain Get/Set state
+
 }

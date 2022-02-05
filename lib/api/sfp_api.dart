@@ -52,7 +52,7 @@ class SfpApi {
   }
 
   ///
-  Future<Response> _writeMemoryWithHttpInfo(Flw flw) async {
+  Future<void> setState(Flw flw) async {
     const path = r'/flw.cgi';
     final queryParams = <QueryParam>[];
     final body = flw.toMap();
@@ -66,7 +66,7 @@ class SfpApi {
     ];
 
     //
-    return await apiClient.invokeAPI(
+    final response = await apiClient.invokeAPI(
       path,
       'POST',
       queryParams,
@@ -76,11 +76,6 @@ class SfpApi {
       contentTypes.isEmpty ? null : contentTypes[0],
       authNames,
     );
-  }
-
-  ///
-  Future<void> setState(Flw flw) async {
-    final response = await _writeMemoryWithHttpInfo(flw);
 
     if (response.statusCode >= HttpStatus.badRequest) {
       throw ApiException(response.statusCode, await _decodeBodyBytes(response));

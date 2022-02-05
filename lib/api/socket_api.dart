@@ -4,10 +4,10 @@ class SocketApi {
   //
   final ApiClient apiClient;
 
-  //
   SocketApi(this.apiClient);
 
   ///
+  @Deprecated('Merged into /api/<family>/.cgi')
   Future<Socket> getState() async {
     const path = r'.cgi';
     final queryParams = <QueryParam>[];
@@ -53,6 +53,7 @@ class SocketApi {
   }
 
   ///
+  @Deprecated('Merged into /api/<family>/.cgi')
   Future<dynamic> readMemory() async {
     const path = r'/memory.cgi';
     final queryParams = <QueryParam>[];
@@ -86,8 +87,8 @@ class SocketApi {
     return jsonDecode(response.body);
   }
 
-  //
-  Future<Response> _writeMemoryWithHttpInfo(Object? content) async {
+  ///
+  Future<void> writeMemory(Object? content) async {
     const path = r'/memory.cgi';
     final queryParams = <QueryParam>[];
     final body = content;
@@ -101,7 +102,7 @@ class SocketApi {
     ];
 
     //
-    return await apiClient.invokeAPI(
+    final response = await apiClient.invokeAPI(
       path,
       'POST',
       queryParams,
@@ -111,11 +112,6 @@ class SocketApi {
       contentTypes.isEmpty ? null : contentTypes[0],
       authNames,
     );
-  }
-
-  ///
-  Future<void> writeMemory(Object? content) async {
-    final response = await _writeMemoryWithHttpInfo(content);
 
     if (response.statusCode >= HttpStatus.badRequest) {
       throw ApiException(response.statusCode, await _decodeBodyBytes(response));

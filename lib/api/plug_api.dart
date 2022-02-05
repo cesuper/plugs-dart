@@ -53,7 +53,7 @@ class PlugApi {
   }
 
   ///
-  Future<Response> _restartWithHttpInfo(bool bootloader) async {
+  Future<void> restart({bool bootloader = false}) async {
     const path = r'/plug/restart.cgi';
     final queryParams = <QueryParam>[];
     final body = bootloader ? {'bootloader': true} : {};
@@ -67,7 +67,7 @@ class PlugApi {
     ];
 
     //
-    return await apiClient.invokeAPI(
+    final response = await apiClient.invokeAPI(
       path,
       'POST',
       queryParams,
@@ -77,14 +77,12 @@ class PlugApi {
       contentTypes.isEmpty ? null : contentTypes[0],
       authNames,
     );
-  }
-
-  ///
-  Future<void> restart({bool bootloader = false}) async {
-    final response = await _restartWithHttpInfo(bootloader);
 
     if (response.statusCode >= HttpStatus.badRequest) {
       throw ApiException(response.statusCode, await _decodeBodyBytes(response));
     }
   }
+
+  // TODO: Add read and write eeprom
+
 }
