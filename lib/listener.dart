@@ -3,15 +3,41 @@ import 'package:universal_io/io.dart' as io;
 
 import 'api.dart';
 
-typedef ConnectionChangedCb = void Function(String address);
-typedef OwBusChangedCb = void Function(String address);
+typedef ConnectionChangedCb = void Function(
+  String address,
+  int event,
+  String msg,
+);
 
-typedef IoStateChangedCb = void Function(String address, Dio io);
-typedef InputPinTriggeredCb = void Function(String address, List<bool> pins);
+typedef OwBusChangedCb = void Function(
+  String address,
+  int event,
+  String msg,
+);
+
+typedef DioStateChangedCb = void Function(
+  String address,
+  int event,
+  String msg,
+  Dio io,
+);
+
+typedef InputPinTriggeredCb = void Function(
+  String address,
+  int code,
+  String msg,
+  List<bool> pins,
+);
 
 typedef ConnectionErrorCb = void Function(String address, dynamic error);
 
 class Listener {
+  //
+  static const eventPlugConnected = 1;
+
+  //
+  static const eventPlugDisconnected = 2;
+
   /// Ping event is used to get life-signal from plugs. These events
   // are not handled by the api, but the loss if the ping event results
   // device disconnect event. Plug sends ping events in 1 sec period.
@@ -76,7 +102,7 @@ class Listener {
     OwBusChangedCb? onOwBusOpened,
     OwBusChangedCb? onOwBusClosed,
     OwBusChangedCb? onOwBusChanged,
-    IoStateChangedCb? onIoStateChanged,
+    DioStateChangedCb? onIoStateChanged,
     InputPinTriggeredCb? onInputPinTriggered,
     ConnectionErrorCb? onError,
     Duration timeout = const Duration(seconds: 2),
@@ -89,7 +115,11 @@ class Listener {
       timeout: timeout,
     ).then((socket) {
       // fire connected event
-      onConnected?.call(address);
+      onConnected?.call(
+        address,
+        eventPlugConnected,
+        Listener.eventName(eventPlugConnected),
+      );
 
       // set as local variable
       _socket = socket;
@@ -107,7 +137,9 @@ class Listener {
 
             // get event from msg
             final code = event.first;
-            final msg = event.skip(1).takeWhile((value) => value != 0).toList();
+            final msg = Listener.eventName(code);
+            final data =
+                event.skip(1).takeWhile((value) => value != 0).toList();
 
             // handle events
             switch (code) {
@@ -115,27 +147,31 @@ class Listener {
                 // ignore ping event
                 break;
               case eventOwBusOpen:
-                onOwBusOpened?.call(address);
+                onOwBusOpened?.call(address, code, msg);
                 break;
               case eventOwBusClosed:
-                onOwBusClosed?.call(address);
+                onOwBusClosed?.call(address, code, msg);
                 break;
               case eventOwBusChanged:
-                onOwBusChanged?.call(address);
+                onOwBusChanged?.call(address, code, msg);
                 break;
               case eventIoStateChanged:
-                final map = jsonDecode(String.fromCharCodes(msg));
-                onIoStateChanged?.call(address, Dio.fromMap(map));
+                final map = jsonDecode(String.fromCharCodes(data));
+                onIoStateChanged?.call(address, code, msg, Dio.fromMap(map));
                 break;
               case eventInputTriggered:
-                final map = jsonDecode(String.fromCharCodes(msg));
+                final map = jsonDecode(String.fromCharCodes(data));
                 final ints = List<int>.from(map);
                 onInputPinTriggered?.call(
-                    address, ints.map((e) => e == 1).toList());
+                  address,
+                  code,
+                  msg,
+                  ints.map((e) => e == 1).toList(),
+                );
                 break;
               default:
                 print(
-                    '$address - ${Listener.eventName(code)} - ${String.fromCharCodes(msg)}');
+                    '$address - ${Listener.eventName(code)} - ${String.fromCharCodes(data)}');
             }
 
             //
@@ -151,7 +187,11 @@ class Listener {
         },
         onDone: () {
           // create disconnected
-          onDisconnected?.call(address);
+          onDisconnected?.call(
+            address,
+            eventPlugDisconnected,
+            Listener.eventName(eventPlugDisconnected),
+          );
         },
       );
     });
@@ -165,6 +205,10 @@ class Listener {
   /// decode event to String
   static String eventName(int code) {
     switch (code) {
+      case eventPlugConnected:
+        return 'PLUG_CONNECTED';
+      case eventPlugDisconnected:
+        return 'PLUG_DISCONNECTED';
       case eventPlugPing:
         return 'PLUG_PING';
       case eventPlugUpdate:
