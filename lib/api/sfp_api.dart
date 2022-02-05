@@ -8,7 +8,7 @@ class SfpApi {
 
   ///
   Future<SfpPlugState> getState() async {
-    const path = '/sfp.cgi';
+    const path = '.cgi';
     final queryParams = <QueryParam>[];
     const body = null;
     final headerParams = <String, String>{};

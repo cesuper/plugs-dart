@@ -8,7 +8,7 @@ void main() async {
   final client = PlugClient('http://192.168.100.100');
   final scpApi = client.getScpApi();
 
-  test('Inputs', () async {
+  test('State', () async {
     final state = await scpApi.getState();
     print(state);
   });

@@ -6,7 +6,7 @@ import 'package:test/test.dart';
 void main() async {
   //
   var client = PlugClient('http://192.168.100.104');
-  final api = client.getFlwPlugApi();
+  final api = client.getSfpPlugApi();
 
   test('State', () async {
     final state = await api.getState();

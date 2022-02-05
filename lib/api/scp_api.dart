@@ -8,7 +8,7 @@ class SpcApi {
 
   ///
   Future<ScpPlugState> getState() async {
-    const path = '/scp.cgi';
+    const path = '.cgi';
     final queryParams = <QueryParam>[];
     const body = null;
     final headerParams = <String, String>{};
@@ -57,7 +57,7 @@ class SpcApi {
     Duration timeout, {
     Duration delay = const Duration(milliseconds: 0),
   }) async {
-    const path = '/dio/do/start.cgi';
+    const path = '/do/start.cgi';
     final queryParams = <QueryParam>[];
     final body = {
       'pin': index,
@@ -93,7 +93,7 @@ class SpcApi {
 
   ///
   Future<void> stopPin(int index) async {
-    const path = '/dio/do/stop.cgi';
+    const path = '/do/stop.cgi';
     final queryParams = <QueryParam>[];
     final body = {'pin': index};
     final headerParams = <String, String>{};

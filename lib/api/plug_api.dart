@@ -8,6 +8,7 @@ class PlugApi {
   PlugApi(this.apiClient);
 
   ///
+  @Deprecated('Merged into /api/<family>/.cgi')
   Future<PlugState> getState() async {
     const path = r'.cgi';
     final queryParams = <QueryParam>[];

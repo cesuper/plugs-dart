@@ -1,10 +1,8 @@
 part of plugs;
 
-class PlugState {
-  //
+abstract class PlugState {
   final Plug plug;
 
-  //
   final Socket socket;
 
   PlugState(this.plug, this.socket);
@@ -16,18 +14,5 @@ class PlugState {
     };
   }
 
-  factory PlugState.fromMap(Map<String, dynamic> map) {
-    return PlugState(
-      Plug.fromMap(map['plug']),
-      Socket.fromMap(map['socket']),
-    );
-  }
-
   String toJson() => json.encode(toMap());
-
-  factory PlugState.fromJson(String source) =>
-      PlugState.fromMap(json.decode(source));
-
-  @override
-  String toString() => 'PlugState(plug: $plug, socket: $socket)';
 }
