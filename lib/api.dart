@@ -39,3 +39,4 @@ part 'model/socket.dart';
 
 // utils
 part 'utils/code.dart';
+part 'utils/family.dart';

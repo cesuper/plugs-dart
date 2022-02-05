@@ -38,24 +38,24 @@ class Code {
   static const supds = 11;
 
   ///
-  static String getFamily(int code) => _familyMap[code] ?? 'unknown';
+  static String getFamily(int code) => _familyMap[code] ?? Family.unknown;
 
   ///
   static String getModel(int code) => _modelMap[code] ?? '';
 
   ///
   static final _familyMap = <int, String>{
-    smp8: 'smp',
-    smc: 'smc',
-    dio: 'dio',
-    scp412: 'scp',
-    smp32: 'smp',
-    supt: 'sup',
-    senven: 'seven',
-    eight: 'eight',
-    sfp9: 'sfp',
-    scp442: 'scp',
-    supds: 'sup'
+    smp8: Family.smp,
+    smc: Family.smc,
+    dio: Family.dio,
+    scp412: Family.scp,
+    smp32: Family.smp,
+    supt: Family.sup,
+    senven: Family.unknown,
+    eight: Family.unknown,
+    sfp9: Family.sfp,
+    scp442: Family.scp,
+    supds: Family.sup
   };
 
   ///
