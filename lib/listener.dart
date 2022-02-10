@@ -26,7 +26,22 @@ typedef InputPinTriggeredCb = void Function(
   String address,
   int code,
   String msg,
+  int ts,
   List<bool> pins,
+);
+
+typedef SamplingStartedCb = void Function(
+  String address,
+  int code,
+  String msg,
+  int id,
+);
+
+typedef SamplingFinishedCb = void Function(
+  String address,
+  int code,
+  String msg,
+  int id,
 );
 
 typedef ConnectionErrorCb = void Function(String address, dynamic error);
@@ -104,6 +119,8 @@ class Listener {
     OwBusChangedCb? onOwBusChanged,
     DioStateChangedCb? onIoStateChanged,
     InputPinTriggeredCb? onInputPinTriggered,
+    SamplingStartedCb? onSamplingStarted,
+    SamplingFinishedCb? onSamplingFinished,
     ConnectionErrorCb? onError,
     Duration timeout = const Duration(seconds: 2),
     int port = 0,
@@ -161,13 +178,20 @@ class Listener {
                 break;
               case eventInputTriggered:
                 final map = jsonDecode(String.fromCharCodes(data));
-                final ints = List<int>.from(map);
+                final ints = List<int>.from(map['pins']);
                 onInputPinTriggered?.call(
                   address,
                   code,
                   msg,
+                  map['ts'] ?? 0,
                   ints.map((e) => e == 1).toList(),
                 );
+                break;
+              case eventSamplingStarted:
+                onSamplingStarted?.call(address, code, msg, 0);
+                break;
+              case eventSamplingFinished:
+                onSamplingFinished?.call(address, code, msg, 0);
                 break;
               default:
                 print(

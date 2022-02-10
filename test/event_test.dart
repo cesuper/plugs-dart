@@ -37,7 +37,8 @@ void main() async {
         onOwBusChanged: (address, code, msg) => print(msg),
         onIoStateChanged: (address, code, msg, io) =>
             print('msg: ${io.toString()}'),
-        onInputPinTriggered: (address, code, msg, pins) => print('msg: $pins'),
+        onInputPinTriggered: (address, code, msg, ts, pins) =>
+            print('ts: $ts, msg: $pins'),
       );
     }
 
