@@ -25,6 +25,7 @@ part 'model/sfp/flw.dart';
 part 'model/sfp/sfp_plug_state.dart';
 
 // models/scp
+part 'model/scp/ain_sensor_state.dart';
 part 'model/scp/ain.dart';
 part 'model/scp/dio.dart';
 part 'model/scp/scp_plug_state.dart';
@@ -34,6 +35,7 @@ part 'model/discovery_result.dart';
 part 'model/memory.dart';
 part 'model/plug_state.dart';
 part 'model/plug.dart';
+part 'model/sensor_state.dart';
 part 'model/socket.dart';
 
 // utils
