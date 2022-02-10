@@ -223,6 +223,10 @@ class Listener {
         return 'IO_CHANGED';
       case eventInputTriggered:
         return 'IO_TRIGGERED';
+      case eventSamplingStarted:
+        return 'SAMPLING_STARTED';
+      case eventSamplingFinished:
+        return 'SAMPLING_FINISHED';
       default:
         return 'UNDEFINED';
     }
