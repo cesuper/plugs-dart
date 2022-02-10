@@ -133,10 +133,6 @@ class ApiClient {
           return value is double ? value : double.parse('$value');
         case 'List<String>':
           return List<String>.from(value);
-        case 'List<bool>':
-          return List<bool>.from(value);
-        case 'Socket':
-          return Socket.fromMap(value);
         case 'ScpPlugState':
           return ScpPlugState.fromMap(value);
         case 'SfpPlugState':
