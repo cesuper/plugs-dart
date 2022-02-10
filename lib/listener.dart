@@ -53,6 +53,9 @@ class Listener {
   //
   static const eventPlugDisconnected = 2;
 
+  //
+  static const eventPlugDiscovered = 3;
+
   /// Ping event is used to get life-signal from plugs. These events
   // are not handled by the api, but the loss if the ping event results
   // device disconnect event. Plug sends ping events in 1 sec period.
@@ -233,6 +236,8 @@ class Listener {
         return 'PLUG_CONNECTED';
       case eventPlugDisconnected:
         return 'PLUG_DISCONNECTED';
+      case eventPlugDiscovered:
+        return 'PLUG_DISCOVERED';
       case eventPlugPing:
         return 'PLUG_PING';
       case eventPlugUpdate:
