@@ -1,18 +1,6 @@
 part of plugs;
 
-class FlwSensorState {
-  /// plug serial number from where the adata is originated
-  final String plug;
-
-  /// Status of the sensor from measurement point of view
-  final int status;
-
-  /// Sensor serial number
-  final String serial;
-
-  /// Sensor name
-  final String name;
-
+class FlwSensorState extends SensorState {
   ///
   final String group;
 
@@ -30,23 +18,21 @@ class FlwSensorState {
 
   ///
   FlwSensorState(
-    this.plug,
-    this.status,
-    this.serial,
-    this.name,
+    String serial,
+    String name,
+    int status,
     this.group,
     this.dir,
     this.flowrate,
     this.temperature,
     this.pressure,
-  );
+  ) : super(serial, name, status);
 
   Map<String, dynamic> toMap() {
     return {
-      'plug': plug,
-      'status': status,
       'serial': serial,
       'name': name,
+      'status': status,
       'group': group,
       'dir': dir,
       'flowrate': flowrate,
@@ -57,10 +43,9 @@ class FlwSensorState {
 
   factory FlwSensorState.fromMap(Map<String, dynamic> map) {
     return FlwSensorState(
-      map['plug'] ?? '',
-      map['status']?.toInt() ?? 0,
       map['serial'] ?? '',
       map['name'] ?? '',
+      map['status'] ?? 0,
       map['group'] ?? '',
       map['dir'] ?? '',
       map['flowrate'] ?? 0,
@@ -76,6 +61,6 @@ class FlwSensorState {
 
   @override
   String toString() {
-    return 'FlwSensorState(plug: $plug, status: $status, serial: $serial, name: $name, group: $group, dir: $dir, flowrate: $flowrate, temperature: $temperature, pressure: $pressure)';
+    return 'FlwSensorState(serial: $serial, name: $name, status: $status, group: $group, dir: $dir, flowrate: $flowrate, temperature: $temperature, pressure: $pressure)';
   }
 }
