@@ -18,6 +18,7 @@ class FlwSensorState extends SensorState {
 
   ///
   FlwSensorState(
+    String plug,
     String serial,
     String name,
     int status,
@@ -26,10 +27,11 @@ class FlwSensorState extends SensorState {
     this.flowrate,
     this.temperature,
     this.pressure,
-  ) : super(serial, name, status);
+  ) : super(plug, serial, name, status);
 
   Map<String, dynamic> toMap() {
     return {
+      'plug': plug,
       'serial': serial,
       'name': name,
       'status': status,
@@ -43,6 +45,7 @@ class FlwSensorState extends SensorState {
 
   factory FlwSensorState.fromMap(Map<String, dynamic> map) {
     return FlwSensorState(
+      map['plug'] ?? '',
       map['serial'] ?? '',
       map['name'] ?? '',
       map['status'] ?? 0,

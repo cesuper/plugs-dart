@@ -10,6 +10,7 @@ class AinSensorState extends SensorState {
   final List<num> value;
 
   AinSensorState(
+    String plug,
     String serial,
     String name,
     int status,
@@ -17,10 +18,11 @@ class AinSensorState extends SensorState {
     this.max,
     this.range,
     this.value,
-  ) : super(serial, name, status);
+  ) : super(plug, serial, name, status);
 
   Map<String, dynamic> toMap() {
     return {
+      'plug': plug,
       'serial': serial,
       'name': name,
       'status': status,
@@ -33,6 +35,7 @@ class AinSensorState extends SensorState {
 
   factory AinSensorState.fromMap(Map<String, dynamic> map) {
     return AinSensorState(
+      map['plug'] ?? '',
       map['serial'] ?? '',
       map['name'] ?? '',
       map['status'] ?? 0,
@@ -50,6 +53,6 @@ class AinSensorState extends SensorState {
 
   @override
   String toString() {
-    return 'AinSensorState(serial: $serial, name: $name, status: $status, min: $min, max: $max, range: $range, value: $value)';
+    return 'AinSensorState(plug: $plug, serial: $serial, name: $name, status: $status, min: $min, max: $max, range: $range, value: $value)';
   }
 }
