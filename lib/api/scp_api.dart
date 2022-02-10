@@ -1,14 +1,12 @@
 part of plugs;
 
-class SpcApi {
-  //
-  final ApiClient apiClient;
-
-  SpcApi(this.apiClient);
+class SpcApi extends PlugApi {
+  SpcApi(ApiClient apiClient) : super(apiClient);
 
   ///
+  @override
   Future<ScpPlugState> getState() async {
-    const path = '.cgi';
+    const path = 'plug.cgi';
     final queryParams = <QueryParam>[];
     const body = null;
     final headerParams = <String, String>{};

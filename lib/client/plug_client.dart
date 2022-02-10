@@ -42,13 +42,9 @@ class PlugClient {
     return api;
   }
 
-  PlugApi getPlugApi() => PlugApi(getApiClient(basePath: '/api/plug'));
-
-  SocketApi getSocketApi() => SocketApi(getApiClient(basePath: '/api/socket'));
-
   SfpApi getSfpPlugApi() => SfpApi(getApiClient(basePath: '/api/sfp'));
 
-  SpcApi getScpApi() => SpcApi(getApiClient(basePath: '/api/scp'));
+  SpcApi getScpApi() => SpcApi(getApiClient(basePath: '/api/'));
 }
 
 /// Logging wrapper for http client.

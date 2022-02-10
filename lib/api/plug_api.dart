@@ -1,6 +1,7 @@
 part of plugs;
 
-class PlugApi {
+/// Base class for all plugs
+abstract class PlugApi {
   //
   final ApiClient apiClient;
 
@@ -8,14 +9,24 @@ class PlugApi {
   PlugApi(this.apiClient);
 
   ///
-  @Deprecated('Merged into /api/<family>/.cgi')
-  Future<PlugState> getState() async {
-    const path = r'.cgi';
+  /// abstracts
+  ///
+
+  /// Returns the plug state
+  Future<PlugState> getState();
+
+  ///
+  /// methods
+  ///
+
+  /// Restarts the plug with bootloader mode
+  Future<void> restart({bool bootloader = false}) async {
+    const path = r'/plug/restart.cgi';
     final queryParams = <QueryParam>[];
-    const body = null;
+    final body = bootloader ? {'bootloader': true} : {};
     final headerParams = <String, String>{};
     final formParams = <String, String>{};
-    final contentTypes = <String>[];
+    const contentTypes = <String>['application/json'];
     const authNames = <String>[
       'BasicAuthentication',
       'QuerystringAuthentication',
@@ -25,7 +36,7 @@ class PlugApi {
     //
     final response = await apiClient.invokeAPI(
       path,
-      'GET',
+      'POST',
       queryParams,
       body,
       headerParams,
@@ -34,30 +45,16 @@ class PlugApi {
       authNames,
     );
 
-    //
     if (response.statusCode >= HttpStatus.badRequest) {
       throw ApiException(response.statusCode, await _decodeBodyBytes(response));
     }
-
-    // When a remote server returns no body with a status of 204, we shall not decode it.
-    // At the time of writing this, `dart:convert` will throw an "Unexpected end of input"
-    // FormatException when trying to decode an empty string.
-    if (response.statusCode != HttpStatus.noContent) {
-      return await deserializeAsync(
-        DeserializationMessage(
-          json: await _decodeBodyBytes(response),
-          targetType: (PlugState).toString(),
-        ),
-      ) as PlugState;
-    }
-    throw ApiException(response.statusCode, await _decodeBodyBytes(response));
   }
 
-  ///
-  Future<void> restart({bool bootloader = false}) async {
-    const path = r'/plug/restart.cgi';
+  /// Writes [content] to socket memory
+  Future<void> writeSocket(Object? content) async {
+    const path = r'/memory.cgi';
     final queryParams = <QueryParam>[];
-    final body = bootloader ? {'bootloader': true} : {};
+    final body = content;
     final headerParams = <String, String>{};
     final formParams = <String, String>{};
     const contentTypes = <String>['application/json'];

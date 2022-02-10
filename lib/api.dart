@@ -17,7 +17,6 @@ part 'client/plug_client.dart';
 // api
 part 'api/scp_api.dart';
 part 'api/plug_api.dart';
-part 'api/socket_api.dart';
 part 'api/sfp_api.dart';
 
 // models/sfp

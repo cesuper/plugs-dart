@@ -1,12 +1,10 @@
 part of plugs;
 
-class SfpApi {
-  //
-  final ApiClient apiClient;
-
-  SfpApi(this.apiClient);
+class SfpApi extends PlugApi {
+  SfpApi(ApiClient apiClient) : super(apiClient);
 
   ///
+  @override
   Future<SfpPlugState> getState() async {
     const path = '.cgi';
     final queryParams = <QueryParam>[];
