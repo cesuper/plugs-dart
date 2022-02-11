@@ -30,7 +30,8 @@ class Ain {
       map['time']?.toInt() ?? 0,
       map['ts']?.toInt() ?? 0,
       List<AinSensorState>.from(
-          map['sensors']?.map((x) => AinSensorState.fromMap(x))),
+        map['sensors']?.map((x) => AinSensorState.fromMap(x)),
+      ),
     );
   }
 
