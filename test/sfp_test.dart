@@ -13,6 +13,11 @@ void main() async {
     print(state);
   });
 
+  test('Buffer', () async {
+    final state = await api.getState();
+    print(state);
+  });
+
   // test('Write', () async {
   //   //
   //   final state = await api.getState();

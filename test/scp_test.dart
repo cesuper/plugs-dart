@@ -30,4 +30,13 @@ void main() async {
     final state = await scpApi.getState();
     print(state);
   });
+
+  test('Buffer', () async {
+    // start
+    await scpApi.buffer();
+
+    // get
+    final state = await scpApi.getAinBuffered();
+    print(state);
+  });
 }
