@@ -42,8 +42,10 @@ class PlugClient {
     return api;
   }
 
+  ///
   SfpApi getSfpPlugApi() => SfpApi(getApiClient(basePath: '/api/sfp'));
 
+  ///
   SpcApi getScpApi() => SpcApi(getApiClient(basePath: '/api'));
 }
 

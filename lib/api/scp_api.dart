@@ -6,7 +6,7 @@ class SpcApi extends PlugApi {
   ///
   @override
   Future<ScpPlugState> getState() async {
-    const path = 'plug.cgi';
+    const path = '/plug.cgi';
     final queryParams = <QueryParam>[];
     const body = null;
     final headerParams = <String, String>{};
@@ -132,7 +132,7 @@ class SpcApi extends PlugApi {
     Duration timeout, {
     Duration delay = const Duration(milliseconds: 0),
   }) async {
-    const path = 'do/start.cgi';
+    const path = '/do/start.cgi';
     final queryParams = <QueryParam>[];
     final body = {
       'pin': index,
@@ -168,7 +168,7 @@ class SpcApi extends PlugApi {
 
   ///
   Future<void> stopPin(int index) async {
-    const path = 'do/stop.cgi';
+    const path = '/do/stop.cgi';
     final queryParams = <QueryParam>[];
     final body = {'pin': index};
     final headerParams = <String, String>{};
