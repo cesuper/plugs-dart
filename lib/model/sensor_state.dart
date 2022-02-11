@@ -1,5 +1,7 @@
 part of plugs;
 
+/// Base class for SensorState.
+/// See device specific implementations like FlwSensorState
 abstract class SensorState {
   // plug
   final String plug;

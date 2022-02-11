@@ -1,5 +1,7 @@
 part of plugs;
 
+/// Base class for PlugState.
+/// See plug specific child implementation like [SfpPlugState] or [ScpPlugState]
 abstract class PlugState {
   final Plug plug;
 
