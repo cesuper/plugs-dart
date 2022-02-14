@@ -135,7 +135,7 @@ class ApiClient {
           return List<String>.from(value);
         case 'ScpPlugState':
           return ScpPlugState.fromMap(value);
-        case 'Ain':
+        case 'ScpAinState':
           return ScpAinState.fromMap(value);
         case 'SfpPlugState':
           return SfpPlugState.fromMap(value);

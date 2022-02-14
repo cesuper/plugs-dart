@@ -42,7 +42,7 @@ void main() async {
 
   test('Ain', () async {
     // new parameter
-    final ainParams = ScpAinParams(100, 600);
+    final ainParams = ScpAinParams(100, 1000);
 
     // send it
     await scpApi.setAinParams(ainParams);
