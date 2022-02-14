@@ -19,7 +19,7 @@ typedef DioStateChangedCb = void Function(
   String address,
   int event,
   String msg,
-  Dio io,
+  ScpDio io,
 );
 
 typedef InputPinTriggeredCb = void Function(
@@ -177,7 +177,7 @@ class Listener {
                 break;
               case eventIoStateChanged:
                 final map = jsonDecode(String.fromCharCodes(data));
-                onIoStateChanged?.call(address, code, msg, Dio.fromMap(map));
+                onIoStateChanged?.call(address, code, msg, ScpDio.fromMap(map));
                 break;
               case eventInputTriggered:
                 final map = jsonDecode(String.fromCharCodes(data));

@@ -136,7 +136,7 @@ class ApiClient {
         case 'ScpPlugState':
           return ScpPlugState.fromMap(value);
         case 'Ain':
-          return Ain.fromMap(value);
+          return ScpAin.fromMap(value);
         case 'SfpPlugState':
           return SfpPlugState.fromMap(value);
       }

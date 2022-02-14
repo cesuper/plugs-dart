@@ -26,8 +26,8 @@ part 'model/sfp/sfp_plug_state.dart';
 
 // models/scp
 part 'model/scp/ain_sensor_state.dart';
-part 'model/scp/ain.dart';
-part 'model/scp/dio.dart';
+part 'model/scp/scp_ain.dart';
+part 'model/scp/scp_dio.dart';
 part 'model/scp/scp_plug_state.dart';
 
 // models

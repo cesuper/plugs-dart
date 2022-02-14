@@ -50,7 +50,7 @@ class SpcApi extends PlugApi {
   }
 
   ///
-  Future<Ain> getAinBuffered() async {
+  Future<ScpAin> getAinBuffered() async {
     const path = '/ain/buffer.cgi';
     final queryParams = <QueryParam>[];
     const body = null;
@@ -87,9 +87,9 @@ class SpcApi extends PlugApi {
       return await deserializeAsync(
         DeserializationMessage(
           json: await _decodeBodyBytes(response),
-          targetType: (Ain).toString(),
+          targetType: (ScpAin).toString(),
         ),
-      ) as Ain;
+      ) as ScpAin;
     }
     throw ApiException(response.statusCode, await _decodeBodyBytes(response));
   }
