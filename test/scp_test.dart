@@ -5,7 +5,7 @@ import 'package:test/test.dart';
 
 void main() async {
   //
-  final client = PlugClient('http://192.168.100.110');
+  final client = PlugClient('http://192.168.100.100');
   final scpApi = client.getScpApi();
 
   test('State', () async {
@@ -38,5 +38,16 @@ void main() async {
     // get
     final state = await scpApi.getAinBuffered();
     print(state);
+  });
+
+  test('Ain', () async {
+    // new parameter
+    final ainParams = ScpAinParams(100, 600);
+
+    // send it
+    await scpApi.setAinParams(ainParams);
+
+    // read back
+    print(await scpApi.getState());
   });
 }

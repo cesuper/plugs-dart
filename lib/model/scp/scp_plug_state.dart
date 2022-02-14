@@ -2,7 +2,7 @@ part of plugs;
 
 class ScpPlugState extends PlugState {
   final ScpDio dio;
-  final ScpAin ain;
+  final ScpAinState ain;
 
   ScpPlugState(Plug plug, Socket socket, this.dio, this.ain)
       : super(plug, socket);
@@ -22,7 +22,7 @@ class ScpPlugState extends PlugState {
       Plug.fromMap(map['plug']),
       Socket.fromMap(map['socket']),
       ScpDio.fromMap(map['dio']),
-      ScpAin.fromMap(map['ain']),
+      ScpAinState.fromMap(map['ain']),
     );
   }
 

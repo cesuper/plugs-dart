@@ -1,6 +1,6 @@
 part of plugs;
 
-class ScpAin {
+class ScpAinState {
   final bool auto;
 
   final int freq;
@@ -11,7 +11,7 @@ class ScpAin {
 
   final List<AinSensorState> sensors;
 
-  ScpAin(this.auto, this.freq, this.time, this.ts, this.sensors);
+  ScpAinState(this.auto, this.freq, this.time, this.ts, this.sensors);
 
   Map<String, dynamic> toMap() {
     return {
@@ -23,8 +23,8 @@ class ScpAin {
     };
   }
 
-  factory ScpAin.fromMap(Map<String, dynamic> map) {
-    return ScpAin(
+  factory ScpAinState.fromMap(Map<String, dynamic> map) {
+    return ScpAinState(
       map['auto'] ?? false,
       map['freq']?.toInt() ?? 0,
       map['time']?.toInt() ?? 0,
@@ -37,7 +37,8 @@ class ScpAin {
 
   String toJson() => json.encode(toMap());
 
-  factory ScpAin.fromJson(String source) => ScpAin.fromMap(json.decode(source));
+  factory ScpAinState.fromJson(String source) =>
+      ScpAinState.fromMap(json.decode(source));
 
   @override
   String toString() {

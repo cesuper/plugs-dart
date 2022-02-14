@@ -50,7 +50,7 @@ class SpcApi extends PlugApi {
   }
 
   ///
-  Future<ScpAin> getAinBuffered() async {
+  Future<ScpAinState> getAinBuffered() async {
     const path = '/ain/buffer.cgi';
     final queryParams = <QueryParam>[];
     const body = null;
@@ -87,9 +87,9 @@ class SpcApi extends PlugApi {
       return await deserializeAsync(
         DeserializationMessage(
           json: await _decodeBodyBytes(response),
-          targetType: (ScpAin).toString(),
+          targetType: (ScpAinState).toString(),
         ),
-      ) as ScpAin;
+      ) as ScpAinState;
     }
     throw ApiException(response.statusCode, await _decodeBodyBytes(response));
   }
@@ -193,6 +193,37 @@ class SpcApi extends PlugApi {
     );
 
     //
+    if (response.statusCode >= HttpStatus.badRequest) {
+      throw ApiException(response.statusCode, await _decodeBodyBytes(response));
+    }
+  }
+
+  ///
+  Future<void> setAinParams(ScpAinParams params) async {
+    const path = r'/ain.cgi';
+    final queryParams = <QueryParam>[];
+    final body = params.toMap();
+    final headerParams = <String, String>{};
+    final formParams = <String, String>{};
+    const contentTypes = <String>['application/json'];
+    const authNames = <String>[
+      'BasicAuthentication',
+      'QuerystringAuthentication',
+      'TokenAuthentication',
+    ];
+
+    //
+    final response = await apiClient.invokeAPI(
+      path,
+      'POST',
+      queryParams,
+      body,
+      headerParams,
+      formParams,
+      contentTypes.isEmpty ? null : contentTypes[0],
+      authNames,
+    );
+
     if (response.statusCode >= HttpStatus.badRequest) {
       throw ApiException(response.statusCode, await _decodeBodyBytes(response));
     }
