@@ -13,23 +13,28 @@ void main() async {
     print(state);
   });
 
-  test('Buffer', () async {
-    // start
-    await smpApi.buffer();
+  group('Buffer Group', () {
+    test('buffer', () async {
+      final buffer = await smpApi.buffer();
+      print(buffer);
+    });
 
-    // get
-    final state = await smpApi.getBuffer();
-    print(state);
+    test('get buffer', () async {
+      print(await smpApi.getBuffer());
+    });
   });
 
-  test('Params', () async {
-    // new parameter
-    final ainParams = SmpAinParams(100, 1000);
+  group('Params Group', () {
+    test('set params', () async {
+      // new parameter
+      final params = SmpAinParams(100, 1000);
+      await smpApi.setAinParams(params);
+      print(await smpApi.getAinParams());
+    });
 
-    // send it
-    await smpApi.setAinParams(ainParams);
-
-    // read back
-    print(await smpApi.getState());
+    test('get params', () async {
+      // read back
+      print(await smpApi.getAinParams());
+    });
   });
 }
