@@ -1,10 +1,10 @@
 part of plugs;
 
-abstract class AinParams {
+abstract class PlugAinParams {
   final int freq;
   final int time;
 
-  AinParams(this.freq, this.time);
+  PlugAinParams(this.freq, this.time);
 
   Map<String, dynamic> toMap();
 
@@ -14,7 +14,7 @@ abstract class AinParams {
   bool operator ==(Object other) {
     if (identical(this, other)) return true;
 
-    return other is AinParams && other.freq == freq && other.time == time;
+    return other is PlugAinParams && other.freq == freq && other.time == time;
   }
 
   @override

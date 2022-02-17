@@ -1,9 +1,9 @@
 part of plugs;
 
-abstract class AinState {
+abstract class PlugAinState {
   final int ts;
 
-  AinState(this.ts);
+  PlugAinState(this.ts);
 
   Map<String, dynamic> toMap();
 
@@ -13,7 +13,7 @@ abstract class AinState {
   bool operator ==(Object other) {
     if (identical(this, other)) return true;
 
-    return other is AinState && other.ts == ts;
+    return other is PlugAinState && other.ts == ts;
   }
 
   @override

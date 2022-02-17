@@ -4,16 +4,16 @@ abstract class AinApi extends PlugApi {
   AinApi(ApiClient apiClient) : super(apiClient);
 
   ///
-  Future<AinParams> getAinParams();
+  Future<PlugAinParams> getAinParams();
 
   ///
-  Future<AinState> getBuffer();
+  Future<PlugAinState> getBuffer();
 
   ///
-  Future<AinState> buffer();
+  Future<PlugAinState> buffer();
 
   ///
-  Future<void> setAinParams(AinParams params) async {
+  Future<void> setAinParams(PlugAinParams params) async {
     const path = r'/ain.cgi';
     final queryParams = <QueryParam>[];
     final body = params.toMap();

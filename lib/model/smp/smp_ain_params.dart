@@ -1,6 +1,6 @@
 part of plugs;
 
-class SmpAinParams extends AinParams {
+class SmpAinParams extends PlugAinParams {
   SmpAinParams(int freq, int time) : super(freq, time);
 
   @override
