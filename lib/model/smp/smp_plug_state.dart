@@ -1,16 +1,16 @@
 part of plugs;
 
 class SmpPlugState extends PlugState {
-  final SmpAinState cp;
+  final SmpAinState ain;
 
-  SmpPlugState(Plug plug, Socket socket, this.cp) : super(plug, socket);
+  SmpPlugState(Plug plug, Socket socket, this.ain) : super(plug, socket);
 
   @override
   Map<String, dynamic> toMap() {
     return {
       'plug': plug.toMap(),
       'socket': socket.toMap(),
-      'cp': cp.toMap(),
+      'ain': ain.toMap(),
     };
   }
 
@@ -18,7 +18,7 @@ class SmpPlugState extends PlugState {
     return SmpPlugState(
       Plug.fromMap(map['plug']),
       Socket.fromMap(map['socket']),
-      SmpAinState.fromMap(map['cp']),
+      SmpAinState.fromMap(map['ain']),
     );
   }
 
@@ -29,5 +29,5 @@ class SmpPlugState extends PlugState {
       SmpPlugState.fromMap(json.decode(source));
 
   @override
-  String toString() => 'SmpPlugState(plug: $plug, socket: $socket, cp: $cp)';
+  String toString() => 'SmpPlugState(plug: $plug, socket: $socket, ain: $ain)';
 }

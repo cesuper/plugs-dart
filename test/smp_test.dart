@@ -13,6 +13,19 @@ void main() async {
     print(state);
   });
 
+  group('State', () {
+    test('State', () async {
+      final state = await smpApi.getState();
+      print(state);
+    });
+
+    test('Ain State', () async {
+      final state = await smpApi.getState();
+      final ainState = state.cp;
+      print(ainState);
+    });
+  });
+
   group('Buffer Group', () {
     test('buffer', () async {
       final buffer = await smpApi.buffer();
