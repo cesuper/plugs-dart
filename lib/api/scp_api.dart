@@ -1,6 +1,6 @@
 part of plugs;
 
-class SpcApi extends PlugApi {
+class SpcApi extends AinApi {
   SpcApi(ApiClient apiClient) : super(apiClient);
 
   ///
@@ -8,9 +8,6 @@ class SpcApi extends PlugApi {
   Future<ScpPlugState> getState() async {
     final response = await getStateWithHttpInfo();
 
-    // When a remote server returns no body with a status of 204, we shall not decode it.
-    // At the time of writing this, `dart:convert` will throw an "Unexpected end of input"
-    // FormatException when trying to decode an empty string.
     if (response.statusCode != HttpStatus.noContent) {
       return await deserializeAsync(
         DeserializationMessage(
@@ -168,6 +165,12 @@ class SpcApi extends PlugApi {
     if (response.statusCode >= HttpStatus.badRequest) {
       throw ApiException(response.statusCode, await _decodeBodyBytes(response));
     }
+  }
+
+  @override
+  Future<PlugAinState> buffer() {
+    // TODO: implement buffer
+    throw UnimplementedError();
   }
 
   /// TODO: Ain Get/Set state

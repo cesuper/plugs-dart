@@ -4,7 +4,10 @@ abstract class AinApi extends PlugApi {
   AinApi(ApiClient apiClient) : super(apiClient);
 
   ///
-  Future<void> buffer() async {
+  Future<PlugAinState> buffer();
+
+  @protected
+  Future<Response> bufferWithHttpInfo() async {
     const path = '/ain/buffer.cgi';
     final queryParams = <QueryParam>[];
     const body = null;
@@ -33,5 +36,6 @@ abstract class AinApi extends PlugApi {
     if (response.statusCode >= HttpStatus.badRequest) {
       throw ApiException(response.statusCode, await _decodeBodyBytes(response));
     }
+    return response;
   }
 }

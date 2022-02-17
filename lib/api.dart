@@ -4,6 +4,7 @@ library plugs;
 import 'dart:async';
 import 'dart:convert';
 import 'package:meta/meta.dart';
+import 'package:plugs/model/utils/plug_ain_state.dart';
 import 'package:universal_io/io.dart';
 import 'package:http/http.dart';
 

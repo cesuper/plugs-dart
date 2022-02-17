@@ -1,6 +1,6 @@
 part of plugs;
 
-class SmpAinState {
+class SmpAinState extends PlugAinState {
   final int freq;
   final int time;
   final int ts;

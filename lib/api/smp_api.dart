@@ -9,9 +9,6 @@ class SmpApi extends AinApi {
     //
     final response = await getStateWithHttpInfo();
 
-    // When a remote server returns no body with a status of 204, we shall not decode it.
-    // At the time of writing this, `dart:convert` will throw an "Unexpected end of input"
-    // FormatException when trying to decode an empty string.
     if (response.statusCode != HttpStatus.noContent) {
       return await deserializeAsync(
         DeserializationMessage(
@@ -97,5 +94,20 @@ class SmpApi extends AinApi {
     if (response.statusCode >= HttpStatus.badRequest) {
       throw ApiException(response.statusCode, await _decodeBodyBytes(response));
     }
+  }
+
+  @override
+  Future<SmpAinState> buffer() async {
+    final response = await super.bufferWithHttpInfo();
+
+    if (response.statusCode != HttpStatus.noContent) {
+      return await deserializeAsync(
+        DeserializationMessage(
+          json: await _decodeBodyBytes(response),
+          targetType: (SmpAinState).toString(),
+        ),
+      ) as SmpAinState;
+    }
+    throw ApiException(response.statusCode, await _decodeBodyBytes(response));
   }
 }
