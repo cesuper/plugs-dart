@@ -18,7 +18,7 @@ void main() async {
     await smpApi.buffer();
 
     // get
-    final state = await smpApi.getAinBuffered();
+    final state = await smpApi.getBuffer();
     print(state);
   });
 
@@ -27,7 +27,7 @@ void main() async {
     final ainParams = SmpAinParams(100, 1000);
 
     // send it
-    await smpApi.setParams(ainParams);
+    await smpApi.setAinParams(ainParams);
 
     // read back
     print(await smpApi.getState());

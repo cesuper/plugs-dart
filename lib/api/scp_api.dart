@@ -20,16 +20,16 @@ class SpcApi extends AinApi {
   }
 
   @override
-  Future<AinState> buffer() async {
-    final response = await super.getBufferWithHttpInfo();
+  Future<ScpAinParams> getAinParams() async {
+    final response = await super.getAinParamsWithHttpInfo();
 
     if (response.statusCode != HttpStatus.noContent) {
       return await deserializeAsync(
         DeserializationMessage(
           json: await _decodeBodyBytes(response),
-          targetType: (ScpAinState).toString(),
+          targetType: (ScpAinParams).toString(),
         ),
-      ) as ScpAinState;
+      ) as ScpAinParams;
     }
     throw ApiException(response.statusCode, await _decodeBodyBytes(response));
   }
@@ -50,16 +50,16 @@ class SpcApi extends AinApi {
   }
 
   @override
-  Future<ScpAinParams> getAinParams() async {
-    final response = await super.getAinParamsWithHttpInfo();
+  Future<AinState> buffer() async {
+    final response = await super.getBufferWithHttpInfo();
 
     if (response.statusCode != HttpStatus.noContent) {
       return await deserializeAsync(
         DeserializationMessage(
           json: await _decodeBodyBytes(response),
-          targetType: (ScpAinParams).toString(),
+          targetType: (ScpAinState).toString(),
         ),
-      ) as ScpAinParams;
+      ) as ScpAinState;
     }
     throw ApiException(response.statusCode, await _decodeBodyBytes(response));
   }
