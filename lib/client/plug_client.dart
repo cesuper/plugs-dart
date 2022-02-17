@@ -47,6 +47,9 @@ class PlugClient {
 
   ///
   SpcApi getScpApi() => SpcApi(getApiClient(basePath: '/api'));
+
+  ///
+  SmpApi getSmpApi() => SmpApi(getApiClient(basePath: '/api'));
 }
 
 /// Logging wrapper for http client.

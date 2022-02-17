@@ -1,6 +1,6 @@
 part of plugs;
 
-class AinSensorState extends SensorState {
+class ScpAinSensorState extends SensorState {
   final num min;
 
   final num max;
@@ -9,7 +9,7 @@ class AinSensorState extends SensorState {
 
   final List<num> value;
 
-  AinSensorState(
+  ScpAinSensorState(
     String plug,
     String serial,
     String name,
@@ -33,8 +33,8 @@ class AinSensorState extends SensorState {
     };
   }
 
-  factory AinSensorState.fromMap(Map<String, dynamic> map) {
-    return AinSensorState(
+  factory ScpAinSensorState.fromMap(Map<String, dynamic> map) {
+    return ScpAinSensorState(
       map['plug'] ?? '',
       map['serial'] ?? '',
       map['name'] ?? '',
@@ -48,11 +48,11 @@ class AinSensorState extends SensorState {
 
   String toJson() => json.encode(toMap());
 
-  factory AinSensorState.fromJson(String source) =>
-      AinSensorState.fromMap(json.decode(source));
+  factory ScpAinSensorState.fromJson(String source) =>
+      ScpAinSensorState.fromMap(json.decode(source));
 
   @override
   String toString() {
-    return 'AinSensorState(plug: $plug, serial: $serial, name: $name, status: $status, min: $min, max: $max, range: $range, value: $value)';
+    return 'ScpAinSensorState(plug: $plug, serial: $serial, name: $name, status: $status, min: $min, max: $max, range: $range, value: $value)';
   }
 }

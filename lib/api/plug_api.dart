@@ -8,16 +8,12 @@ abstract class PlugApi {
   //
   PlugApi(this.apiClient);
 
-  ///
   /// abstracts
-  ///
 
   /// Returns the plug state
   Future<PlugState> getState();
 
-  ///
   /// methods
-  ///
 
   /// Restarts the plug with bootloader mode
   Future<void> restart({bool bootloader = false}) async {
@@ -80,7 +76,4 @@ abstract class PlugApi {
       throw ApiException(response.statusCode, await _decodeBodyBytes(response));
     }
   }
-
-  // TODO: Add read and write eeprom
-
 }

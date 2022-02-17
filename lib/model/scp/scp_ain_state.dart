@@ -9,7 +9,7 @@ class ScpAinState {
 
   final int ts;
 
-  final List<AinSensorState> sensors;
+  final List<ScpAinSensorState> sensors;
 
   ScpAinState(this.auto, this.freq, this.time, this.ts, this.sensors);
 
@@ -29,8 +29,8 @@ class ScpAinState {
       map['freq']?.toInt() ?? 0,
       map['time']?.toInt() ?? 0,
       map['ts']?.toInt() ?? 0,
-      List<AinSensorState>.from(
-        map['sensors']?.map((x) => AinSensorState.fromMap(x)),
+      List<ScpAinSensorState>.from(
+        map['sensors']?.map((x) => ScpAinSensorState.fromMap(x)),
       ),
     );
   }

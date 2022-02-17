@@ -18,18 +18,25 @@ part 'client/plug_client.dart';
 part 'api/scp_api.dart';
 part 'api/plug_api.dart';
 part 'api/sfp_api.dart';
+part 'api/smp_api.dart';
+
+// models/scp
+part 'model/scp/scp_ain_sensor_state.dart';
+part 'model/scp/scp_ain_params.dart';
+part 'model/scp/scp_ain_state.dart';
+part 'model/scp/scp_dio_state.dart';
+part 'model/scp/scp_plug_state.dart';
 
 // models/sfp
 part 'model/sfp/flw_sensor_state.dart';
 part 'model/sfp/flw.dart';
 part 'model/sfp/sfp_plug_state.dart';
 
-// models/scp
-part 'model/scp/ain_sensor_state.dart';
-part 'model/scp/scp_ain_params.dart';
-part 'model/scp/scp_ain_state.dart';
-part 'model/scp/scp_dio_state.dart';
-part 'model/scp/scp_plug_state.dart';
+// models/smp
+part 'model/smp/smp_ain_sensor_state.dart';
+part 'model/smp/smp_ain_params.dart';
+part 'model/smp/smp_ain_state.dart';
+part 'model/smp/smp_plug_state.dart';
 
 // models
 part 'model/discovery_result.dart';

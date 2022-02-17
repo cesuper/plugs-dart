@@ -135,10 +135,10 @@ class ApiClient {
           return List<String>.from(value);
         case 'ScpPlugState':
           return ScpPlugState.fromMap(value);
-        case 'ScpAinState':
-          return ScpAinState.fromMap(value);
         case 'SfpPlugState':
           return SfpPlugState.fromMap(value);
+        case 'SmpPlugState':
+          return SmpPlugState.fromMap(value);
       }
     } catch (error, trace) {
       throw ApiException.withInner(HttpStatus.internalServerError,
