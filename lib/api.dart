@@ -40,11 +40,9 @@ part 'model/smp/smp_ain_params.dart';
 part 'model/smp/smp_ain_state.dart';
 part 'model/smp/smp_plug_state.dart';
 
-// models/utils
-part 'model/utils/ain_params.dart';
-part 'model/utils/ain_state.dart';
-
 // models
+part 'model/ain_params.dart';
+part 'model/ain_state.dart';
 part 'model/discovery_result.dart';
 part 'model/memory.dart';
 part 'model/plug_state.dart';
