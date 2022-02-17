@@ -5,12 +5,45 @@ import 'package:test/test.dart';
 
 void main() async {
   //
-  final client = PlugClient('http://192.168.100.100');
-  final scpApi = client.getScpApi();
+  final client = PlugClient('http://192.168.100.103');
+  final api = client.getScpApi();
 
-  test('State', () async {
-    final state = await scpApi.getState();
-    print(state);
+  group('State', () {
+    test('State', () async {
+      final state = await api.getState();
+      print(state);
+    });
+
+    test('Ain State', () async {
+      final state = await api.getState();
+      final ain = state.ain;
+      print(ain);
+    });
+  });
+
+  group('Params Group', () {
+    test('set params', () async {
+      // new parameter
+      final params = ScpAinParams(100, 1000);
+      await api.setAinParams(params);
+      print(await api.getAinParams());
+    });
+
+    test('get params', () async {
+      // read back
+      print(await api.getAinParams());
+    });
+  });
+
+  group('Buffer Group', () {
+    test('buffer', () async {
+      final buffer = await api.buffer();
+      print(buffer);
+    });
+
+    test('get buffer', () async {
+      print(await api.getBuffer());
+    });
   });
 
   test('Start - Stop pin', () async {
@@ -19,35 +52,15 @@ void main() async {
     const timeout = Duration(seconds: 5);
 
     //
-    await scpApi.startPin(index, timeout, delay: delay);
+    await api.startPin(index, timeout, delay: delay);
 
     //
     await Future.delayed(const Duration(seconds: 2));
 
     //
-    await scpApi.stopPin(index);
+    await api.stopPin(index);
 
-    final state = await scpApi.getState();
+    final state = await api.getState();
     print(state);
-  });
-
-  test('Buffer', () async {
-    // start
-    await scpApi.buffer();
-
-    // get
-    final state = await scpApi.getBuffer();
-    print(state);
-  });
-
-  test('Ain', () async {
-    // new parameter
-    final ainParams = ScpAinParams(100, 1000);
-
-    // send it
-    await scpApi.setAinParams(ainParams);
-
-    // read back
-    print(await scpApi.getState());
   });
 }

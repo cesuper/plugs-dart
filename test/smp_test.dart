@@ -6,34 +6,18 @@ import 'package:test/test.dart';
 void main() async {
   //
   final client = PlugClient('http://192.168.100.124');
-  final smpApi = client.getSmpApi();
-
-  test('State', () async {
-    final state = await smpApi.getState();
-    print(state);
-  });
+  final api = client.getSmpApi();
 
   group('State', () {
     test('State', () async {
-      final state = await smpApi.getState();
+      final state = await api.getState();
       print(state);
     });
 
     test('Ain State', () async {
-      final state = await smpApi.getState();
+      final state = await api.getState();
       final ain = state.ain;
       print(ain);
-    });
-  });
-
-  group('Buffer Group', () {
-    test('buffer', () async {
-      final buffer = await smpApi.buffer();
-      print(buffer);
-    });
-
-    test('get buffer', () async {
-      print(await smpApi.getBuffer());
     });
   });
 
@@ -41,13 +25,24 @@ void main() async {
     test('set params', () async {
       // new parameter
       final params = SmpAinParams(100, 1000);
-      await smpApi.setAinParams(params);
-      print(await smpApi.getAinParams());
+      await api.setAinParams(params);
+      print(await api.getAinParams());
     });
 
     test('get params', () async {
       // read back
-      print(await smpApi.getAinParams());
+      print(await api.getAinParams());
+    });
+  });
+
+  group('Buffer Group', () {
+    test('buffer', () async {
+      final buffer = await api.buffer();
+      print(buffer);
+    });
+
+    test('get buffer', () async {
+      print(await api.getBuffer());
     });
   });
 }

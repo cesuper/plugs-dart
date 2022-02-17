@@ -50,8 +50,8 @@ class SpcApi extends AinApi {
   }
 
   @override
-  Future<AinState> buffer() async {
-    final response = await super.getBufferWithHttpInfo();
+  Future<ScpAinState> buffer() async {
+    final response = await super.bufferWithHttpInfo();
 
     if (response.statusCode != HttpStatus.noContent) {
       return await deserializeAsync(
