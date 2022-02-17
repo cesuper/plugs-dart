@@ -1,11 +1,9 @@
 part of plugs;
 
 class SmpAinParams extends AinParams {
-  final int freq;
-  final int time;
+  SmpAinParams(int freq, int time) : super(freq, time);
 
-  SmpAinParams(this.freq, this.time);
-
+  @override
   Map<String, dynamic> toMap() {
     return {
       'freq': freq,
@@ -19,8 +17,6 @@ class SmpAinParams extends AinParams {
       map['time']?.toInt() ?? 0,
     );
   }
-
-  String toJson() => json.encode(toMap());
 
   factory SmpAinParams.fromJson(String source) =>
       SmpAinParams.fromMap(json.decode(source));

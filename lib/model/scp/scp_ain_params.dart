@@ -1,11 +1,9 @@
 part of plugs;
 
 class ScpAinParams extends AinParams {
-  final int freq;
-  final int time;
+  ScpAinParams(int freq, int time) : super(freq, time);
 
-  ScpAinParams(this.freq, this.time);
-
+  @override
   Map<String, dynamic> toMap() {
     return {
       'freq': freq,
@@ -20,8 +18,9 @@ class ScpAinParams extends AinParams {
     );
   }
 
-  String toJson() => json.encode(toMap());
-
   factory ScpAinParams.fromJson(String source) =>
       ScpAinParams.fromMap(json.decode(source));
+
+  @override
+  String toString() => 'ScpAinParams(freq: $freq, time: $time)';
 }

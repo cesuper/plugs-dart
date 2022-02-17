@@ -41,6 +41,37 @@ abstract class AinApi extends PlugApi {
   }
 
   ///
+  Future<void> setAinParams(AinParams params) async {
+    const path = r'/ain.cgi';
+    final queryParams = <QueryParam>[];
+    final body = params.toMap();
+    final headerParams = <String, String>{};
+    final formParams = <String, String>{};
+    const contentTypes = <String>['application/json'];
+    const authNames = <String>[
+      'BasicAuthentication',
+      'QuerystringAuthentication',
+      'TokenAuthentication',
+    ];
+
+    //
+    final response = await apiClient.invokeAPI(
+      path,
+      'POST',
+      queryParams,
+      body,
+      headerParams,
+      formParams,
+      contentTypes.isEmpty ? null : contentTypes[0],
+      authNames,
+    );
+
+    if (response.statusCode >= HttpStatus.badRequest) {
+      throw ApiException(response.statusCode, await _decodeBodyBytes(response));
+    }
+  }
+
+  ///
   Future<AinState> buffer();
 
   @protected

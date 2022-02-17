@@ -36,7 +36,7 @@ void main() async {
     await scpApi.buffer();
 
     // get
-    final state = await scpApi.getAinBuffered();
+    final state = await scpApi.getBuffer();
     print(state);
   });
 
