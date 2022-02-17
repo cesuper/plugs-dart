@@ -21,8 +21,8 @@ void main() async {
 
     test('Ain State', () async {
       final state = await smpApi.getState();
-      final ainState = state.cp;
-      print(ainState);
+      final ain = state.ain;
+      print(ain);
     });
   });
 
