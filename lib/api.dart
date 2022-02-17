@@ -3,6 +3,7 @@ library plugs;
 /// Imports
 import 'dart:async';
 import 'dart:convert';
+import 'package:meta/meta.dart';
 import 'package:universal_io/io.dart';
 import 'package:http/http.dart';
 
@@ -37,6 +38,9 @@ part 'model/smp/smp_ain_sensor_state.dart';
 part 'model/smp/smp_ain_params.dart';
 part 'model/smp/smp_ain_state.dart';
 part 'model/smp/smp_plug_state.dart';
+
+// models/utils
+part 'api/ain_api.dart';
 
 // models
 part 'model/discovery_result.dart';

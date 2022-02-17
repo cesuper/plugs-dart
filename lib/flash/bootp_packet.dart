@@ -14,7 +14,7 @@ class BootpPacket {
   static const int reply = 2;
 
   // target endianness, where the data comes from
-  static final endianness = Endian.big;
+  static const endianness = Endian.big;
 
   // original datagram
   final Uint8List datagram;

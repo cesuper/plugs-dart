@@ -139,6 +139,8 @@ class ApiClient {
           return SfpPlugState.fromMap(value);
         case 'SmpPlugState':
           return SmpPlugState.fromMap(value);
+        case 'SmpAinState':
+          return SmpAinState.fromMap(value);
       }
     } catch (error, trace) {
       throw ApiException.withInner(HttpStatus.internalServerError,

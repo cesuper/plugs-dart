@@ -1,39 +1,13 @@
 part of plugs;
 
-class SmpApi extends PlugApi {
+class SmpApi extends AinApi {
   SmpApi(ApiClient apiClient) : super(apiClient);
 
   ///
   @override
   Future<SmpPlugState> getState() async {
-    const path = '/plug.cgi';
-    final queryParams = <QueryParam>[];
-    const body = null;
-    final headerParams = <String, String>{};
-    final formParams = <String, String>{};
-    final contentTypes = <String>[];
-    const authNames = <String>[
-      'BasicAuthentication',
-      'QuerystringAuthentication',
-      'TokenAuthentication',
-    ];
-
     //
-    final response = await apiClient.invokeAPI(
-      path,
-      'GET',
-      queryParams,
-      body,
-      headerParams,
-      formParams,
-      contentTypes.isEmpty ? null : contentTypes[0],
-      authNames,
-    );
-
-    //
-    if (response.statusCode >= HttpStatus.badRequest) {
-      throw ApiException(response.statusCode, await _decodeBodyBytes(response));
-    }
+    final response = await getStateWithHttpInfo();
 
     // When a remote server returns no body with a status of 204, we shall not decode it.
     // At the time of writing this, `dart:convert` will throw an "Unexpected end of input"
@@ -92,38 +66,6 @@ class SmpApi extends PlugApi {
       ) as SmpPlugState;
     }
     throw ApiException(response.statusCode, await _decodeBodyBytes(response));
-  }
-
-  ///
-  Future<void> buffer() async {
-    const path = '/ain/buffer.cgi';
-    final queryParams = <QueryParam>[];
-    const body = null;
-    final headerParams = <String, String>{};
-    final formParams = <String, String>{};
-    final contentTypes = <String>[];
-    const authNames = <String>[
-      'BasicAuthentication',
-      'QuerystringAuthentication',
-      'TokenAuthentication',
-    ];
-
-    //
-    final response = await apiClient.invokeAPI(
-      path,
-      'POST',
-      queryParams,
-      body,
-      headerParams,
-      formParams,
-      contentTypes.isEmpty ? null : contentTypes[0],
-      authNames,
-    );
-
-    //
-    if (response.statusCode >= HttpStatus.badRequest) {
-      throw ApiException(response.statusCode, await _decodeBodyBytes(response));
-    }
   }
 
   ///

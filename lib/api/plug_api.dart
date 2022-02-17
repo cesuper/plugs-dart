@@ -8,10 +8,42 @@ abstract class PlugApi {
   //
   PlugApi(this.apiClient);
 
-  /// abstracts
-
   /// Returns the plug state
   Future<PlugState> getState();
+
+  @protected
+  Future<Response> getStateWithHttpInfo() async {
+    const path = '/plug.cgi';
+    final queryParams = <QueryParam>[];
+    const body = null;
+    final headerParams = <String, String>{};
+    final formParams = <String, String>{};
+    final contentTypes = <String>[];
+    const authNames = <String>[
+      'BasicAuthentication',
+      'QuerystringAuthentication',
+      'TokenAuthentication',
+    ];
+
+    //
+    final response = await apiClient.invokeAPI(
+      path,
+      'GET',
+      queryParams,
+      body,
+      headerParams,
+      formParams,
+      contentTypes.isEmpty ? null : contentTypes[0],
+      authNames,
+    );
+
+    //
+    if (response.statusCode >= HttpStatus.badRequest) {
+      throw ApiException(response.statusCode, await _decodeBodyBytes(response));
+    }
+
+    return response;
+  }
 
   /// methods
 
