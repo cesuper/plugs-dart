@@ -1,6 +1,6 @@
 part of plugs;
 
-class ScpAinState {
+class ScpAinState extends AinState {
   final bool auto;
 
   final int freq;

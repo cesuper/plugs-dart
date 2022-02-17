@@ -1,6 +1,6 @@
 part of plugs;
 
-class ScpAinParams {
+class ScpAinParams extends AinParams {
   final int freq;
   final int time;
 

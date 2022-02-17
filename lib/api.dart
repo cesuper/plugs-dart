@@ -4,7 +4,6 @@ library plugs;
 import 'dart:async';
 import 'dart:convert';
 import 'package:meta/meta.dart';
-import 'package:plugs/model/utils/plug_ain_state.dart';
 import 'package:universal_io/io.dart';
 import 'package:http/http.dart';
 
@@ -17,6 +16,7 @@ part 'api_helper.dart';
 part 'client/plug_client.dart';
 
 // api
+part 'api/ain_api.dart';
 part 'api/scp_api.dart';
 part 'api/plug_api.dart';
 part 'api/sfp_api.dart';
@@ -41,7 +41,8 @@ part 'model/smp/smp_ain_state.dart';
 part 'model/smp/smp_plug_state.dart';
 
 // models/utils
-part 'api/ain_api.dart';
+part 'model/utils/ain_params.dart';
+part 'model/utils/ain_state.dart';
 
 // models
 part 'model/discovery_result.dart';

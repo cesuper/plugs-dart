@@ -1,6 +1,6 @@
 part of plugs;
 
-class SmpAinParams {
+class SmpAinParams extends AinParams {
   final int freq;
   final int time;
 
