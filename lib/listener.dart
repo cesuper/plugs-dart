@@ -3,47 +3,13 @@ import 'package:universal_io/io.dart' as io;
 
 import 'api.dart';
 
-typedef ConnectionChangedCb = void Function(
-  String address,
-  int event,
-  String msg,
-);
-
-typedef OwBusChangedCb = void Function(
-  String address,
-  int event,
-  String msg,
-);
-
-typedef DioStateChangedCb = void Function(
-  String address,
-  int event,
-  String msg,
-  ScpDio io,
-);
-
+typedef ConnectionChangedCb = void Function(String address, int event);
+typedef OwBusChangedCb = void Function(String address, int event);
+typedef DioStateChangedCb = void Function(String address, int event, ScpDio io);
 typedef InputPinTriggeredCb = void Function(
-  String address,
-  int code,
-  String msg,
-  int ts,
-  List<bool> pins,
-);
-
-typedef SamplingStartedCb = void Function(
-  String address,
-  int code,
-  String msg,
-  int id,
-);
-
-typedef SamplingFinishedCb = void Function(
-  String address,
-  int code,
-  String msg,
-  int id,
-);
-
+    String address, int code, int ts, List<bool> pins);
+typedef SamplingStartedCb = void Function(String address, int code, int id);
+typedef SamplingFinishedCb = void Function(String address, int code, int id);
 typedef ConnectionErrorCb = void Function(String address, dynamic error);
 
 class Listener {
@@ -135,11 +101,7 @@ class Listener {
       timeout: timeout,
     ).then((socket) {
       // fire connected event
-      onConnected?.call(
-        address,
-        eventPlugConnected,
-        Listener.eventName(eventPlugConnected),
-      );
+      onConnected?.call(address, eventPlugConnected);
 
       // set as local variable
       _socket = socket;
@@ -157,7 +119,6 @@ class Listener {
 
             // get event from msg
             final code = event.first;
-            final msg = Listener.eventName(code);
             final data =
                 event.skip(1).takeWhile((value) => value != 0).toList();
 
@@ -167,17 +128,17 @@ class Listener {
                 // ignore ping event
                 break;
               case eventOwBusOpen:
-                onOwBusOpened?.call(address, code, msg);
+                onOwBusOpened?.call(address, code);
                 break;
               case eventOwBusClosed:
-                onOwBusClosed?.call(address, code, msg);
+                onOwBusClosed?.call(address, code);
                 break;
               case eventOwBusChanged:
-                onOwBusChanged?.call(address, code, msg);
+                onOwBusChanged?.call(address, code);
                 break;
               case eventIoStateChanged:
                 final map = jsonDecode(String.fromCharCodes(data));
-                onIoStateChanged?.call(address, code, msg, ScpDio.fromMap(map));
+                onIoStateChanged?.call(address, code, ScpDio.fromMap(map));
                 break;
               case eventInputTriggered:
                 final map = jsonDecode(String.fromCharCodes(data));
@@ -185,20 +146,18 @@ class Listener {
                 onInputPinTriggered?.call(
                   address,
                   code,
-                  msg,
                   map['ts'] ?? 0,
                   ints.map((e) => e == 1).toList(),
                 );
                 break;
               case eventSamplingStarted:
-                onSamplingStarted?.call(address, code, msg, 0);
+                onSamplingStarted?.call(address, code, 0);
                 break;
               case eventSamplingFinished:
-                onSamplingFinished?.call(address, code, msg, 0);
+                onSamplingFinished?.call(address, code, 0);
                 break;
               default:
-                print(
-                    '$address - ${Listener.eventName(code)} - ${String.fromCharCodes(data)}');
+                print('$address - ${(code)} - ${String.fromCharCodes(data)}');
             }
 
             //
@@ -214,11 +173,7 @@ class Listener {
         },
         onDone: () {
           // create disconnected
-          onDisconnected?.call(
-            address,
-            eventPlugDisconnected,
-            Listener.eventName(eventPlugDisconnected),
-          );
+          onDisconnected?.call(address, eventPlugDisconnected);
         },
       );
     });
@@ -230,34 +185,34 @@ class Listener {
   }
 
   /// decode event to String
-  static String eventName(int code) {
-    switch (code) {
-      case eventPlugConnected:
-        return 'PLUG_CONNECTED';
-      case eventPlugDisconnected:
-        return 'PLUG_DISCONNECTED';
-      case eventPlugDiscovered:
-        return 'PLUG_DISCOVERED';
-      case eventPlugPing:
-        return 'PLUG_PING';
-      case eventPlugUpdate:
-        return 'PLUG_UPDATE';
-      case eventOwBusOpen:
-        return 'OW_BUS_OPEN';
-      case eventOwBusClosed:
-        return 'OW_BUS_CLOSE';
-      case eventOwBusChanged:
-        return 'OW_BUS_CHANGED';
-      case eventIoStateChanged:
-        return 'IO_CHANGED';
-      case eventInputTriggered:
-        return 'IO_TRIGGERED';
-      case eventSamplingStarted:
-        return 'SAMPLING_STARTED';
-      case eventSamplingFinished:
-        return 'SAMPLING_FINISHED';
-      default:
-        return 'UNDEFINED';
-    }
-  }
+  // static String _eventName(int code) {
+  //   switch (code) {
+  //     case eventPlugConnected:
+  //       return 'PLUG_CONNECTED';
+  //     case eventPlugDisconnected:
+  //       return 'PLUG_DISCONNECTED';
+  //     case eventPlugDiscovered:
+  //       return 'PLUG_DISCOVERED';
+  //     case eventPlugPing:
+  //       return 'PLUG_PING';
+  //     case eventPlugUpdate:
+  //       return 'PLUG_UPDATE';
+  //     case eventOwBusOpen:
+  //       return 'OW_BUS_OPEN';
+  //     case eventOwBusClosed:
+  //       return 'OW_BUS_CLOSE';
+  //     case eventOwBusChanged:
+  //       return 'OW_BUS_CHANGED';
+  //     case eventIoStateChanged:
+  //       return 'IO_CHANGED';
+  //     case eventInputTriggered:
+  //       return 'IO_TRIGGERED';
+  //     case eventSamplingStarted:
+  //       return 'SAMPLING_STARTED';
+  //     case eventSamplingFinished:
+  //       return 'SAMPLING_FINISHED';
+  //     default:
+  //       return 'UNDEFINED';
+  //   }
+  // }
 }
