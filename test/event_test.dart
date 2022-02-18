@@ -32,12 +32,12 @@ void main() async {
         localAddress,
         onConnected: (address, code) => print(code),
         onDisconnected: (address, code) => print(code),
+        onChangedHttp: (address, code) => print(code),
         onOwBusOpened: (address, code) => print(code),
         onOwBusClosed: (address, code) => print(code),
-        onOwBusChanged: (address, code) => print(code),
-        onIoStateChanged: (address, code, io) =>
-            print('code: ${io.toString()}'),
-        onInputPinTriggered: (address, code, ts, pins) =>
+        onBuffering: (address, code) => print(code),
+        onDioChanged: (address, code, io) => print('code: ${io.toString()}'),
+        onInputTriggered: (address, code, ts, pins) =>
             print('ts: $ts, code: $pins'),
       );
     }

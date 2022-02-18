@@ -3,66 +3,79 @@ import 'package:universal_io/io.dart' as io;
 
 import 'api.dart';
 
-typedef ConnectionChangedCb = void Function(String address, int event);
-typedef OwBusChangedCb = void Function(String address, int event);
-typedef DioStateChangedCb = void Function(String address, int event, ScpDio io);
-typedef InputPinTriggeredCb = void Function(
-    String address, int code, int ts, List<bool> pins);
-typedef SamplingStartedCb = void Function(String address, int code, int id);
-typedef SamplingFinishedCb = void Function(String address, int code, int id);
+typedef StateChangedCb = void Function(String address, int event);
+
+typedef ValueChangedDioCb = void Function(
+  String address,
+  int event,
+  ScpDio io,
+);
+typedef ValueChangedInputTriggeredCb = void Function(
+  String address,
+  int code,
+  int ts,
+  List<bool> pins,
+);
+
+typedef ValueChangedSampledCb = void Function(
+  String address,
+  int code,
+);
+
+typedef ValueChangedBufferedCb = void Function(
+  String address,
+  int code,
+  int id,
+);
 typedef ConnectionErrorCb = void Function(String address, dynamic error);
 
 class Listener {
-  //
-  static const eventPlugConnected = 1;
-
-  //
-  static const eventPlugDisconnected = 2;
-
-  //
-  static const eventPlugDiscovered = 3;
-
   /// Ping event is used to get life-signal from plugs. These events
   // are not handled by the api, but the loss if the ping event results
   // device disconnect event. Plug sends ping events in 1 sec period.
   // this event is ignored by the API by default
   static const eventPlugPing = 255;
 
-  // request for fw update detected
-  static const eventPlugUpdate = 11;
+  //
+  static const eventPlugConnected = 1;
+  static const eventPlugDisconnected = 2;
+  static const eventPlugDiscovered = 3;
 
-  ///
-  /// Socket
-  ///
+  // State changed events
+
+  // fired when http post performed
+  // no data
+  static const eventStateChangedHttp = 20;
 
   // fired when no 1-Wire device found
   // no data
-  static const eventOwBusOpen = 20;
+  static const eventStateChangedOwBusOpen = 21;
 
   // fired when at least one 1-Wire device found
   // no data
-  static const eventOwBusClosed = 21;
+  static const eventStateChangedOwBusClosed = 22;
 
-  // fired when 1-wire bus element changed
-  static const eventOwBusChanged = 22;
+  // fired when sampling has started
+  // no data
+  static const eventStateChangedBuffering = 23;
 
-  /// Dio
+  /// Value changed events
 
   // state of the dio (field, in, out) changed
   // has data
-  static const eventIoStateChanged = 40;
+  static const eventValueChangedDio = 40;
 
   // fired when ANY edge condition is true
   // has data
-  static const eventInputTriggered = 41;
+  static const eventValueChangedInputTriggered = 41;
 
-  /// Ain
+  // fired when plug performed a simple
+  // no data
+  static const eventValueChangedSampled = 42;
 
-  //
-  static const eventSamplingStarted = 60;
-
-  //
-  static const eventSamplingFinished = 61;
+  // fired when buffered sampling has finished
+  // no data
+  static const eventValueChangedBuffered = 43;
 
   // size of the tcp packet
   static const packetSize = 128;
@@ -81,15 +94,16 @@ class Listener {
   ///
   void connect(
     io.InternetAddress localAddress, {
-    ConnectionChangedCb? onConnected,
-    ConnectionChangedCb? onDisconnected,
-    OwBusChangedCb? onOwBusOpened,
-    OwBusChangedCb? onOwBusClosed,
-    OwBusChangedCb? onOwBusChanged,
-    DioStateChangedCb? onIoStateChanged,
-    InputPinTriggeredCb? onInputPinTriggered,
-    SamplingStartedCb? onSamplingStarted,
-    SamplingFinishedCb? onSamplingFinished,
+    StateChangedCb? onConnected,
+    StateChangedCb? onDisconnected,
+    StateChangedCb? onChangedHttp,
+    StateChangedCb? onOwBusOpened,
+    StateChangedCb? onOwBusClosed,
+    StateChangedCb? onBuffering,
+    ValueChangedDioCb? onDioChanged,
+    ValueChangedInputTriggeredCb? onInputTriggered,
+    ValueChangedSampledCb? onSampled,
+    ValueChangedBufferedCb? onBuffered,
     ConnectionErrorCb? onError,
     Duration timeout = const Duration(seconds: 2),
     int port = 0,
@@ -127,34 +141,34 @@ class Listener {
               case eventPlugPing:
                 // ignore ping event
                 break;
-              case eventOwBusOpen:
+              case eventStateChangedHttp:
+                onChangedHttp?.call(address, code);
+                break;
+              case eventStateChangedOwBusOpen:
                 onOwBusOpened?.call(address, code);
                 break;
-              case eventOwBusClosed:
+              case eventStateChangedOwBusClosed:
                 onOwBusClosed?.call(address, code);
                 break;
-              case eventOwBusChanged:
-                onOwBusChanged?.call(address, code);
+              case eventStateChangedBuffering:
+                onBuffering?.call(address, code);
                 break;
-              case eventIoStateChanged:
+              case eventValueChangedDio:
                 final map = jsonDecode(String.fromCharCodes(data));
-                onIoStateChanged?.call(address, code, ScpDio.fromMap(map));
+                onDioChanged?.call(address, code, ScpDio.fromMap(map));
                 break;
-              case eventInputTriggered:
+              case eventValueChangedInputTriggered:
                 final map = jsonDecode(String.fromCharCodes(data));
                 final ints = List<int>.from(map['pins']);
-                onInputPinTriggered?.call(
+                onInputTriggered?.call(
                   address,
                   code,
                   map['ts'] ?? 0,
                   ints.map((e) => e == 1).toList(),
                 );
                 break;
-              case eventSamplingStarted:
-                onSamplingStarted?.call(address, code, 0);
-                break;
-              case eventSamplingFinished:
-                onSamplingFinished?.call(address, code, 0);
+              case eventValueChangedBuffered:
+                onBuffered?.call(address, code, 0);
                 break;
               default:
                 print('$address - ${(code)} - ${String.fromCharCodes(data)}');
