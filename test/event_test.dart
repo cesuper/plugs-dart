@@ -28,18 +28,16 @@ void main() async {
     // start listening
     for (var listener in listeners) {
       //
-      listener.connect(
-        localAddress,
-        onConnected: (address, code) => print(code),
-        onDisconnected: (address, code) => print(code),
-        onChangedHttp: (address, code) => print(code),
-        onOwBusOpened: (address, code) => print(code),
-        onOwBusClosed: (address, code) => print(code),
-        onBuffering: (address, code) => print(code),
-        onDioChanged: (address, code, io) => print('code: ${io.toString()}'),
-        onInputTriggered: (address, code, ts, pins) =>
-            print('ts: $ts, code: $pins'),
-      );
+      listener.connect(localAddress,
+          onConnected: () => print(Listener.eventConnected),
+          onDisconnected: () => print(Listener.eventDisconnected),
+          onBusOpened: () => print(Listener.eventBusOpened),
+          onBusClosed: () => print(Listener.eventBusClosed),
+          onTriggered: (ts, pins) =>
+              print('${Listener.eventBusClosed} - $ts - $pins'),
+          onBufferStarted: () => print(Listener.eventBufferStarted),
+          onBufferFinished: (ts) =>
+              print('${Listener.eventBufferFinished} - $ts'));
     }
 
     //

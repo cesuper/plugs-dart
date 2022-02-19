@@ -1,81 +1,49 @@
 import 'dart:convert';
 import 'package:universal_io/io.dart' as io;
 
-import 'api.dart';
+//
+typedef TriggerCb = void Function(int ts, List<int> pins);
 
-typedef StateChangedCb = void Function(String address, int event);
+//
+typedef SynchronizedCb = void Function(int ts);
 
-typedef ValueChangedDioCb = void Function(
-  String address,
-  int event,
-  ScpDio io,
-);
-typedef ValueChangedInputTriggeredCb = void Function(
-  String address,
-  int code,
-  int ts,
-  List<bool> pins,
-);
-
-typedef ValueChangedSampledCb = void Function(
-  String address,
-  int code,
-);
-
-typedef ValueChangedBufferedCb = void Function(
-  String address,
-  int code,
-  int id,
-);
 typedef ConnectionErrorCb = void Function(String address, dynamic error);
 
 class Listener {
+  // plug connected to tcp server
+  static const eventConnected = 1;
+
+  // plug disconnected from tcp server
+  static const eventDisconnected = 2;
+
+  // plug discovered
+  static const eventDiscovered = 3;
+
   /// Ping event is used to get life-signal from plugs. These events
   // are not handled by the api, but the loss if the ping event results
   // device disconnect event. Plug sends ping events in 1 sec period.
   // this event is ignored by the API by default
-  static const eventPlugPing = 255;
-
-  //
-  static const eventPlugConnected = 1;
-  static const eventPlugDisconnected = 2;
-  static const eventPlugDiscovered = 3;
-
-  // State changed events
-
-  // fired when http post performed
-  // no data
-  static const eventStateChangedHttp = 20;
+  static const eventPing = 20;
 
   // fired when no 1-Wire device found
-  // no data
-  static const eventStateChangedOwBusOpen = 21;
+  // data: NA
+  static const eventBusOpened = 21;
 
   // fired when at least one 1-Wire device found
-  // no data
-  static const eventStateChangedOwBusClosed = 22;
+  // data: NA
+  static const eventBusClosed = 22;
 
-  // fired when sampling has started
-  // no data
-  static const eventStateChangedBuffering = 23;
+  // fired when ANY edge condition is true on input pins
+  // data: {ts: 1234, pins:[0, 1, 0, 1]}
+  static const eventTriggered = 23;
 
-  /// Value changed events
+  // fired when sample buffering has started
+  // data: NA
+  static const eventBufferStarted = 24;
 
-  // state of the dio (field, in, out) changed
-  // has data
-  static const eventValueChangedDio = 40;
-
-  // fired when ANY edge condition is true
-  // has data
-  static const eventValueChangedInputTriggered = 41;
-
-  // fired when plug performed a simple
-  // no data
-  static const eventValueChangedSampled = 42;
-
-  // fired when buffered sampling has finished
-  // no data
-  static const eventValueChangedBuffered = 43;
+  // fired when sample buffering has finished
+  // data: {ts: 1234}
+  static const eventBufferFinished = 25;
 
   // size of the tcp packet
   static const packetSize = 128;
@@ -94,16 +62,13 @@ class Listener {
   ///
   void connect(
     io.InternetAddress localAddress, {
-    StateChangedCb? onConnected,
-    StateChangedCb? onDisconnected,
-    StateChangedCb? onChangedHttp,
-    StateChangedCb? onOwBusOpened,
-    StateChangedCb? onOwBusClosed,
-    StateChangedCb? onBuffering,
-    ValueChangedDioCb? onDioChanged,
-    ValueChangedInputTriggeredCb? onInputTriggered,
-    ValueChangedSampledCb? onSampled,
-    ValueChangedBufferedCb? onBuffered,
+    Function? onConnected,
+    Function? onDisconnected,
+    Function? onBusOpened,
+    Function? onBusClosed,
+    TriggerCb? onTriggered,
+    Function? onBufferStarted,
+    SynchronizedCb? onBufferFinished,
     ConnectionErrorCb? onError,
     Duration timeout = const Duration(seconds: 2),
     int port = 0,
@@ -115,7 +80,7 @@ class Listener {
       timeout: timeout,
     ).then((socket) {
       // fire connected event
-      onConnected?.call(address, eventPlugConnected);
+      onConnected?.call();
 
       // set as local variable
       _socket = socket;
@@ -138,37 +103,28 @@ class Listener {
 
             // handle events
             switch (code) {
-              case eventPlugPing:
+              case eventPing:
                 // ignore ping event
                 break;
-              case eventStateChangedHttp:
-                onChangedHttp?.call(address, code);
+              case eventBusOpened:
+                onBusOpened?.call();
                 break;
-              case eventStateChangedOwBusOpen:
-                onOwBusOpened?.call(address, code);
+              case eventBusClosed:
+                onBusClosed?.call();
                 break;
-              case eventStateChangedOwBusClosed:
-                onOwBusClosed?.call(address, code);
-                break;
-              case eventStateChangedBuffering:
-                onBuffering?.call(address, code);
-                break;
-              case eventValueChangedDio:
+              case eventTriggered:
                 final map = jsonDecode(String.fromCharCodes(data));
-                onDioChanged?.call(address, code, ScpDio.fromMap(map));
-                break;
-              case eventValueChangedInputTriggered:
-                final map = jsonDecode(String.fromCharCodes(data));
-                final ints = List<int>.from(map['pins']);
-                onInputTriggered?.call(
-                  address,
-                  code,
+                onTriggered?.call(
                   map['ts'] ?? 0,
-                  ints.map((e) => e == 1).toList(),
+                  List<int>.from(map['pins']).toList(),
                 );
                 break;
-              case eventValueChangedBuffered:
-                onBuffered?.call(address, code, 0);
+              case eventBufferStarted:
+                onBufferStarted?.call();
+                break;
+              case eventBufferFinished:
+                final map = jsonDecode(String.fromCharCodes(data));
+                onBufferFinished?.call(map['ts'] ?? 0);
                 break;
               default:
                 print('$address - ${(code)} - ${String.fromCharCodes(data)}');
@@ -187,7 +143,7 @@ class Listener {
         },
         onDone: () {
           // create disconnected
-          onDisconnected?.call(address, eventPlugDisconnected);
+          onDisconnected?.call();
         },
       );
     });
