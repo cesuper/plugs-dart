@@ -23,8 +23,8 @@ part 'api/sfp_api.dart';
 part 'api/smp_api.dart';
 
 // models/scp
-part 'model/scp/scp_ain_sensor_state.dart';
 part 'model/scp/scp_ain_params.dart';
+part 'model/scp/scp_ain_sensor_state.dart';
 part 'model/scp/scp_ain_state.dart';
 part 'model/scp/scp_dio_state.dart';
 part 'model/scp/scp_plug_state.dart';
