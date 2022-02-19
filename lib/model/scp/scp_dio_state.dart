@@ -1,13 +1,13 @@
 part of plugs;
 
-class ScpDio {
+class ScpDioState {
   final bool field;
 
   final List<bool> input;
 
   final List<bool> output;
 
-  ScpDio(this.field, this.input, this.output);
+  ScpDioState(this.field, this.input, this.output);
 
   Map<String, dynamic> toMap() {
     return {
@@ -17,8 +17,8 @@ class ScpDio {
     };
   }
 
-  factory ScpDio.fromMap(Map<String, dynamic> map) {
-    return ScpDio(
+  factory ScpDioState.fromMap(Map<String, dynamic> map) {
+    return ScpDioState(
       map['field'],
       List<bool>.from(map['input']),
       List<bool>.from(map['output']),
@@ -27,8 +27,10 @@ class ScpDio {
 
   String toJson() => json.encode(toMap());
 
-  factory ScpDio.fromJson(String source) => ScpDio.fromMap(json.decode(source));
+  factory ScpDioState.fromJson(String source) =>
+      ScpDioState.fromMap(json.decode(source));
 
   @override
-  String toString() => 'ScpDio(field: $field, input: $input, output: $output)';
+  String toString() =>
+      'ScpDioState(field: $field, input: $input, output: $output)';
 }
