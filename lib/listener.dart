@@ -21,100 +21,60 @@ class Listener {
   // are not handled by the api, but the loss if the ping event results
   // device disconnect event. Plug sends ping events in 1 sec period.
   // this event is ignored by the API by default
-  static const eventPing = 255;
+  static const eventPing = 20;
 
-  // request for fw update detected
-  static const eventUpdate = 11;
+  // fired when no 1-Wire device found
+  // @data: NONE
+  static const eventBusOpened = 21;
 
-  ///
-  /// Socket
-  ///
+  // fired when at least one 1-Wire device found
+  // @data: NONE
+  static const eventBusClosed = 22;
 
-  // plug removed from socket
-  static const eventSocketRemoved = 20;
+  // fired when ANY edge condition is true on input pins
+  // @data: {ts: 1234, pins: [0, 0, 1, 1]}
+  static const eventTriggered = 23;
 
-  // plug process socket content
-  static const eventSocketConnecting = 21;
+  // fired when sampling started
+  // @data: NONE
+  static const eventBufferStarted = 24;
 
-  // plug removed from socket
-  static const eventSocketConnected = 22;
+  // fired when sampling finished with preset time
+  // @data: {ts: 1234}
+  static const eventBufferFinished = 25;
 
-  // plug performed write event to socket
-  static const eventSocketContentChanged = 23;
+  // fired when Ain state changed (settings or sensors)
+  static const eventAinChanged = 26;
 
-  /// Dio
-
-  // state of the field pin changed
-  static const eventFieldChanged = 40;
-
-  // state of the input pin changed
-  // TODO: add pin index, and new value for event data
-  static const eventInputChanged = 41;
-
-  // state of the output pin changed
-  // TODO: add pin index, and new value for event data
-  static const eventOutputChanged = 42;
-
-  // edge trigger condition met on input pin 0
-  // TODO:
-  static const eventInput0Triggered = 43;
-
-  // edge trigger condition met on input pin 1
-  //
-  static const eventInput1Triggered = 44;
-
-  // edge trigger condition met on input pin 2
-  //
-  static const eventInput2Triggered = 45;
-
-  // edge trigger condition met on input pin 3
-  //
-  static const eventInput3Triggered = 46;
-
-  /// Ain
-
-  //
-  static const eventSamplingStarted = 60;
-
-  //
-  static const eventSamplingFinished = 61;
+  // fired when Vfield state changed
+  static const eventVFieldChanged = 27;
 
   /// decode event to String
   static String getName(int code) {
     switch (code) {
       case eventPing:
-        return 'PLUG_PING';
-      case eventUpdate:
-        return 'PLUG_UPDATE';
-      case eventSocketRemoved:
-        return 'SOCKET_REMOVED';
-      case eventSocketConnecting:
-        return 'SOCKET_CONNECTING';
-      case eventSocketConnected:
-        return 'SOCKET_CONNECTED';
-      case eventSocketContentChanged:
-        return 'SOCKET_CONTENT_CHANGED';
-      case eventFieldChanged:
-        return 'DIO_FIELD_CHANGED';
-      case eventInputChanged:
-        return 'DIO_INPUT_CHANGED';
-      case eventOutputChanged:
-        return 'DIO_OUTPUT_CHANGED';
-      case eventInput0Triggered:
-        return 'DIO_INPUT_0_TRIGGERED';
-      case eventInput1Triggered:
-        return 'DIO_INPUT_1_TRIGGERED';
-      case eventInput2Triggered:
-        return 'DIO_INPUT_2_TRIGGERED';
-      case eventInput3Triggered:
-        return 'DIO_INPUT_3_TRIGGERED';
+        return 'eventPing';
+      case eventBusOpened:
+        return 'eventBusOpened';
+      case eventBusClosed:
+        return 'eventBusClosed';
+      case eventTriggered:
+        return 'eventTriggered';
+      case eventBufferStarted:
+        return 'eventBufferStarted';
+      case eventBufferFinished:
+        return 'eventBufferFinished';
+      case eventAinChanged:
+        return 'eventAinChanged';
+      case eventVFieldChanged:
+        return 'eventVFieldChanged';
       default:
         return 'UNDEFINED';
     }
   }
 
   // size of the tcp packet
-  static const packetSize = 64;
+  static const packetSize = 128;
 
   // remote tcp port from where events originated
   static const eventPort = 6069;

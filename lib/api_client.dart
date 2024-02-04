@@ -61,7 +61,6 @@ class ApiClient {
 
       //
       final nullableHeaderParams = headerParams.isEmpty ? null : headerParams;
-
       switch (method) {
         case 'POST':
           return await _client.post(uri,

@@ -54,7 +54,7 @@ class DioApi {
   ///
   Future<void> startPin(int index, Duration timeout,
       {Duration delay = const Duration(milliseconds: 0)}) async {
-    const path = '/do/start.cgi';
+    const path = r'/do/start.cgi';
     final queryParams = <QueryParam>[];
     final body = {
       'pin': index,
@@ -63,7 +63,7 @@ class DioApi {
     };
     final headerParams = <String, String>{};
     final formParams = <String, String>{};
-    final contentTypes = <String>[];
+    const contentTypes = <String>['application/json'];
     const authNames = <String>[
       'BasicAuthentication',
       'QuerystringAuthentication',

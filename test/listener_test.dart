@@ -10,7 +10,8 @@ import 'package:test/scaffolding.dart';
 const timeout = Duration(seconds: 50);
 
 //
-final localAddress = InternetAddress('192.168.100.118');
+final localAddress =
+    InternetAddress('192.168.1.59', type: InternetAddressType.IPv4);
 
 void main() async {
   //

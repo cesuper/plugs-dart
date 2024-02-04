@@ -5,7 +5,7 @@ import 'package:plugs/discovery/discovery.dart';
 import 'package:test/scaffolding.dart';
 
 final localAddress = InternetAddress(
-  '192.168.100.118',
+  '192.168.1.59',
   type: InternetAddressType.IPv4,
 );
 

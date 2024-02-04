@@ -54,7 +54,7 @@ class PlugApi {
 
   ///
   Future<Response> _restartWithHttpInfo(bool bootloader) async {
-    const path = r'/plug/restart.cgi';
+    const path = r'/restart.cgi';
     final queryParams = <QueryParam>[];
     final body = bootloader ? {'bootloader': true} : {};
     final headerParams = <String, String>{};
